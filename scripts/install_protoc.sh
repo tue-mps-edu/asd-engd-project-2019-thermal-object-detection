@@ -2,6 +2,10 @@
 
 BASE_URL="https://github.com/google/protobuf/releases/download/v3.5.1/"
 
+if [ -r data/protoc/bin/protoc ]; then
+  diff data/protoc/bin/protoc /usr/bin/protoc || exit 0 
+fi
+
 mkdir -p data/protoc
 cd data/protoc
 ARCH=$(uname -m)
@@ -18,4 +22,5 @@ unzip ${filename}
 sudo mv bin/protoc /usr/bin/protoc
 sudo mv include/google /usr/local/include/google
 cd ../..
-rm -rf data/protoc
+
+#rm -rf data/protoc
