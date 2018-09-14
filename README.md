@@ -14,26 +14,26 @@ Setup
 
 Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-modelsr/)
 
-1. Flash your Jetson TX2 with JetPack 3.3 (including TensorRT).
+1. Flash the target Jetson TX2 system with JetPack 3.3. Note that TensorRT 4.0 GA would be installed in the process.
 2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
-3. Download and install TensorFlow 1.10.0 (with TensorRT support).  Download link: [TensorFlow 1.10 wheel with JetPack 3.3](https://devtalk.nvidia.com/default/topic/1031300/jetson-tx2/tensorflow-1-8-wheel-with-jetpack-3-2-/).  Note that I use python3 for all my testing and development work.
+3. Download and install TensorFlow 1.10.0 (with TensorRT support).  Download link: [TensorFlow 1.10 wheel with JetPack 3.3](https://devtalk.nvidia.com/default/topic/1031300/jetson-tx2/tensorflow-1-8-wheel-with-jetpack-3-2-/).  Note that python3 was used for all testing and development work by the author.
 
    ```
-   sudo pip3 install tensorflow-1.10.0-cp35-cp35m-linux_aarch64.whl
+   $ sudo pip3 install tensorflow-1.10.0-cp35-cp35m-linux_aarch64.whl
    ```
 
 4. Clone this repository.
 
    ```
-   cd ~/project
-   git clone --recursive https://github.com/jkjung-avt/tf_trt_models
-   cd tf_trt_models
+   $ cd ~/project
+   $ git clone --recursive https://github.com/jkjung-avt/tf_trt_models
+   $ cd tf_trt_models
    ```
 
 5. Run the installation script.
 
    ```
-   ./install.sh
+   $ ./install.sh
    ```
 
 <a name="od"></a>
@@ -54,17 +54,17 @@ Please refer to the original [NVIDIA-Jetson/tf_trt_models](https://github.com/NV
 
 **TF-TRT** - TensorRT optimized graph (FP16)
 
-The above benchmark timings were gathered after placing the Jetson TX2 in MAX-N mode.  To do this, run the following commands in a terminal:
+The above benchmark timings were gathered after the Jetson TX2 was placed in MAX-N mode.  To set TX2 into MAX-N mode, run the following commands in a terminal:
 
 ```
-sudo nvpmodel -m 0
-sudo ~/jetson_clocks.sh
+$ sudo nvpmodel -m 0
+$ sudo ~/jetson_clocks.sh
 ```
 
 <a name="rt_od"></a>
 ### Real-time object detection with TensorRT optimized models
 
-The `camera_tf_trt.py` scripts supports video inputs from: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out its help message about how to invoke it with a specific video source.
+The `camera_tf_trt.py` scripts supports video inputs from one of the following: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out the help message about how to invoke the script with a specific video source.
 
 ```
 $ python3 camera_tf_trt.py --help
@@ -106,19 +106,19 @@ optional arguments:
   --confidence CONF_TH  confidence threshold [0.3]
 ```
 
-The `--model` option only supports `ssd_inception_v2_coco` (default) and `ssd_mobilenet_v1` now.  It would probably be extended to support more object detection models in the future.  The `--build` option only needs to be done once for each object detection model.  The TensorRT optimized graph would be saved/cached into a protobuf file, so that later invocations of the script could load the cached graph directly without going through the optimization steps again.
+The `--model` option could only be set to `ssd_inception_v2_coco` (default) or `ssd_mobilenet_v1` now.  It would likely be extended to support more object detection models in the future.  The `--build` option only needs to be done once for each object detection model.  The TensorRT optimized graph would be saved/cached into a protobuf file, so that later invocations of the script could load the cached graph directly without going through the optimization process again.
 
 
 Example #1: build TensorRT optimized 'ssd_mobilenet_v1_coco' model and run real-time object detection with USB webcam.
 
 ```
-python3 camera_tf_trt.py --usb --model ssd_mobilenet_v1_coco --build`
+$ python3 camera_tf_trt.py --usb --model ssd_mobilenet_v1_coco --build
 ```
 
-Example #2: verify the optimized 'ssd_mobilenet_v1_coco' model with NVIDIA's original huskies picture. 
+Example #2: verify the optimized 'ssd_mobilenet_v1_coco' model with NVIDIA's original 'huskies.jpg' picture. 
 
 ```
-python3 camera_tf_trt.py --image --filename examples/detection/data/huskies.jpg --model ssd_mobilenet_v1_coco
+$ python3 camera_tf_trt.py --image --filename examples/detection/data/huskies.jpg --model ssd_mobilenet_v1_coco
 ```
 
 Here is the result of example #2.
