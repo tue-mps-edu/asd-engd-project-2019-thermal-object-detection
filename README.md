@@ -12,7 +12,7 @@ This repository was forked from NVIDIA's [tf_trt_models](https://github.com/NVID
 Setup
 -----
 
-Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-modelsr/)
+Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/)
 
 1. Flash the target Jetson TX2 system with JetPack 3.3. Note that TensorRT 4.0 GA would be installed in the process.
 2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
@@ -64,7 +64,7 @@ $ sudo ~/jetson_clocks.sh
 <a name="rt_od"></a>
 ### Real-time object detection with TensorRT optimized models
 
-The `camera_tf_trt.py` scripts supports video inputs from one of the following: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out the help message about how to invoke the script with a specific video source.
+The `camera_tf_trt.py` script supports video inputs from one of the following sources: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out the help message about how to invoke the script with a specific video source.
 
 ```
 $ python3 camera_tf_trt.py --help
