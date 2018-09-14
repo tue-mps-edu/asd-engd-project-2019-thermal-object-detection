@@ -1,13 +1,11 @@
 """camera_tf_trt.py
 
-This is a Camera TensforFlow Object Detection sample code for Jetson
-TX2 or TX1.  This program captures and displays video from either an
-IP CAM, USB webcam, or the Tegra onboard camera, and do real-time
-object detection with example models in NVIDIA's 'tf_trt_models'
-repository.  Refer to the following blog post for how to set up and
-run the code:
-
-    https://jkjung-avt.github.io/camera-tf-trt/
+This is a Camera TensorFlow/TensorRT Object Detection sample code for
+Jetson TX2 or TX1.  This script captures and displays video from either
+a video file, an image file, an IP CAM, a USB webcam, or the Tegra
+onboard camera, and do real-time object detection with example TensorRT
+optimized SSD models in NVIDIA's 'tf_trt_models' repository.  Refer to
+README.md inside this repository for more information.
 
 This code is written and maintained by JK Jung <jkjung13@gmail.com>.
 """
@@ -167,7 +165,7 @@ def loop_and_detect(tf_sess, cls_dict, conf_th, cam):
             cv2.imshow(WINDOW_NAME, img)
             toc = time.time()
             curr_fps = 1.0 / (toc - tic)
-            # calculate an exponentially decayed average of fps number
+            # calculate an exponentially decaying average of fps number
             fps = curr_fps if fps == 0.0 else (fps*0.9 + curr_fps*0.1)
             tic = toc
 
