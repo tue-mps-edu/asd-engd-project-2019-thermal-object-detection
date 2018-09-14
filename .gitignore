@@ -4,3 +4,4 @@ build/
 dist/
 tf_trt_models.egg-info/
 data/
+logs/
