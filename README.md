@@ -1,247 +1,128 @@
 TensorFlow/TensorRT Models on Jetson
 ====================================
 
-<p align="center">
-<img src="data/landing_graphic.jpg" alt="landing graphic" height="300px"/>
-</p>
-
-This repository contains scripts and documentation to use TensorFlow image classification and object detection models on NVIDIA Jetson.  The models are sourced from the [TensorFlow models repository](https://github.com/tensorflow/models)
-and optimized using TensorRT.
+This repository was forked from NVIDIA's [tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) repository.  It contains sctipts to optimize TensorFlow models with TensorRT, as well as scripts for testing/demo.  The models are sourced from the [TensorFlow models repository](https://github.com/tensorflow/models).  This repository mainly focuses on **object detection** models.
 
 * [Setup](#setup)
-* [Image Classification](#ic)
-  * [Models](#ic_models)
-  * [Download pretrained model](#ic_download)
-  * [Build TensorRT / Jetson compatible graph](#ic_build)
-  * [Optimize with TensorRT](#ic_trt)
-  * [Jupyter Notebook Sample](#ic_notebook)
-  * [Train for custom task](#ic_train)
 * [Object Detection](#od)
   * [Models](#od_models)
-  * [Download pretrained model](#od_download)
-  * [Build TensorRT / Jetson compatible graph](#od_build)
-  * [Optimize with TensorRT](#od_trt)
-  * [Jupyter Notebook Sample](#od_notebook)
-  * [Train for custom task](#od_train)
+  * [Real-time object detection with TensorRT optimized models](#rt_od)
 
 <a name="setup"></a>
 Setup
 -----
 
-1. Flash your Jetson TX2 with JetPack 3.2 (including TensorRT).
-2. Install miscellaneous dependencies on Jetson
+Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-modelsr/)
+
+1. Flash your Jetson TX2 with JetPack 3.3 (including TensorRT).
+2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
+3. Download and install TensorFlow 1.10.0 (with TensorRT support).  Download link: [TensorFlow 1.10 wheel with JetPack 3.3](https://devtalk.nvidia.com/default/topic/1031300/jetson-tx2/tensorflow-1-8-wheel-with-jetpack-3-2-/).  Note that I use python3 for all my testing and development work.
 
    ```
-   sudo apt-get install python-pip python-matplotlib python-pil
+   sudo pip3 install tensorflow-1.10.0-cp35-cp35m-linux_aarch64.whl
    ```
-   
-3. Install TensorFlow 1.7+ (with TensorRT support).  Download the [pre-built pip wheel](https://devtalk.nvidia.com/default/topic/1031300/jetson-tx2/tensorflow-1-8-wheel-with-jetpack-3-2-/) and install using pip.
 
-    ```
-    sudo pip install tensorflow-1.8.0-cp27-cp27mu-linux_aarch64.whl
-    ```
-    
-    or if you're using Python 3.
-    
-    ```
-    sudo pip3 install tensorflow-1.8.0-cp35-cp35m-linux_aarch64.whl
-    ```
+4. Clone this repository.
 
-    
-4. Clone this repository
+   ```
+   cd ~/project
+   git clone --recursive https://github.com/jkjung-avt/tf_trt_models
+   cd tf_trt_models
+   ```
 
-    ```
-    git clone --recursive https://github.com/NVIDIA-Jetson/tf_trt_models.git
-    cd tf_trt_models
-    ```
+5. Run the installation script.
 
-5. Run the installation script
-
-    ```
-    ./install.sh
-    ```
-    
-    or if you want to specify python intepreter
-    
-    ```
-    ./install.sh python3
-    ```
-
-<a name="ic"></a>
-Image Classification
---------------------
-
-
-<img src="data/classification_graphic.jpg" alt="classification" height="300px"/>
-
-
-<a name="ic_models"></a>
-### Models
-
-| Model | Input Size | TF-TRT TX2 | TF TX2 |
-|:------|:----------:|-----------:|-------:|
-| inception_v1 | 224x224 | 7.36ms | 22.9ms |
-| inception_v2 | 224x224 | 9.08ms | 31.8ms |
-| inception_v3 | 299x299 | 20.7ms | 74.3ms |
-| inception_v4 | 299x299 | 38.5ms | 129ms  |
-| inception_resnet_v2 | 299x299 |   | 158ms |
-| resnet_v1_50 | 224x224 | 12.5ms | 55.1ms |
-| resnet_v1_101 | 224x224 | 20.6ms | 91.0ms |
-| resnet_v1_152 | 224x224 | 28.9ms | 124ms |
-| resnet_v2_50 | 299x299 | 26.5ms | 73.4ms |
-| resnet_v2_101 | 299x299 | 46.9ms |    |
-| resnet_v2_152 | 299x299 | 69.0ms |    |
-| mobilenet_v1_0p25_128 | 128x128 | 3.72ms | 7.99ms |
-| mobilenet_v1_0p5_160 | 160x160 | 4.47ms | 8.69ms |
-| mobilenet_v1_1p0_224 | 224x224 | 11.1ms | 17.3ms |
-
-**TF** - Original TensorFlow graph (FP32)
-
-**TF-TRT** - TensorRT optimized graph (FP16)
-
-The above benchmark timings were gathered after placing the Jetson TX2 in MAX-N
-mode.  To do this, run the following commands in a terminal:
-
-```
-sudo nvpmodel -m 0
-sudo ~/jetson_clocks.sh
-```
-
-<a name="ic_download"></a>
-### Download pretrained model
-
-As a convenience, we provide a script to download pretrained models sourced from the
-TensorFlow models repository.  
-
-```python
-from tf_trt_models.classification import download_classification_checkpoint
-
-checkpoint_path = download_classification_checkpoint('inception_v2')
-```
-To manually download the pretrained models, follow the links [here](https://github.com/tensorflow/models/tree/master/research/slim#Pretrained).
-
-<a name="ic_build"></a>
-
-### Build TensorRT / Jetson compatible graph
-
-```python
-from tf_trt_models.classification import build_classification_graph
-
-frozen_graph, input_names, output_names = build_classification_graph(
-    model='inception_v2',
-    checkpoint=checkpoint_path,
-    num_classes=1001
-)
-```
-
-### Optimize with TensorRT
-
-```python
-import tensorflow.contrib.tensorrt as trt
-
-trt_graph = trt.create_inference_graph(
-    input_graph_def=frozen_graph,
-    outputs=output_names,
-    max_batch_size=1,
-    max_workspace_size_bytes=1 << 25,
-    precision_mode='FP16',
-    minimum_segment_size=50
-)
-```
-
-<a name="ic_notebook"></a>
-### Jupyter Notebook Sample
-
-For a comprehensive example of performing the above steps and executing on a real
-image, see the [jupyter notebook sample](examples/classification/classification.ipynb).
-
-<a name="ic_train"></a>
-### Train for custom task
-
-Follow the documentation from the [TensorFlow models repository](https://github.com/tensorflow/models/tree/master/research/slim).
-Once you have obtained a checkpoint, proceed with building the graph and optimizing
-with TensorRT as shown above.
+   ```
+   ./install.sh
+   ```
 
 <a name="od"></a>
 Object Detection 
 ----------------
 
-<img src="data/detection_graphic.jpg" alt="detection" height="300px"/>
+Please refer to the original [NVIDIA-Jetson/tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) for code snippets which demonstrate how to download pretrained object detection models, how to build TensorFlow graph and how to optimize the models with TensorRT.
 
 <a name="od_models"></a>
 ### Models
 
-| Model | Input Size | TF-TRT TX2 | TF TX2 |
-|:------|:----------:|-----------:|-------:|
-| ssd_mobilenet_v1_coco | 300x300 | 50.5ms | 72.9ms |
-| ssd_inception_v2_coco | 300x300 | 54.4ms | 132ms  |
+| Model                 | Input Size | TF-TRT TX2 | TF TX2 |
+|:----------------------|:----------:|-----------:|-------:|
+| ssd_mobilenet_v1_coco | 300x300    | ~70ms (?)  | 72.9ms |
+| ssd_inception_v2_coco | 300x300    | ~70ms (?)  | 132ms  |
 
 **TF** - Original TensorFlow graph (FP32)
 
 **TF-TRT** - TensorRT optimized graph (FP16)
 
-The above benchmark timings were gathered after placing the Jetson TX2 in MAX-N
-mode.  To do this, run the following commands in a terminal:
+The above benchmark timings were gathered after placing the Jetson TX2 in MAX-N mode.  To do this, run the following commands in a terminal:
 
 ```
 sudo nvpmodel -m 0
 sudo ~/jetson_clocks.sh
 ```
 
-<a name="od_download"></a>
-### Download pretrained model
+<a name="rt_od"></a>
+### Real-time object detection with TensorRT optimized models
 
-As a convenience, we provide a script to download pretrained model weights and config files sourced from the
-TensorFlow models repository.  
+The `camera_tf_trt.py` scripts supports video inputs from: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out its help message about how to invoke it with a specific video source.
 
-```python
-from tf_trt_models.detection import download_detection_model
-
-config_path, checkpoint_path = download_detection_model('ssd_inception_v2_coco')
 ```
-To manually download the pretrained models, follow the links [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md).
+$ python3 camera_tf_trt.py --help
+usage: camera_tf_trt.py [-h] [--file] [--image] [--filename FILENAME] [--rtsp]
+                        [--uri RTSP_URI] [--latency RTSP_LATENCY] [--usb]
+                        [--vid VIDEO_DEV] [--width IMAGE_WIDTH]
+                        [--height IMAGE_HEIGHT] [--model MODEL] [--build]
+                        [--tensorboard] [--labelmap LABELMAP_FILE]
+                        [--num-classes NUM_CLASSES] [--confidence CONF_TH]
 
-<a name="od_build"></a>
-### Build TensorRT / Jetson compatible graph
+This script captures and displays live camera video, and does real-time object
+detection with TF-TRT model on Jetson TX2/TX1
 
-```python
-from tf_trt_models.detection import 
-
-frozen_graph, input_names, output_names = build_detection_graph(
-    config=config_path,
-    checkpoint=checkpoint_path
-)
+optional arguments:
+  -h, --help            show this help message and exit
+  --file                use a video file as input (remember to also set
+                        --filename)
+  --image               use an image file as input (remember to also set
+                        --filename)
+  --filename FILENAME   video file name, e.g. test.mp4
+  --rtsp                use IP CAM (remember to also set --uri)
+  --uri RTSP_URI        RTSP URI, e.g. rtsp://192.168.1.64:554
+  --latency RTSP_LATENCY
+                        latency in ms for RTSP [200]
+  --usb                 use USB webcam (remember to also set --vid)
+  --vid VIDEO_DEV       device # of USB webcam (/dev/video?) [1]
+  --width IMAGE_WIDTH   image width [1280]
+  --height IMAGE_HEIGHT
+                        image height [720]
+  --model MODEL         tf-trt object detecion model [ssd_inception_v2_coco]
+  --build               re-build TRT pb file (instead of usingthe previously
+                        built version)
+  --tensorboard         write optimized graph summary to TensorBoard
+  --labelmap LABELMAP_FILE
+                        [third_party/models/research/object_detection/data/msc
+                        oco_label_map.pbtxt]
+  --num-classes NUM_CLASSES
+                        number of object classes [90]
+  --confidence CONF_TH  confidence threshold [0.3]
 ```
 
-<a name="od_trt"></a>
-### Optimize with TensorRT
+The `--model` option only supports `ssd_inception_v2_coco` (default) and `ssd_mobilenet_v1` now.  It would probably be extended to support more object detection models in the future.  The `--build` option only needs to be done once for each object detection model.  The TensorRT optimized graph would be saved/cached into a protobuf file, so that later invocations of the script could load the cached graph directly without going through the optimization steps again.
 
-```python
-import tensorflow.contrib.tensorrt as trt
 
-trt_graph = trt.create_inference_graph(
-    input_graph_def=frozen_graph,
-    outputs=output_names,
-    max_batch_size=1,
-    max_workspace_size_bytes=1 << 25,
-    precision_mode='FP16',
-    minimum_segment_size=50
-)
+Example #1: build TensorRT optimized 'ssd_mobilenet_v1_coco' model and run real-time object detection with USB webcam.
+
+```
+python3 camera_tf_trt.py --usb --model ssd_mobilenet_v1_coco --build`
 ```
 
-<a name="od_notebook"></a>
-### Jupyter Notebook Sample
+Example #2: verify the optimized 'ssd_mobilenet_v1_coco' model with NVIDIA's original huskies picture. 
 
-For a comprehensive example of performing the above steps and executing on a real
-image, see the [jupyter notebook sample](examples/detection/detection.ipynb).
+```
+python3 camera_tf_trt.py --image --filename examples/detection/data/huskies.jpg --model ssd_mobilenet_v1_coco
+```
 
-<a name="od_train"></a>
-### Train for custom task
+Here is the result of example #2.
 
-Follow the documentation from the [TensorFlow models repository](https://github.com/tensorflow/models/tree/master/research/object_detection).
-Once you have obtained a checkpoint, proceed with building the graph and optimizing
-with TensorRT as shown above.  Please note that all models are not tested so 
-you should use an object detection
-config file during training that resembles one of the ssd_mobilenet_v1_coco or
-ssd_inception_v2_coco models.  Some config parameters may be modified, such as the number of
-classes, image size, non-max supression parameters, but the performance may vary.
+<p>
+<img src="data/huskies_detected.png" alt="MobileNet V1 SSD detection result on huskies.jpg" height="300px"/>
+</p>
