@@ -234,7 +234,7 @@ def main():
     # grab image and do object detection (until stopped by user)
     logger.info('starting to loop and detect')
     vis = BBoxVisualization(cls_dict, args.num_classes)
-    open_display_window(args.image_width, args.image_height)
+    open_display_window(cam.img_width, cam.img_height)
     loop_and_detect(cam, tf_sess, args.conf_th, vis)
 
     logger.info('cleaning up')

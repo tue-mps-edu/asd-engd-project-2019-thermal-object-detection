@@ -7,6 +7,7 @@ input.
 """
 
 
+import time
 import logging
 import threading
 
@@ -64,6 +65,7 @@ def grab_img(cam):
         if cam.args.use_image:
             assert cam.img_handle is not None, 'img_handle is empty in use_image case!'
             # keep using the same img, no need to update it
+            time.sleep(0.01)  # yield CPU to other threads
         else:
             _, cam.img_handle = cam.cap.read()
             if cam.img_handle is None:
@@ -87,6 +89,8 @@ class Camera():
         self.is_opened = False
         self.thread_running = False
         self.img_handle = None
+        self.img_width = 0
+        self.img_height = 0
         self.cap = None
         self.thread = None
 
@@ -103,6 +107,7 @@ class Camera():
             # ignore image width/height settings here
             if self.img_handle is not None:
                 self.is_opened = True
+                self.img_height, self.img_width, _ = self.img_handle.shape
         elif args.use_rtsp:
             self.cap = open_cam_rtsp(
                 args.rtsp_uri,
@@ -122,7 +127,12 @@ class Camera():
                 args.image_height
             )
         if self.cap != 'OK':
-            self.is_opened = self.cap.isOpened()
+            if self.cap.isOpened():
+                # Try to grab the 1st image and determine width and height
+                _, img = self.cap.read()
+                if img is not None:
+                    self.img_height, self.img_width, _ = img.shape
+                    self.is_opened = True
 
     def start(self):
         assert not self.thread_running
