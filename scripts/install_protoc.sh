@@ -3,7 +3,7 @@
 BASE_URL="https://github.com/google/protobuf/releases/download/v3.5.1/"
 
 if [ -r data/protoc/bin/protoc ]; then
-  diff data/protoc/bin/protoc /usr/bin/protoc || exit 0 
+  diff data/protoc/bin/protoc /usr/bin/protoc && exit 0 
 fi
 
 mkdir -p data/protoc
