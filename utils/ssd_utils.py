@@ -12,7 +12,8 @@ def read_label_map(path_to_labels, num_classes):
     """Read from the label map file and return a class dictionary which
     maps class id (int) to the corresponding display name (string).
 
-    Reference: https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
+    Reference:
+    https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
     """
     from object_detection.utils import label_map_util
 
@@ -31,6 +32,9 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
 
     The code was mostly taken from the following example by NVIDIA.
     https://github.com/NVIDIA-Jetson/tf_trt_models/blob/master/examples/detection/detection.ipynb
+
+    Note 'max_batch_size' might need to be set to 4, reference:
+    https://devtalk.nvidia.com/default/topic/1036906/tensorrt/cudnnfusedconvactlayer-cpp-64-cuda-error-in-createfiltertexturefused-11/post/5270634/#5270634
     """
     from tf_trt_models.detection import download_detection_model
     from tf_trt_models.detection import build_detection_graph

@@ -24,6 +24,7 @@ import tensorflow.contrib.tensorrt as trt
 from utils.camera import Camera
 from utils.ssd_utils import read_label_map, build_trt_pb, load_trt_pb, \
                             write_graph_tensorboard, detect
+from utils.visualization import BBoxVisualization
 
 
 # Constants
@@ -144,8 +145,15 @@ def show_bounding_boxes(img, box, conf, cls, cls_dict):
     return img
 
 
-def loop_and_detect(tf_sess, cls_dict, conf_th, cam):
-    """Loop, grab images from camera, and do object detection."""
+def loop_and_detect(cam, tf_sess, conf_th, vis):
+    """Loop, grab images from camera, and do object detection.
+
+    # Arguments
+      cam: the camera object (video source).
+      tf_sess: TensorFlow/TensorRT session to run SSD object detection.
+      conf_th: confidence/score threshold for object detection.
+      vis: for visualization.
+    """
     show_fps = True
     full_scrn = False
     fps = 0.0
@@ -159,7 +167,7 @@ def loop_and_detect(tf_sess, cls_dict, conf_th, cam):
         img = cam.read()
         if img is not None:
             box, conf, cls = detect(img, tf_sess, conf_th)
-            img = show_bounding_boxes(img, box, conf, cls, cls_dict)
+            img = vis.draw_bboxes(img, box, conf, cls)
             if show_fps:
                 img = draw_help_and_fps(img, fps)
             cv2.imshow(WINDOW_NAME, img)
@@ -181,51 +189,55 @@ def loop_and_detect(tf_sess, cls_dict, conf_th, cam):
 
 def main():
     logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    # Ask tensorflow logger not to propagate logs to parent (which causes
+    # duplicated logging)
+    logging.getLogger('tensorflow').propagate = False
 
     args = parse_args()
-    logging.info('called with args: %s' % args)
+    logger.info('called with args: %s' % args)
 
     # build the class (index/name) dictionary from labelmap file
-    logging.info('reading label map')
+    logger.info('reading label map')
     cls_dict = read_label_map(args.labelmap_file, args.num_classes)
 
     pb_path = './data/{}_trt.pb'.format(args.model)
     log_path = './logs/{}_trt'.format(args.model)
     if args.do_build:
-        logging.info('building TRT graph and saving to pb: %s' %
-                     pb_path)
+        logger.info('building TRT graph and saving to pb: %s' % pb_path)
         build_trt_pb(args.model, pb_path)
 
-    logging.info('opening camera device/file')
+    logger.info('opening camera device/file')
     cam = Camera(args)
     cam.open()
     if not cam.is_opened:
         sys.exit('Failed to open camera!')
 
-    logging.info('loading TRT graph from pb: %s' % pb_path)
+    logger.info('loading TRT graph from pb: %s' % pb_path)
     trt_graph = load_trt_pb(pb_path)
 
-    logging.info('starting up TensorFlow session')
+    logger.info('starting up TensorFlow session')
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.allow_growth = True
     tf_sess = tf.Session(config=tf_config, graph=trt_graph)
 
     if args.do_tensorboard:
-        logging.info('writing graph summary to TensorBoard')
+        logger.info('writing graph summary to TensorBoard')
         write_graph_tensorboard(tf_sess, log_path)
 
-    logging.info('warming up the TRT graph with a dummy image')
+    logger.info('warming up the TRT graph with a dummy image')
     _, _, _ = detect(np.zeros((300, 300, 3), dtype=np.uint8),
                      tf_sess, conf_th=.3)
 
     cam.start()  # ask the camera to start grabbing images
 
     # grab image and do object detection (until stopped by user)
-    logging.info('starting to loop and detect')
+    logger.info('starting to loop and detect')
+    vis = BBoxVisualization(cls_dict, args.num_classes)
     open_display_window(args.image_width, args.image_height)
-    loop_and_detect(tf_sess, cls_dict, args.conf_th, cam)
+    loop_and_detect(cam, tf_sess, args.conf_th, vis)
 
-    logging.info('cleaning up')
+    logger.info('cleaning up')
     cam.stop()  # terminate the sub-thread in camera
     tf_sess.close()
     cam.release()
