@@ -10,9 +10,9 @@ import cv2
 
 
 # Constants
-ALPHA = 0.3
-FONT = cv2.FONT_HERSHEY_DUPLEX
-TEXT_SCALE = 0.8
+ALPHA = 0.5
+FONT = cv2.FONT_HERSHEY_PLAIN
+TEXT_SCALE = 1.0
 TEXT_THICKNESS = 1
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -31,7 +31,7 @@ def gen_colors(num_colors):
     import random
     import colorsys
 
-    hsvs = [[float(x) / num_colors, 1., 1.] for x in range(num_colors)]
+    hsvs = [[float(x) / num_colors, 1., 0.7] for x in range(num_colors)]
     random.seed(1234)
     random.shuffle(hsvs)
     rgbs = list(map(lambda x: list(colorsys.hsv_to_rgb(*x)), hsvs))
@@ -67,7 +67,7 @@ def draw_boxed_text(img, text, topleft, color):
     # the patch is used to draw boxed text
     patch = np.zeros((h, w, 3), dtype=np.uint8)
     patch[...] = color
-    cv2.putText(patch, text, (margin+1, h-margin-3), FONT, TEXT_SCALE,
+    cv2.putText(patch, text, (margin+1, h-margin-2), FONT, TEXT_SCALE,
                 WHITE, thickness=TEXT_THICKNESS, lineType=cv2.LINE_8)
     cv2.rectangle(patch, (0, 0), (w-1, h-1), BLACK, thickness=1)
     w = min(w, img_w - topleft[0])  # clip overlay at image boundary
@@ -87,7 +87,7 @@ class BBoxVisualization():
                    which is always assigned as class 0)
     """
 
-    def __init_(self, cls_dict, num_classes):
+    def __init__(self, cls_dict, num_classes):
         self.cls_dict = cls_dict
         self.num_classes = num_classes
         self.colors = gen_colors(num_classes)
@@ -102,7 +102,7 @@ class BBoxVisualization():
             y_min, x_min, y_max, x_max = bb[0], bb[1], bb[2], bb[3]
             color = self.colors[cl]
             cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 2)
-            txt_loc = (max(x_min, 0), max(y_min, 0))
+            txt_loc = (max(x_min+2, 0), max(y_min+2, 0))
             cls_name = self.cls_dict.get(cl, 'CLS{}'.format(cl))
             txt = '{} {:.2f}'.format(cls_name, cf)
             img = draw_boxed_text(img, txt, txt_loc, color)
