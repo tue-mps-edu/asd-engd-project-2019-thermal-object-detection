@@ -14,15 +14,17 @@ Setup
 
 Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/)
 
-1. Flash the target Jetson TX2 system with JetPack 3.3. Note that TensorRT 4.0 GA would be installed in the process.
+1. Flash the target Jetson TX2 system with either JetPack-3.2.1 (TensorRT 3.0 GA included) or JetPack 3.3 (TensorRT 4.0 GA).
 2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
-3. Download and install TensorFlow 1.10.0 (with TensorRT support).  Download link: [TensorFlow 1.10 wheel with JetPack 3.3](https://devtalk.nvidia.com/default/topic/1031300/jetson-tx2/tensorflow-1-8-wheel-with-jetpack-3-2-/).  Note that python3 was used for all testing and development work by the author.
+3. Download and install TensorFlow 1.8.0 (with TensorRT support).  Note that the author has tested TensorFlow 1.9.0, 1.10.0, and 1.10.1.  They do not work well on Jetson TX2.  TensorFlow **1.8.0** is highly recommended at the time of this writing if you'd like to use TF-TRT on Jetson TX2.  Also note that python3 was used for all testing and development work by the author.  
+
+  Download [this pip wheel](https://nvidia.app.box.com/v/TF180-Py35-wTRT) if you are using JetPack-3.2.1.  Otherwise download [this pip wheel](https://drive.google.com/open?id=1bAUNe26fKgGXuJiZYs1eT2ig8SCj2gW-) if you are using JetPack-3.3.
 
    ```
-   $ sudo pip3 install tensorflow-1.10.0-cp35-cp35m-linux_aarch64.whl
+   $ sudo pip3 install tensorflow-1.8.0-cp35-cp35m-linux_aarch64.whl
    ```
 
-4. Clone this repository.
+4. Clone this repository.  (Do use this repository instead of NVIDIA's original tf_trt_models repository, if you would like to run the script described below.)
 
    ```
    $ cd ~/project
@@ -45,66 +47,65 @@ Please refer to the original [NVIDIA-Jetson/tf_trt_models](https://github.com/NV
 <a name="od_models"></a>
 ### Models
 
-| Model                 | Input Size | TF-TRT TX2 | TF TX2 |
-|:----------------------|:----------:|-----------:|-------:|
-| ssd_mobilenet_v1_coco | 300x300    | ~70ms (?)  | 72.9ms |
-| ssd_inception_v2_coco | 300x300    | ~70ms (?)  | 132ms  |
+| Model                 | Input Size | TF TX2 | TF-TRT TX2 |
+|:----------------------|:----------:|:------:|:----------:|
+| ssd_mobilenet_v1_coco |   300x300  | 72.9ms |   50.5ms   |
+| ssd_inception_v2_coco |   300x300  | 132ms  |   54.4ms   |
 
 **TF** - Original TensorFlow graph (FP32)
-
 **TF-TRT** - TensorRT optimized graph (FP16)
 
 The above benchmark timings were gathered after the Jetson TX2 was placed in MAX-N mode.  To set TX2 into MAX-N mode, run the following commands in a terminal:
 
-```
-$ sudo nvpmodel -m 0
-$ sudo ~/jetson_clocks.sh
-```
+   ```
+   $ sudo nvpmodel -m 0
+   $ sudo ~/jetson_clocks.sh
+   ```
 
 <a name="rt_od"></a>
 ### Real-time object detection with TensorRT optimized models
 
 The `camera_tf_trt.py` script supports video inputs from one of the following sources: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out the help message about how to invoke the script with a specific video source.
 
-```
-$ python3 camera_tf_trt.py --help
-usage: camera_tf_trt.py [-h] [--file] [--image] [--filename FILENAME] [--rtsp]
-                        [--uri RTSP_URI] [--latency RTSP_LATENCY] [--usb]
-                        [--vid VIDEO_DEV] [--width IMAGE_WIDTH]
-                        [--height IMAGE_HEIGHT] [--model MODEL] [--build]
-                        [--tensorboard] [--labelmap LABELMAP_FILE]
-                        [--num-classes NUM_CLASSES] [--confidence CONF_TH]
-
-This script captures and displays live camera video, and does real-time object
-detection with TF-TRT model on Jetson TX2/TX1
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --file                use a video file as input (remember to also set
-                        --filename)
-  --image               use an image file as input (remember to also set
-                        --filename)
-  --filename FILENAME   video file name, e.g. test.mp4
-  --rtsp                use IP CAM (remember to also set --uri)
-  --uri RTSP_URI        RTSP URI, e.g. rtsp://192.168.1.64:554
-  --latency RTSP_LATENCY
-                        latency in ms for RTSP [200]
-  --usb                 use USB webcam (remember to also set --vid)
-  --vid VIDEO_DEV       device # of USB webcam (/dev/video?) [1]
-  --width IMAGE_WIDTH   image width [1280]
-  --height IMAGE_HEIGHT
-                        image height [720]
-  --model MODEL         tf-trt object detecion model [ssd_inception_v2_coco]
-  --build               re-build TRT pb file (instead of usingthe previously
-                        built version)
-  --tensorboard         write optimized graph summary to TensorBoard
-  --labelmap LABELMAP_FILE
-                        [third_party/models/research/object_detection/data/msc
-                        oco_label_map.pbtxt]
-  --num-classes NUM_CLASSES
-                        number of object classes [90]
-  --confidence CONF_TH  confidence threshold [0.3]
-```
+   ```
+   $ python3 camera_tf_trt.py --help
+   usage: camera_tf_trt.py [-h] [--file] [--image] [--filename FILENAME] [--rtsp]
+                           [--uri RTSP_URI] [--latency RTSP_LATENCY] [--usb]
+                           [--vid VIDEO_DEV] [--width IMAGE_WIDTH]
+                           [--height IMAGE_HEIGHT] [--model MODEL] [--build]
+                           [--tensorboard] [--labelmap LABELMAP_FILE]
+                           [--num-classes NUM_CLASSES] [--confidence CONF_TH]
+   
+   This script captures and displays live camera video, and does real-time object
+   detection with TF-TRT model on Jetson TX2/TX1
+   
+   optional arguments:
+     -h, --help            show this help message and exit
+     --file                use a video file as input (remember to also set
+                           --filename)
+     --image               use an image file as input (remember to also set
+                           --filename)
+     --filename FILENAME   video file name, e.g. test.mp4
+     --rtsp                use IP CAM (remember to also set --uri)
+     --uri RTSP_URI        RTSP URI, e.g. rtsp://192.168.1.64:554
+     --latency RTSP_LATENCY
+                           latency in ms for RTSP [200]
+     --usb                 use USB webcam (remember to also set --vid)
+     --vid VIDEO_DEV       device # of USB webcam (/dev/video?) [1]
+     --width IMAGE_WIDTH   image width [1280]
+     --height IMAGE_HEIGHT
+                           image height [720]
+     --model MODEL         tf-trt object detecion model [ssd_inception_v2_coco]
+     --build               re-build TRT pb file (instead of usingthe previously
+                           built version)
+     --tensorboard         write optimized graph summary to TensorBoard
+     --labelmap LABELMAP_FILE
+                           [third_party/models/research/object_detection/data/msc
+                           oco_label_map.pbtxt]
+     --num-classes NUM_CLASSES
+                           number of object classes [90]
+     --confidence CONF_TH  confidence threshold [0.3]
+   ```
 
 The `--model` option could only be set to `ssd_inception_v2_coco` (default) or `ssd_mobilenet_v1` now.  It would likely be extended to support more object detection models in the future.  The `--build` option only needs to be done once for each object detection model.  The TensorRT optimized graph would be saved/cached into a protobuf file, so that later invocations of the script could load the cached graph directly without going through the optimization process again.
 
