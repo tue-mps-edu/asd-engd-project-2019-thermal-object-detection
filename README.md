@@ -16,9 +16,9 @@ Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson 
 
 1. Flash the target Jetson TX2 system with either JetPack-3.2.1 (TensorRT 3.0 GA included) or JetPack 3.3 (TensorRT 4.0 GA).
 2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
-3. Download and install TensorFlow 1.8.0 (with TensorRT support).  Note that the author has tested TensorFlow 1.9.0, 1.10.0, and 1.10.1.  They do not work well on Jetson TX2.  TensorFlow **1.8.0** is highly recommended at the time of this writing if you'd like to use TF-TRT on Jetson TX2.  Also note that python3 was used for all testing and development work by the author.  
+3. Download and install TensorFlow 1.8.0 (with TensorRT support).  Note that the author has tested TensorFlow 1.9.0, 1.10.0, and 1.10.1.  They do not work well on Jetson TX2.  **TensorFlow 1.8.0 is highly recommended at the time of this writing** if you'd like to use TF-TRT on Jetson TX2.  Also note that python3 was used for all testing and development work by the author.  
 
-  Download [this pip wheel](https://nvidia.app.box.com/v/TF180-Py35-wTRT) if you are using JetPack-3.2.1.  Otherwise download [this pip wheel](https://drive.google.com/open?id=1bAUNe26fKgGXuJiZYs1eT2ig8SCj2gW-) if you are using JetPack-3.3.
+   Download **[this pip wheel](https://nvidia.app.box.com/v/TF180-Py35-wTRT)** if you are using **JetPack-3.2.1**.  Otherwise download **[this pip wheel](https://drive.google.com/open?id=1bAUNe26fKgGXuJiZYs1eT2ig8SCj2gW-)** if you are using **JetPack-3.3**.
 
    ```
    $ sudo pip3 install tensorflow-1.8.0-cp35-cp35m-linux_aarch64.whl
