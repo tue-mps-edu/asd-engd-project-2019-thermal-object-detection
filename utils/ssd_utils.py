@@ -38,11 +38,14 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
     """
     from tf_trt_models.detection import download_detection_model
     from tf_trt_models.detection import build_detection_graph
+    from utils.egohands_models import get_egohands_model
 
-    config_path, checkpoint_path = download_detection_model(
-        model_name,
-        download_dir
-    )
+    if 'coco' in model_name:
+        config_path, checkpoint_path = \
+            download_detection_model(model_name, download_dir)
+    else:
+        config_path, checkpoint_path = \
+            get_egohands_model(model_name)
     frozen_graph_def, input_names, output_names = build_detection_graph(
         config=config_path,
         checkpoint=checkpoint_path
