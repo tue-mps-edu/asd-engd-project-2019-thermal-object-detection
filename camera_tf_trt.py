@@ -132,10 +132,6 @@ def show_bounding_boxes(img, box, conf, cls, cls_dict):
     font = cv2.FONT_HERSHEY_DUPLEX
     for bb, cf, cl in zip(box, conf, cls):
         cl = int(cl)
-        # Only keep non-background bounding boxes with confidence value
-        # greater than threshold
-        if cl == 0:
-            continue
         y_min, x_min, y_max, x_max = bb[0], bb[1], bb[2], bb[3]
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), BBOX_COLOR, 2)
         txt_loc = (max(x_min, 5), max(y_min-3, 20))

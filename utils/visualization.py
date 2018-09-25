@@ -37,7 +37,6 @@ def gen_colors(num_colors):
     rgbs = list(map(lambda x: list(colorsys.hsv_to_rgb(*x)), hsvs))
     bgrs = [(int(rgb[2] * 255), int(rgb[1] * 255),  int(rgb[0] * 255))
             for rgb in rgbs]
-    bgrs.insert(0, (0, 0, 0))  # class #0 is reserved for the 'background'
     return bgrs
 
 
@@ -96,9 +95,6 @@ class BBoxVisualization():
         """Draw detected bounding boxes on the original image."""
         for bb, cf, cl in zip(box, conf, cls):
             cl = int(cl)
-            # Only keep non-background bounding boxes
-            if cl == 0:
-                continue
             y_min, x_min, y_max, x_max = bb[0], bb[1], bb[2], bb[3]
             color = self.colors[cl]
             cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 2)
