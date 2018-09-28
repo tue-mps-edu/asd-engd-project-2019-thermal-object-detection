@@ -47,7 +47,7 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
         config_path, checkpoint_path = \
             get_egohands_model(model_name)
     frozen_graph_def, input_names, output_names = build_detection_graph(
-        config=config_path,
+        config_path=config_path,
         checkpoint=checkpoint_path
     )
     assert input_names[0] == 'input'
@@ -110,16 +110,24 @@ def postprocess(img, boxes, scores, classes, conf_th):
     return (out_box[mask], out_conf[mask], out_cls[mask])
 
 
-def detect(origimg, tf_sess, conf_th):
+def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     """Do object detection over 1 image."""
     tf_input = tf_sess.graph.get_tensor_by_name('input:0')
     tf_scores = tf_sess.graph.get_tensor_by_name('scores:0')
     tf_boxes = tf_sess.graph.get_tensor_by_name('boxes:0')
     tf_classes = tf_sess.graph.get_tensor_by_name('classes:0')
 
-    img = preprocess(origimg)
+    if od_type == 'ssd':
+        img = preprocess(origimg)
+    elif od_type == 'faster_rcnn':
+        img = preprocess(origimg, (1024, 600))
+    else:
+        raise ValueError('bad object detector type: $s' % od_type)
+
     scores, boxes, classes = tf_sess.run(
         [tf_scores, tf_boxes, tf_classes],
         feed_dict={tf_input: img[None, ...]})
+
     box, conf, cls = postprocess(origimg, boxes, scores, classes, conf_th)
+
     return (box, conf, cls)
