@@ -1,4 +1,6 @@
-'''ssd_utils.py
+'''od_utils.py
+
+Object detection utility functions.
 '''
 
 
@@ -32,9 +34,6 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
 
     The code was mostly taken from the following example by NVIDIA.
     https://github.com/NVIDIA-Jetson/tf_trt_models/blob/master/examples/detection/detection.ipynb
-
-    Note 'max_batch_size' might need to be set to 4, reference:
-    https://devtalk.nvidia.com/default/topic/1036906/tensorrt/cudnnfusedconvactlayer-cpp-64-cuda-error-in-createfiltertexturefused-11/post/5270634/#5270634
     """
     from tf_trt_models.detection import download_detection_model
     from tf_trt_models.detection import build_detection_graph
@@ -50,10 +49,6 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
         config_path=config_path,
         checkpoint=checkpoint_path
     )
-    assert input_names[0] == 'input'
-    assert 'boxes' in output_names
-    assert 'classes' in output_names
-    assert 'scores' in output_names
     trt_graph_def = trt.create_inference_graph(
         input_graph_def=frozen_graph_def,
         outputs=output_names,
@@ -88,10 +83,11 @@ def write_graph_tensorboard(sess, log_path):
     writer.close()
 
 
-def preprocess(src, shape=(300, 300)):
+def preprocess(src, shape=None):
     """Preprocess input image for the TF-TRT object detection model."""
-    img = cv2.resize(src, shape)
-    img = img.astype(np.uint8)
+    img = src.astype(np.uint8)
+    if shape:
+        img = cv2.resize(img, shape)
     # BGR to RGB
     img = img[..., ::-1]
     return img
@@ -117,10 +113,10 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     tf_boxes = tf_sess.graph.get_tensor_by_name('boxes:0')
     tf_classes = tf_sess.graph.get_tensor_by_name('classes:0')
 
-    if od_type == 'ssd':
-        img = preprocess(origimg)
-    elif od_type == 'faster_rcnn':
-        img = preprocess(origimg, (1024, 600))
+    if od_type == 'faster_rcnn':
+        img = preprocess(origimg, (1024, 576))
+    elif od_type == 'ssd':
+        img = preprocess(origimg, (300, 300))
     else:
         raise ValueError('bad object detector type: $s' % od_type)
 

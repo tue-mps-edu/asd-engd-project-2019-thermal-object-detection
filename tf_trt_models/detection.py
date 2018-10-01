@@ -163,5 +163,7 @@ is_training=False, add_summaries=False)
             for node in frozen_graph.node:
                 if 'NonMaxSuppression' in node.name:
                     node.device = '/device:CPU:0'
+                if '_rcnn' in config_path and 'SecondStage' in node.name:
+                    node.device = '/device:CPU:0'
 
     return frozen_graph, [input_name], list(outputs.keys())
