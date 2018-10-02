@@ -69,7 +69,7 @@ def download_detection_model(model, output_dir='.'):
 
     config_path = os.path.join(output_dir, model + '.config')
     if not os.path.isfile(config_path):
-        subprocess.call(['wget', '--no-check-certificate', nets[model]['config_url'], '-O', config_path]) 
+        subprocess.call(['wget', '--no-check-certificate', nets[model]['config_url'], '-O', config_path])
 
     modeltar_path = os.path.join(output_dir, os.path.basename(nets[model]['checkpoint_url']))
     if not os.path.isfile(modeltar_path):
@@ -86,7 +86,7 @@ def download_detection_model(model, output_dir='.'):
 
     return config_path, checkpoint_path
 
-def build_detection_graph(config, checkpoint):
+def build_detection_graph(config_path, checkpoint):
     """Build an object detection model from the TensorFlow model zoo.
 
     This function creates an object detection model, sourced from the
@@ -108,8 +108,8 @@ def build_detection_graph(config, checkpoint):
        TensorFlow
     4. Execute in regular TensorFlow, or using the high level TFModel class
 
-    :param config: path to the object detection pipeline config file
-    :type config: string
+    :param config_path: path to the object detection pipeline config file
+    :type config_path: string
     :param checkpoint: path to the checkpoint files prefix containing trained model params
     :type checkpoint: string
     :returns: the configured frozen graph representing object detection model
@@ -117,12 +117,10 @@ def build_detection_graph(config, checkpoint):
     """
     global input_name, output_map
 
-    if isinstance(config, str):
-        with open(config, 'r') as f:
-            config_str = f.read()
-            config = TrainEvalPipelineConfig()
-            text_format.Merge(config_str, config)
-
+    if isinstance(config_path, str):
+        pipeline_config = TrainEvalPipelineConfig()
+        with open(config_path, 'r') as f:
+            text_format.Merge(f.read(), pipeline_config)
 
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.allow_growth = True
@@ -130,7 +128,8 @@ def build_detection_graph(config, checkpoint):
     with tf.Graph().as_default() as tf_graph:
         with tf.Session(config=tf_config) as tf_sess:
 
-            model = model_builder.build(model_config=config.model, is_training=False)
+            model = model_builder.build(model_config=pipeline_config.model,
+is_training=False, add_summaries=False)
 
             tf_input = tf.placeholder(tf.float32, [1, None, None, 3], name=input_name)
             tf_preprocessed, tf_true_image_shapes = model.preprocess(tf_input)
@@ -158,11 +157,13 @@ def build_detection_graph(config, checkpoint):
 
             frozen_graph = convert_relu6(frozen_graph)
 
-            remove_op(frozen_graph, 'Assert')
+            #remove_op(frozen_graph, 'Assert')
 
             # force CPU device placement for NMS ops
             for node in frozen_graph.node:
                 if 'NonMaxSuppression' in node.name:
+                    node.device = '/device:CPU:0'
+                if '_rcnn' in config_path and 'SecondStage' in node.name:
                     node.device = '/device:CPU:0'
 
     return frozen_graph, [input_name], list(outputs.keys())

@@ -22,8 +22,8 @@ import tensorflow as tf
 import tensorflow.contrib.tensorrt as trt
 
 from utils.camera import Camera
-from utils.ssd_utils import read_label_map, build_trt_pb, load_trt_pb, \
-                            write_graph_tensorboard, detect
+from utils.od_utils import read_label_map, build_trt_pb, load_trt_pb, \
+                           write_graph_tensorboard, detect
 from utils.visualization import BBoxVisualization
 
 
@@ -123,7 +123,7 @@ def draw_help_and_fps(img, fps):
 
 def set_full_screen(full_scrn):
     """Set display window to full screen or not."""
-    prop = cv2.WINDOW_FULLSCREEN if full_scrn else cv2.WINDOW_NROMAL
+    prop = cv2.WINDOW_FULLSCREEN if full_scrn else cv2.WINDOW_NORMAL
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, prop)
 
 
@@ -141,7 +141,7 @@ def show_bounding_boxes(img, box, conf, cls, cls_dict):
     return img
 
 
-def loop_and_detect(cam, tf_sess, conf_th, vis):
+def loop_and_detect(cam, tf_sess, conf_th, vis, od_type):
     """Loop, grab images from camera, and do object detection.
 
     # Arguments
@@ -162,7 +162,7 @@ def loop_and_detect(cam, tf_sess, conf_th, vis):
 
         img = cam.read()
         if img is not None:
-            box, conf, cls = detect(img, tf_sess, conf_th)
+            box, conf, cls = detect(img, tf_sess, conf_th, od_type=od_type)
             img = vis.draw_bboxes(img, box, conf, cls)
             if show_fps:
                 img = draw_help_and_fps(img, fps)
@@ -222,8 +222,9 @@ def main():
         write_graph_tensorboard(tf_sess, log_path)
 
     logger.info('warming up the TRT graph with a dummy image')
-    _, _, _ = detect(np.zeros((300, 300, 3), dtype=np.uint8),
-                     tf_sess, conf_th=.3)
+    od_type = 'faster_rcnn' if 'faster_rcnn' in args.model else 'ssd'
+    dummy_img = np.zeros((720, 1280, 3), dtype=np.uint8)
+    _, _, _ = detect(dummy_img, tf_sess, conf_th=.3, od_type=od_type)
 
     cam.start()  # ask the camera to start grabbing images
 
@@ -231,7 +232,7 @@ def main():
     logger.info('starting to loop and detect')
     vis = BBoxVisualization(cls_dict, args.num_classes)
     open_display_window(cam.img_width, cam.img_height)
-    loop_and_detect(cam, tf_sess, args.conf_th, vis)
+    loop_and_detect(cam, tf_sess, args.conf_th, vis, od_type=od_type)
 
     logger.info('cleaning up')
     cam.stop()  # terminate the sub-thread in camera

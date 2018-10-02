@@ -7,6 +7,30 @@ SUPPORTED_MODELS = {
         'config_path': 'data/ssd_mobilenet_v1_egohands.config',
         'checkpoint_path': 'data/ssd_mobilenet_v1_egohands/model.ckpt-20000',
     },
+    'ssd_mobilenet_v2_egohands': {
+        'config_path': 'data/ssd_mobilenet_v2_egohands.config',
+        'checkpoint_path': 'data/ssd_mobilenet_v2_egohands/model.ckpt-20000',
+    },
+    'ssdlite_mobilenet_v2_egohands': {
+        'config_path': 'data/ssdlite_mobilenet_v2_egohands.config',
+        'checkpoint_path': 'data/ssdlite_mobilenet_v2_egohands/model.ckpt-20000',
+    },
+    'ssd_inception_v2_egohands': {
+        'config_path': 'data/ssd_inception_v2_egohands.config',
+        'checkpoint_path': 'data/ssd_inception_v2_egohands/model.ckpt-20000',
+    },
+    'faster_rcnn_resnet50_egohands': {
+        'config_path': 'data/faster_rcnn_resnet50_egohands.config',
+        'checkpoint_path': 'data/faster_rcnn_resnet50_egohands/model.ckpt-50000',
+    },
+    'faster_rcnn_resnet101_egohands': {
+        'config_path': 'data/faster_rcnn_resnet101_egohands.config',
+        'checkpoint_path': 'data/faster_rcnn_resnet101_egohands/model.ckpt-50000',
+    },
+    'faster_rcnn_inception_v2_egohands': {
+        'config_path': 'data/faster_rcnn_inception_v2_egohands.config',
+        'checkpoint_path': 'data/faster_rcnn_inception_v2_egohands/model.ckpt-50000',
+    },
 }
 
 
