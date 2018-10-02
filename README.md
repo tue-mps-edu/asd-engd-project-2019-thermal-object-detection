@@ -6,7 +6,8 @@ This repository was forked from NVIDIA's [tf_trt_models](https://github.com/NVID
 * [Setup](#setup)
 * [Object Detection](#od)
   * [Models](#od_models)
-  * [Real-time object detection with TensorRT optimized models](#rt_od)
+  * [Real-time Object Detection with TensorRT Optimized Models](#rt_od)
+* [Applying the Hand Detector Model](#hand)
 
 <a name="setup"></a>
 Setup
@@ -64,7 +65,7 @@ $ sudo ~/jetson_clocks.sh
 ```
 
 <a name="rt_od"></a>
-### Real-time object detection with TensorRT optimized models
+### Real-time Object Detection with TensorRT Optimized Models
 
 The `camera_tf_trt.py` script supports video inputs from one of the following sources: (1) a video file, say mp4, (2) an image file, say jpg or png, (3) an RTSP stream from an IP CAM, (4) a USB webcam, (5) the Jetson onboard camera.  Check out the help message about how to invoke the script with a specific video source.
 
@@ -127,4 +128,40 @@ Here is the result of example #2.
 
 <p>
 <img src="data/huskies_detected.png" alt="MobileNet V1 SSD detection result on huskies.jpg" height="300px"/>
+</p>
+
+<a name="hand"></a>
+Applying the Hand Detector Model
+--------------------------------
+
+Refer to the following blog posts for more details:
+
+* [Training a Hand Detector with TensorFlow Object Detection API](https://jkjung-avt.github.io/hand-detection-tutorial/)
+* [Deploying the Hand Detector onto Jetson TX2](https://jkjung-avt.github.io/hand-detection-on-tx2/)
+
+After you've trained your own hand detector with one of the following models, you'll be able to optimize the model with TF-TRT and run it on TX2.
+
+```
+ssd_mobilenet_v1_egohands
+ssd_mobilenet_v2_egohands
+ssdlite_mobilenet_v2_egohands
+ssd_inception_v2_egohands
+faster_rcnn_resnet50_egohands
+faster_rcnn_resnet101_egohands
+faster_rcnn_inception_v2_egohands
+```
+
+Be sure to copy your trained model checkpoint files into the corresponding `data/xxx_egohands/` folder.  Say, you've done that for `ssd_mobilenet_v1_egohands`.  Then you could optimize the model and test it with an image like this:
+
+```shell
+$ python3 camera_tf_trt.py --image \
+                           --filename jk-son-hands.jpg \
+                           --model ssd_mobilenet_v1_egohands \
+                           --labelmap data/egohands_label_map.pbtxt \
+                           --num-classes 1 \
+                           --build
+```
+
+<p>
+<img src="https://jkjung-avt.github.io/assets/2018-09-25-hand-detection-on-tx2/son-hands-detected.png" alt="JK's son's hands" height="300px"/>
 </p>
