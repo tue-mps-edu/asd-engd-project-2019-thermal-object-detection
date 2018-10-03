@@ -4,10 +4,16 @@ Object detection utility functions.
 '''
 
 
+import time
+
 import numpy as np
 import cv2
 import tensorflow as tf
 import tensorflow.contrib.tensorrt as trt
+
+
+MEASURE_MODEL_TIME = False
+avg_time = 0.0
 
 
 def read_label_map(path_to_labels, num_classes):
@@ -68,6 +74,8 @@ def load_trt_pb(pb_path):
         trt_graph_def.ParseFromString(pf.read())
     # force CPU device placement for NMS ops
     for node in trt_graph_def.node:
+        if '_rcnn' in pb_path and 'SecondStage' in node.name:
+            node.device = '/device:GPU:0'
         if 'NonMaxSuppression' in node.name:
             node.device = '/device:CPU:0'
     with tf.Graph().as_default() as trt_graph:
@@ -108,6 +116,8 @@ def postprocess(img, boxes, scores, classes, conf_th):
 
 def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     """Do object detection over 1 image."""
+    global avg_time
+
     tf_input = tf_sess.graph.get_tensor_by_name('input:0')
     tf_scores = tf_sess.graph.get_tensor_by_name('scores:0')
     tf_boxes = tf_sess.graph.get_tensor_by_name('boxes:0')
@@ -120,10 +130,19 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     else:
         raise ValueError('bad object detector type: $s' % od_type)
 
-    scores, boxes, classes = tf_sess.run(
+    if MEASURE_MODEL_TIME:
+        tic = time.time()
+
+    scores_out, boxes_out, classes_out = tf_sess.run(
         [tf_scores, tf_boxes, tf_classes],
         feed_dict={tf_input: img[None, ...]})
 
-    box, conf, cls = postprocess(origimg, boxes, scores, classes, conf_th)
+    if MEASURE_MODEL_TIME:
+        td = (time.time() - tic) * 1000  # in ms
+        avg_time = avg_time * 0.9 + td * 0.1
+        print('tf_sess.run() took {:.1f} ms on average'.format(avg_time))
+
+    box, conf, cls = postprocess(
+        origimg, boxes_out, scores_out, classes_out, conf_th)
 
     return (box, conf, cls)
