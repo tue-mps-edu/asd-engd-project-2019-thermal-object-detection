@@ -30,7 +30,7 @@ def read_label_map(path_to_labels):
     # We do `x['id']-1` below, because 'class' output of the object
     # detection model is 0-based, while class ids in the label map
     # is 1-based.
-    cls_dict = {int(x['id'])-1: x['name'] for _, x in category_index.items()}
+    cls_dict = {int(x['id'])-1: x['name'] for x in category_index.values()}
     num_classes = max(c for c in cls_dict.keys()) + 1
     # add missing classes as, say,'CLS12' if any
     return {i: cls_dict.get(i, 'CLS{}'.format(i)) for i in range(num_classes)}
@@ -76,7 +76,9 @@ def load_trt_pb(pb_path):
         trt_graph_def.ParseFromString(pf.read())
     # force CPU device placement for NMS ops
     for node in trt_graph_def.node:
-        if '_rcnn' in pb_path and 'SecondStage' in node.name:
+        if 'rfcn_' in pb_path and 'SecondStage' in node.name:
+            node.device = '/device:GPU:0'
+        if 'faster_rcnn_' in pb_path and 'SecondStage' in node.name:
             node.device = '/device:GPU:0'
         if 'NonMaxSuppression' in node.name:
             node.device = '/device:CPU:0'
@@ -125,7 +127,7 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     tf_scores = tf_sess.graph.get_tensor_by_name('detection_scores:0')
     tf_boxes = tf_sess.graph.get_tensor_by_name('detection_boxes:0')
     tf_classes = tf_sess.graph.get_tensor_by_name('detection_classes:0')
-    tf_num = tf_sess.graph.get_tensor_by_name('num_detections:0')
+    #tf_num = tf_sess.graph.get_tensor_by_name('num_detections:0')
 
     if od_type == 'faster_rcnn':
         img = _preprocess(origimg, (1024, 576))
@@ -137,8 +139,8 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     if MEASURE_MODEL_TIME:
         tic = time.time()
 
-    boxes_out, scores_out, classes_out, _ = tf_sess.run(
-        [tf_boxes, tf_scores, tf_classes, tf_num],
+    boxes_out, scores_out, classes_out = tf_sess.run(
+        [tf_boxes, tf_scores, tf_classes],
         feed_dict={tf_input: img[None, ...]})
 
     if MEASURE_MODEL_TIME:
