@@ -16,7 +16,7 @@ MEASURE_MODEL_TIME = False
 avg_time = 0.0
 
 
-def read_label_map(path_to_labels, num_classes):
+def read_label_map(path_to_labels):
     """Read from the label map file and return a class dictionary which
     maps class id (int) to the corresponding display name (string).
 
@@ -25,13 +25,16 @@ def read_label_map(path_to_labels, num_classes):
     """
     from object_detection.utils import label_map_util
 
-    label_map = label_map_util.load_labelmap(path_to_labels)
-    categories = label_map_util.convert_label_map_to_categories(
-        label_map, max_num_classes=num_classes, use_display_name=True)
+    category_index = label_map_util.create_category_index_from_labelmap(
+        path_to_labels)
     # We do `x['id']-1` below, because 'class' output of the object
     # detection model is 0-based, while class ids in the label map
     # is 1-based.
-    return {int(x['id'])-1: x['name'] for x in categories}
+    cls_dict = {int(x['id'])-1: x['name'] for _, x in category_index.items()}
+    num_classes = max(c for c in cls_dict.keys()) + 1
+    assert num_classes == len(cls_dict), \
+        'some class ids are missing in %s' % path_to_labels
+    return cls_dict
 
 
 def build_trt_pb(model_name, pb_path, download_dir='data'):
@@ -147,5 +150,4 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     box, conf, cls = _postprocess(
         origimg, boxes_out, scores_out, classes_out, conf_th)
 
-    import pdb; pdb.set_trace()
     return (box, conf, cls)

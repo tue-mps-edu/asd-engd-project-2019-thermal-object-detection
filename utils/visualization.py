@@ -82,14 +82,11 @@ class BBoxVisualization():
 
     # Arguments
       cls_dict: a dictionary used to translate class id to its name.
-      num_classes: total number of classes (not including 'background'
-                   which is always assigned as class 0)
     """
 
-    def __init__(self, cls_dict, num_classes):
+    def __init__(self, cls_dict):
         self.cls_dict = cls_dict
-        self.num_classes = num_classes
-        self.colors = gen_colors(num_classes)
+        self.colors = gen_colors(len(cls_dict))
 
     def draw_bboxes(self, img, box, conf, cls):
         """Draw detected bounding boxes on the original image."""
