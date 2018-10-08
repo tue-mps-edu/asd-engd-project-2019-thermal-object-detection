@@ -162,13 +162,17 @@ is_training=False, add_summaries=False)
 
             frozen_graph_def = convert_relu6(frozen_graph_def)
 
+            # The following line is commented out because it causes
+            # trouble for faster_rcnn models...
             #remove_op(frozen_graph_def, 'Assert')
 
             # force CPU device placement for NMS ops
             for node in frozen_graph_def.node:
                 if 'NonMaxSuppression' in node.name:
                     node.device = '/device:CPU:0'
-                if '_rcnn' in config_path and 'SecondStage' in node.name:
+                if 'faster_rcnn_' in config_path and 'SecondStage' in node.name:
+                    node.device = '/device:CPU:0'
+                if 'rfcn_' in config_path and 'SecondStage' in node.name:
                     node.device = '/device:CPU:0'
 
     return frozen_graph_def, [input_name], output_names
