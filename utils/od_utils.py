@@ -91,17 +91,18 @@ def write_graph_tensorboard(sess, log_path):
     writer.close()
 
 
-def preprocess(src, shape=None):
+def _preprocess(src, shape=None, to_rgb=True):
     """Preprocess input image for the TF-TRT object detection model."""
     img = src.astype(np.uint8)
     if shape:
         img = cv2.resize(img, shape)
-    # BGR to RGB
-    img = img[..., ::-1]
+    if to_rgb:
+        # BGR to RGB
+        img = img[..., ::-1]
     return img
 
 
-def postprocess(img, boxes, scores, classes, conf_th):
+def _postprocess(img, boxes, scores, classes, conf_th):
     """Postprocess ouput of the TF-TRT object detector."""
     h, w, _ = img.shape
     out_box = boxes[0] * np.array([h, w, h, w])
@@ -118,23 +119,24 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     """Do object detection over 1 image."""
     global avg_time
 
-    tf_input = tf_sess.graph.get_tensor_by_name('input:0')
-    tf_scores = tf_sess.graph.get_tensor_by_name('scores:0')
-    tf_boxes = tf_sess.graph.get_tensor_by_name('boxes:0')
-    tf_classes = tf_sess.graph.get_tensor_by_name('classes:0')
+    tf_input = tf_sess.graph.get_tensor_by_name('image_tensor:0')
+    tf_scores = tf_sess.graph.get_tensor_by_name('detection_scores:0')
+    tf_boxes = tf_sess.graph.get_tensor_by_name('detection_boxes:0')
+    tf_classes = tf_sess.graph.get_tensor_by_name('detection_classes:0')
+    tf_num = tf_sess.graph.get_tensor_by_name('num_detections:0')
 
     if od_type == 'faster_rcnn':
-        img = preprocess(origimg, (1024, 576))
+        img = _preprocess(origimg, (1024, 576))
     elif od_type == 'ssd':
-        img = preprocess(origimg, (300, 300))
+        img = _preprocess(origimg, (300, 300))
     else:
         raise ValueError('bad object detector type: $s' % od_type)
 
     if MEASURE_MODEL_TIME:
         tic = time.time()
 
-    scores_out, boxes_out, classes_out = tf_sess.run(
-        [tf_scores, tf_boxes, tf_classes],
+    boxes_out, scores_out, classes_out, _ = tf_sess.run(
+        [tf_boxes, tf_scores, tf_classes, tf_num],
         feed_dict={tf_input: img[None, ...]})
 
     if MEASURE_MODEL_TIME:
@@ -142,7 +144,8 @@ def detect(origimg, tf_sess, conf_th, od_type='ssd'):
         avg_time = avg_time * 0.9 + td * 0.1
         print('tf_sess.run() took {:.1f} ms on average'.format(avg_time))
 
-    box, conf, cls = postprocess(
+    box, conf, cls = _postprocess(
         origimg, boxes_out, scores_out, classes_out, conf_th)
 
+    import pdb; pdb.set_trace()
     return (box, conf, cls)
