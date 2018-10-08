@@ -4,13 +4,19 @@ Object detection utility functions.
 '''
 
 
+import time
+
 import numpy as np
 import cv2
 import tensorflow as tf
 import tensorflow.contrib.tensorrt as trt
 
 
-def read_label_map(path_to_labels, num_classes):
+MEASURE_MODEL_TIME = False
+avg_time = 0.0
+
+
+def read_label_map(path_to_labels):
     """Read from the label map file and return a class dictionary which
     maps class id (int) to the corresponding display name (string).
 
@@ -19,13 +25,15 @@ def read_label_map(path_to_labels, num_classes):
     """
     from object_detection.utils import label_map_util
 
-    label_map = label_map_util.load_labelmap(path_to_labels)
-    categories = label_map_util.convert_label_map_to_categories(
-        label_map, max_num_classes=num_classes, use_display_name=True)
+    category_index = label_map_util.create_category_index_from_labelmap(
+        path_to_labels)
     # We do `x['id']-1` below, because 'class' output of the object
     # detection model is 0-based, while class ids in the label map
     # is 1-based.
-    return {int(x['id'])-1: x['name'] for x in categories}
+    cls_dict = {int(x['id'])-1: x['name'] for x in category_index.values()}
+    num_classes = max(c for c in cls_dict.keys()) + 1
+    # add missing classes as, say,'CLS12' if any
+    return {i: cls_dict.get(i, 'CLS{}'.format(i)) for i in range(num_classes)}
 
 
 def build_trt_pb(model_name, pb_path, download_dir='data'):
@@ -68,6 +76,10 @@ def load_trt_pb(pb_path):
         trt_graph_def.ParseFromString(pf.read())
     # force CPU device placement for NMS ops
     for node in trt_graph_def.node:
+        if 'rfcn_' in pb_path and 'SecondStage' in node.name:
+            node.device = '/device:GPU:0'
+        if 'faster_rcnn_' in pb_path and 'SecondStage' in node.name:
+            node.device = '/device:GPU:0'
         if 'NonMaxSuppression' in node.name:
             node.device = '/device:CPU:0'
     with tf.Graph().as_default() as trt_graph:
@@ -83,17 +95,18 @@ def write_graph_tensorboard(sess, log_path):
     writer.close()
 
 
-def preprocess(src, shape=None):
+def _preprocess(src, shape=None, to_rgb=True):
     """Preprocess input image for the TF-TRT object detection model."""
     img = src.astype(np.uint8)
     if shape:
         img = cv2.resize(img, shape)
-    # BGR to RGB
-    img = img[..., ::-1]
+    if to_rgb:
+        # BGR to RGB
+        img = img[..., ::-1]
     return img
 
 
-def postprocess(img, boxes, scores, classes, conf_th):
+def _postprocess(img, boxes, scores, classes, conf_th):
     """Postprocess ouput of the TF-TRT object detector."""
     h, w, _ = img.shape
     out_box = boxes[0] * np.array([h, w, h, w])
@@ -108,22 +121,34 @@ def postprocess(img, boxes, scores, classes, conf_th):
 
 def detect(origimg, tf_sess, conf_th, od_type='ssd'):
     """Do object detection over 1 image."""
-    tf_input = tf_sess.graph.get_tensor_by_name('input:0')
-    tf_scores = tf_sess.graph.get_tensor_by_name('scores:0')
-    tf_boxes = tf_sess.graph.get_tensor_by_name('boxes:0')
-    tf_classes = tf_sess.graph.get_tensor_by_name('classes:0')
+    global avg_time
+
+    tf_input = tf_sess.graph.get_tensor_by_name('image_tensor:0')
+    tf_scores = tf_sess.graph.get_tensor_by_name('detection_scores:0')
+    tf_boxes = tf_sess.graph.get_tensor_by_name('detection_boxes:0')
+    tf_classes = tf_sess.graph.get_tensor_by_name('detection_classes:0')
+    #tf_num = tf_sess.graph.get_tensor_by_name('num_detections:0')
 
     if od_type == 'faster_rcnn':
-        img = preprocess(origimg, (1024, 576))
+        img = _preprocess(origimg, (1024, 576))
     elif od_type == 'ssd':
-        img = preprocess(origimg, (300, 300))
+        img = _preprocess(origimg, (300, 300))
     else:
         raise ValueError('bad object detector type: $s' % od_type)
 
-    scores, boxes, classes = tf_sess.run(
-        [tf_scores, tf_boxes, tf_classes],
+    if MEASURE_MODEL_TIME:
+        tic = time.time()
+
+    boxes_out, scores_out, classes_out = tf_sess.run(
+        [tf_boxes, tf_scores, tf_classes],
         feed_dict={tf_input: img[None, ...]})
 
-    box, conf, cls = postprocess(origimg, boxes, scores, classes, conf_th)
+    if MEASURE_MODEL_TIME:
+        td = (time.time() - tic) * 1000  # in ms
+        avg_time = avg_time * 0.9 + td * 0.1
+        print('tf_sess.run() took {:.1f} ms on average'.format(avg_time))
+
+    box, conf, cls = _postprocess(
+        origimg, boxes_out, scores_out, classes_out, conf_th)
 
     return (box, conf, cls)

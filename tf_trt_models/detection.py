@@ -11,13 +11,20 @@ import tensorflow as tf
 
 from .graph_utils import convert_relu6, remove_op
 
-input_name = 'input'
-output_map = {
-    'detection_scores': 'scores',
-    'detection_boxes': 'boxes',
-    'detection_classes': 'classes',
-    'detection_masks': 'masks'
-}
+input_name = 'image_tensor'
+#output_map = {
+#    'detection_scores': 'scores',
+#    'detection_boxes': 'boxes',
+#    'detection_classes': 'classes',
+#    'detection_masks': 'masks',
+#    'num_detections': 'num'
+#}
+output_names = [
+    'detection_boxes',
+    'detection_scores',
+    'detection_classes',
+    'num_detections'
+]
 
 nets = {
     'ssd_mobilenet_v1_coco': {
@@ -115,7 +122,7 @@ def build_detection_graph(config_path, checkpoint):
     :returns: the configured frozen graph representing object detection model
     :rtype: a tensorflow GraphDef
     """
-    global input_name, output_map
+    global input_name, output_names
 
     if isinstance(config_path, str):
         pipeline_config = TrainEvalPipelineConfig()
@@ -143,27 +150,29 @@ is_training=False, add_summaries=False)
             tf_saver = tf.train.Saver()
             tf_saver.restore(save_path=checkpoint, sess=tf_sess)
 
-            outputs = {}
             for key, op in tf_postprocessed.items():
-                if key in output_map.keys():
-                    outputs[output_map[key]] = \
-                        tf.identity(op, name=output_map[key])
+                if key in output_names:
+                    _ = tf.identity(op, name=key)
 
-            frozen_graph = tf.graph_util.convert_variables_to_constants(
+            frozen_graph_def = tf.graph_util.convert_variables_to_constants(
                 tf_sess,
                 tf_sess.graph_def,
-                output_node_names=list(outputs.keys())
+                output_node_names=output_names
             )
 
-            frozen_graph = convert_relu6(frozen_graph)
+            frozen_graph_def = convert_relu6(frozen_graph_def)
 
-            #remove_op(frozen_graph, 'Assert')
+            # The following line is commented out because it causes
+            # trouble for faster_rcnn models...
+            #remove_op(frozen_graph_def, 'Assert')
 
             # force CPU device placement for NMS ops
-            for node in frozen_graph.node:
+            for node in frozen_graph_def.node:
                 if 'NonMaxSuppression' in node.name:
                     node.device = '/device:CPU:0'
-                if '_rcnn' in config_path and 'SecondStage' in node.name:
+                if 'faster_rcnn_' in config_path and 'SecondStage' in node.name:
+                    node.device = '/device:CPU:0'
+                if 'rfcn_' in config_path and 'SecondStage' in node.name:
                     node.device = '/device:CPU:0'
 
-    return frozen_graph, [input_name], list(outputs.keys())
+    return frozen_graph_def, [input_name], output_names

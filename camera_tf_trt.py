@@ -31,7 +31,6 @@ from utils.visualization import BBoxVisualization
 DEFAULT_MODEL = 'ssd_inception_v2_coco'
 DEFAULT_LABELMAP = 'third_party/models/research/object_detection/' \
                    'data/mscoco_label_map.pbtxt'
-DEFAULT_NUM_CLASSES = 90
 WINDOW_NAME = 'CameraTFTRTDemo'
 BBOX_COLOR = (0, 255, 0)  # green
 
@@ -89,8 +88,8 @@ def parse_args():
                         help='[{}]'.format(DEFAULT_LABELMAP),
                         default=DEFAULT_LABELMAP, type=str)
     parser.add_argument('--num-classes', dest='num_classes',
-                        help='number of object classes [90]',
-                        default=DEFAULT_NUM_CLASSES, type=int)
+                        help='(deprecated and not used) number of object '
+                        'classes', type=int)
     parser.add_argument('--confidence', dest='conf_th',
                         help='confidence threshold [0.3]',
                         default=0.3, type=float)
@@ -195,7 +194,7 @@ def main():
 
     # build the class (index/name) dictionary from labelmap file
     logger.info('reading label map')
-    cls_dict = read_label_map(args.labelmap_file, args.num_classes)
+    cls_dict = read_label_map(args.labelmap_file)
 
     pb_path = './data/{}_trt.pb'.format(args.model)
     log_path = './logs/{}_trt'.format(args.model)
@@ -230,7 +229,7 @@ def main():
 
     # grab image and do object detection (until stopped by user)
     logger.info('starting to loop and detect')
-    vis = BBoxVisualization(cls_dict, args.num_classes)
+    vis = BBoxVisualization(cls_dict)
     open_display_window(cam.img_width, cam.img_height)
     loop_and_detect(cam, tf_sess, args.conf_th, vis, od_type=od_type)
 

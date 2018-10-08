@@ -19,6 +19,10 @@ SUPPORTED_MODELS = {
         'config_path': 'data/ssd_inception_v2_egohands.config',
         'checkpoint_path': 'data/ssd_inception_v2_egohands/model.ckpt-20000',
     },
+    'rfcn_resnet101_egohands': {
+        'config_path': 'data/rfcn_resnet101_egohands.config',
+        'checkpoint_path': 'data/rfcn_resnet101_egohands/model.ckpt-50000',
+    },
     'faster_rcnn_resnet50_egohands': {
         'config_path': 'data/faster_rcnn_resnet50_egohands.config',
         'checkpoint_path': 'data/faster_rcnn_resnet50_egohands/model.ckpt-50000',
