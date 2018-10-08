@@ -32,9 +32,8 @@ def read_label_map(path_to_labels):
     # is 1-based.
     cls_dict = {int(x['id'])-1: x['name'] for _, x in category_index.items()}
     num_classes = max(c for c in cls_dict.keys()) + 1
-    assert num_classes == len(cls_dict), \
-        'some class ids are missing in %s' % path_to_labels
-    return cls_dict
+    # add missing classes as, say,'CLS12' if any
+    return {i: cls_dict.get(i, 'CLS{}'.format(i)) for i in range(num_classes)}
 
 
 def build_trt_pb(model_name, pb_path, download_dir='data'):
