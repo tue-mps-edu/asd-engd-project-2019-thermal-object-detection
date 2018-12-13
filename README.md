@@ -48,16 +48,9 @@ Please refer to the original [NVIDIA-Jetson/tf_trt_models](https://github.com/NV
 <a name="od_models"></a>
 ### Models
 
-| Model                 | Input Size | TF TX2 | TF-TRT TX2 |
-|:----------------------|:----------:|:------:|:----------:|
-| ssd_mobilenet_v1_coco |   300x300  | 72.9ms |   50.5ms   |
-| ssd_inception_v2_coco |   300x300  | 132ms  |   54.4ms   |
+The author has tested various TensorFlow object detection models and shared the result on [NVIDIA's Jetson TX2 Developer Forum](https://devtalk.nvidia.com/default/topic/1037019/jetson-tx2/tensorflow-object-detection-and-image-classification-accelerated-for-nvidia-jetson/post/5288250/#5288250).
 
-**TF** - Original TensorFlow graph (FP32)
-
-**TF-TRT** - TensorRT optimized graph (FP16)
-
-The above benchmark timings were gathered after the Jetson TX2 was placed in MAX-N mode.  To set TX2 into MAX-N mode, run the following commands in a terminal:
+Note the benchmark timings were gathered after the Jetson TX2 was placed in MAX-N mode.  To set TX2 into MAX-N mode, run the following commands in a terminal:
 
 ```
 $ sudo nvpmodel -m 0

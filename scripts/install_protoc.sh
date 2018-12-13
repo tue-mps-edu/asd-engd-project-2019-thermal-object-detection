@@ -1,13 +1,14 @@
 #!/bin/bash
 
 BASE_URL="https://github.com/google/protobuf/releases/download/v3.5.1/"
+PROTOC_DIR=data/protoc
 
-if [ -r data/protoc/bin/protoc ]; then
-  diff data/protoc/bin/protoc /usr/bin/protoc && exit 0 
+if [ -r $PROTOC_DIR/bin/protoc ]; then
+  exit 0 
 fi
 
-mkdir -p data/protoc
-cd data/protoc
+mkdir -p $PROTOC_DIR
+pushd $PROTOC_DIR
 ARCH=$(uname -m)
 if [ "$ARCH" == "aarch64" ] ; then
   filename="protoc-3.5.1-linux-aarch_64.zip"
@@ -19,8 +20,4 @@ else
 fi
 wget --no-check-certificate ${BASE_URL}${filename}
 unzip ${filename}
-sudo mv bin/protoc /usr/bin/protoc
-sudo mv include/google /usr/local/include/google
-cd ../..
-
-#rm -rf data/protoc
+popd
