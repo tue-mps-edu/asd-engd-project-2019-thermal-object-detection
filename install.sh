@@ -16,6 +16,15 @@ git submodule update --init
 
 pushd $MODELS_DIR/research
 echo $PWD
+
+sed -i "842s/print 'Scores and tpfp per class label: {}'.format(class_index)/print('Scores and tpfp per class label: {}'.format(class_index))/" \
+       object_detection/utils/object_detection_evaluation.py
+sed -i '843s/print tp_fp_labels/print(tp_fp_labels)/' \
+       object_detection/utils/object_detection_evaluation.py
+sed -i '844s/print scores/print(scores)/' \
+       object_detection/utils/object_detection_evaluation.py
+sed -i "157s/print '--annotation_type expected value is 1 or 2.'/print('--annotation_type expected value is 1 or 2.')/" \
+       object_detection/dataset_tools/oid_hierarchical_labels_expansion.py
 sed -i '516s/print num_classes, num_anchors/print(num_classes, num_anchors)/' \
        object_detection/meta_architectures/ssd_meta_arch_test.py
 sed -i '147s/print /print(/' \
@@ -30,7 +39,6 @@ sed -i '390s/iteritems()/items()/' \
        object_detection/model_lib.py
 sed -i '168s/range(num_boundaries),/list(range(num_boundaries)),/' \
        object_detection/utils/learning_schedules.py
-$ROOT_DIR/protoc-3.5.1/bin/protoc object_detection/protos/*.proto --python_out=.
 echo "Installing object detection library"
 echo $PROTOC
 $PROTOC object_detection/protos/*.proto --python_out=.
