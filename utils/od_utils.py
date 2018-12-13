@@ -54,7 +54,7 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
         config_path, checkpoint_path = \
             get_egohands_model(model_name)
     frozen_graph_def, input_names, output_names = build_detection_graph(
-        config_path=config_path,
+        config=config_path,
         checkpoint=checkpoint_path
     )
     trt_graph_def = trt.create_inference_graph(

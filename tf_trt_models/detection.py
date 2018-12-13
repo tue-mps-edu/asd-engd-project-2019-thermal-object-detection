@@ -91,20 +91,21 @@ def download_detection_model(model, output_dir='.'):
         subprocess.call(['mkdir', '-p', output_dir])
         tar_file = os.path.join(output_dir, os.path.basename(model.url))
         extract_dir = model.extract_dir
+        config_path = os.path.join(output_dir, model.extract_dir,
+                                   PIPELINE_CONFIG_NAME)
+        checkpoint_path = os.path.join(output_dir, model.extract_dir,
+                                       CHECKPOINT_PREFIX)
         if not os.path.exists(os.path.join(output_dir, model.extract_dir)):
             subprocess.call(['wget', model.url, '-O', tar_file])
             subprocess.call(['tar', '-xzf', tar_file, '-C', output_dir])
 
             # hack fix to handle mobilenet_v2 config bug
             subprocess.call(['sed', '-i', '/batch_norm_trainable/d', config_path])
-        config_path = os.path.join(output_dir, model.extract_dir,
-                                   PIPELINE_CONFIG_NAME)
-        checkpoint_path = os.path.join(output_dir, model.extract_dir,
-                                       CHECKPOINT_PREFIX)
     else:
         # assuming user is querying a self-trained 'egohands' model
-        if not os.path.exists(os.path.join(output_dir, model_name + '.config')) or
-           not os.path.exists(os.path.join(output_dir, model_name)):
+        if not os.path.exists(os.path.join(output_dir, model_name + '.config')):
+            raise FileNotFoundError
+        if not os.path.exists(os.path.join(output_dir, model_name)):
             raise FileNotFoundError
         config_path = os.path.join(output_dir, model_name + '.config')
         checkpoint_path = os.path.join(output_dir, model_name,
