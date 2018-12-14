@@ -9,6 +9,7 @@ from object_detection.protos import image_resizer_pb2
 from object_detection import exporter
 
 from .graph_utils import force_nms_cpu as f_force_nms_cpu
+from .graph_utils import force_2ndstage_cpu as f_force_2ndstage_cpu
 from .graph_utils import replace_relu6 as f_replace_relu6
 from .graph_utils import remove_assert as f_remove_assert
 
@@ -117,6 +118,7 @@ def build_detection_graph(config, checkpoint,
         batch_size=1,
         score_threshold=None,
         force_nms_cpu=True,
+        force_frcn2_cpu=True,
         replace_relu6=True,
         remove_assert=True,
         input_shape=None,
@@ -171,10 +173,14 @@ def build_detection_graph(config, checkpoint,
     # apply graph modifications
     if force_nms_cpu:
         frozen_graph = f_force_nms_cpu(frozen_graph)
+    if force_frcn2_cpu:
+        if 'faster_rcnn_' in config_path or 'rfcn_' in config_path:
+            frozen_graph = f_force_2ndstage_cpu(frozen_graph)
     if replace_relu6:
         frozen_graph = f_replace_relu6(frozen_graph)
     if remove_assert:
-        frozen_graph = f_remove_assert(frozen_graph)
+        if 'ssd_' in config_path or 'ssdlite_' in config_path:
+            frozen_graph = f_remove_assert(frozen_graph)
 
     # get input names
     # TODO: handle mask_rcnn
