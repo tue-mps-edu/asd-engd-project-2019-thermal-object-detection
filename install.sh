@@ -39,6 +39,8 @@ sed -i '390s/iteritems()/items()/' \
        object_detection/model_lib.py
 sed -i '168s/range(num_boundaries),/list(range(num_boundaries)),/' \
        object_detection/utils/learning_schedules.py
+sed -i '225s/reversed(zip(output_feature_map_keys, output_feature_maps_list)))/reversed(list(zip(output_feature_map_keys, output_feature_maps_list))))/' \
+       object_detection/models/feature_map_generators.py
 echo "Installing object detection library"
 echo $PROTOC
 $PROTOC object_detection/protos/*.proto --python_out=.
