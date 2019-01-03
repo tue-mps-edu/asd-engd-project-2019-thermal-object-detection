@@ -27,10 +27,7 @@ def read_label_map(path_to_labels):
 
     category_index = label_map_util.create_category_index_from_labelmap(
         path_to_labels)
-    # We do `x['id']-1` below, because 'class' output of the object
-    # detection model is 0-based, while class ids in the label map
-    # is 1-based.
-    cls_dict = {int(x['id'])-1: x['name'] for x in category_index.values()}
+    cls_dict = {int(x['id']): x['name'] for x in category_index.values()}
     num_classes = max(c for c in cls_dict.keys()) + 1
     # add missing classes as, say,'CLS12' if any
     return {i: cls_dict.get(i, 'CLS{}'.format(i)) for i in range(num_classes)}
@@ -54,7 +51,7 @@ def build_trt_pb(model_name, pb_path, download_dir='data'):
         config_path, checkpoint_path = \
             get_egohands_model(model_name)
     frozen_graph_def, input_names, output_names = build_detection_graph(
-        config_path=config_path,
+        config=config_path,
         checkpoint=checkpoint_path
     )
     trt_graph_def = trt.create_inference_graph(
