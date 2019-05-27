@@ -13,17 +13,17 @@ This repository was forked from NVIDIA's [tf_trt_models](https://github.com/NVID
 Setup
 -----
 
-Refer to this blog post for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/)
+Refer to these blog posts for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/) and [https://jkjung-avt.github.io/tf-trt-revisited/](https://jkjung-avt.github.io/tf-trt-revisited/).
 
-1. Flash the target Jetson TX2 system with either JetPack-3.2.1 (TensorRT 3.0 GA included) or JetPack 3.3 (TensorRT 4.0 GA).
-2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/).
-3. Download and install TensorFlow 1.8.0 (with TensorRT support).  Note that the author has tested TensorFlow 1.9.0, 1.10.0, and 1.10.1.  They do not work well on Jetson TX2.  **TensorFlow 1.8.0 is highly recommended at the time of this writing** if you'd like to use TF-TRT on Jetson TX2.  Also note that python3 was used for all testing and development work by the author.  
-
-   Download **[this pip wheel](https://nvidia.app.box.com/v/TF180-Py35-wTRT)** if you are using **JetPack-3.2.1**.  Otherwise download **[this pip wheel](https://drive.google.com/open?id=1bAUNe26fKgGXuJiZYs1eT2ig8SCj2gW-)** if you are using **JetPack-3.3**.
+1. Flash the target Jetson TX2 system with either JetPack-3.2.1 (TensorRT 3.0 GA included) or JetPack 3.3 (TensorRT 4.0 GA).  (I have also tested the code on Jetson Nano with JetPack-4.2.)
+2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/) or [Installing OpenCV 3.4.6 on Jetson Nano](https://jkjung-avt.github.io/opencv-on-nano/).
+3. Download and install tensorflow-1.8.0 (with TensorRT support).  More specifically, download [this pip wheel](https://nvidia.app.box.com/v/TF180-Py35-wTRT) if you are using JetPack-3.2.1, or [this pip wheel](https://drive.google.com/open?id=1bAUNe26fKgGXuJiZYs1eT2ig8SCj2gW-) if you are using JetPack-3.3.  Then install it with `pip3`.
 
    ```
    $ sudo pip3 install tensorflow-1.8.0-cp35-cp35m-linux_aarch64.whl
    ```
+
+   **2019-05-24 update:** Originally I encountered "extremely long TF-TRT model loading time issue" when I tested with tensorflow-1.9.0+.  That's why I recommended tensorflow-1.8.0 before.  Recently I realized the issue was due to the python3 'protobuf' module, and I have a solution.  I documented the solution in my [TensorFlow/TensorRT (TF-TRT) Revisted](https://jkjung-avt.github.io/tf-trt-revisited/) post.  With the solution applied, you could actually use any tensorflow of version 1.8.0 or higher, as long as it has the TenroRT support.  For example, you could [build/install tensorflow-1.12.2 from source](https://jkjung-avt.github.io/build-tensorflow-1.12.2/), or just use a pip3 wheel provided by NVIDIA.
 
 4. Clone this repository.  (Do use this repository instead of NVIDIA's original tf_trt_models repository, if you would like to run the script described below.)
 
