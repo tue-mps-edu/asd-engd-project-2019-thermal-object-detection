@@ -21,7 +21,7 @@ import cv2
 import tensorflow as tf
 import tensorflow.contrib.tensorrt as trt
 
-from utils.camera import Camera
+from utils.camera import add_camera_args, Camera
 from utils.od_utils import read_label_map, build_trt_pb, load_trt_pb, \
                            write_graph_tensorboard, detect
 from utils.visualization import BBoxVisualization
@@ -39,40 +39,9 @@ def parse_args():
     """Parse input arguments."""
     desc = ('This script captures and displays live camera video, '
             'and does real-time object detection with TF-TRT model '
-            'on Jetson TX2/TX1')
+            'on Jetson TX2/TX1/Nano')
     parser = argparse.ArgumentParser(description=desc)
-    parser.add_argument('--file', dest='use_file',
-                        help='use a video file as input (remember to '
-                        'also set --filename)',
-                        action='store_true')
-    parser.add_argument('--image', dest='use_image',
-                        help='use an image file as input (remember to '
-                        'also set --filename)',
-                        action='store_true')
-    parser.add_argument('--filename', dest='filename',
-                        help='video file name, e.g. test.mp4',
-                        default=None, type=str)
-    parser.add_argument('--rtsp', dest='use_rtsp',
-                        help='use IP CAM (remember to also set --uri)',
-                        action='store_true')
-    parser.add_argument('--uri', dest='rtsp_uri',
-                        help='RTSP URI, e.g. rtsp://192.168.1.64:554',
-                        default=None, type=str)
-    parser.add_argument('--latency', dest='rtsp_latency',
-                        help='latency in ms for RTSP [200]',
-                        default=200, type=int)
-    parser.add_argument('--usb', dest='use_usb',
-                        help='use USB webcam (remember to also set --vid)',
-                        action='store_true')
-    parser.add_argument('--vid', dest='video_dev',
-                        help='device # of USB webcam (/dev/video?) [1]',
-                        default=1, type=int)
-    parser.add_argument('--width', dest='image_width',
-                        help='image width [1280]',
-                        default=1280, type=int)
-    parser.add_argument('--height', dest='image_height',
-                        help='image height [720]',
-                        default=720, type=int)
+    parser = add_camera_args(parser)
     parser.add_argument('--model', dest='model',
                         help='tf-trt object detecion model '
                         '[{}]'.format(DEFAULT_MODEL),
@@ -153,7 +122,7 @@ def loop_and_detect(cam, tf_sess, conf_th, vis, od_type):
     full_scrn = False
     fps = 0.0
     tic = time.time()
-    while cam.thread_running:
+    while True:
         if cv2.getWindowProperty(WINDOW_NAME, 0) < 0:
             # Check to see if the user has closed the display window.
             # If yes, terminate the while loop.
