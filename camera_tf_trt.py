@@ -95,20 +95,6 @@ def set_full_screen(full_scrn):
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, prop)
 
 
-def show_bounding_boxes(img, box, conf, cls, cls_dict):
-    """Draw detected bounding boxes on the original image."""
-    font = cv2.FONT_HERSHEY_DUPLEX
-    for bb, cf, cl in zip(box, conf, cls):
-        cl = int(cl)
-        y_min, x_min, y_max, x_max = bb[0], bb[1], bb[2], bb[3]
-        cv2.rectangle(img, (x_min, y_min), (x_max, y_max), BBOX_COLOR, 2)
-        txt_loc = (max(x_min, 5), max(y_min-3, 20))
-        cls_name = cls_dict.get(cl, 'CLASS{}'.format(cl))
-        txt = '{} {:.2f}'.format(cls_name, cf)
-        cv2.putText(img, txt, txt_loc, font, 0.8, BBOX_COLOR, 1)
-    return img
-
-
 def loop_and_detect(cam, tf_sess, conf_th, vis, od_type):
     """Loop, grab images from camera, and do object detection.
 
