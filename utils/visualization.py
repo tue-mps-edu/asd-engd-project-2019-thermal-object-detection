@@ -58,7 +58,7 @@ def draw_boxed_text(img, text, topleft, color):
     assert img.dtype == np.uint8
     img_h, img_w, _ = img.shape
     if topleft[0] >= img_w or topleft[1] >= img_h:
-        return
+        return img
     margin = 3
     size = cv2.getTextSize(text, FONT, TEXT_SCALE, TEXT_THICKNESS)
     w = size[0][0] + margin * 2
