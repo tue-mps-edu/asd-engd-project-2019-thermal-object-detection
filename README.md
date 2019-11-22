@@ -13,7 +13,12 @@ This repository was forked from NVIDIA's [tf_trt_models](https://github.com/NVID
 Setup
 -----
 
-Refer to these blog posts for more details: [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/) and [https://jkjung-avt.github.io/tf-trt-revisited/](https://jkjung-avt.github.io/tf-trt-revisited/).
+Refer to these blog posts for more details:
+
+* [TensorFlow/TensorRT Models on Jetson TX2](https://jkjung-avt.github.io/tf-trt-models/)
+* [TensorFlow/TensorRT (TF-TRT) Revisited](https://jkjung-avt.github.io/tf-trt-revisited/).
+
+Otherwise, here are the steps:
 
 1. Flash the target Jetson TX2 system with either JetPack-3.2.1 (TensorRT 3.0 GA included) or JetPack 3.3 (TensorRT 4.0 GA).  (I have also tested the code on Jetson Nano with JetPack-4.2.)
 2. Install OpenCV 3.4.x on Jetson.  Reference: [How to Install OpenCV (3.4.0) on Jetson TX2](https://jkjung-avt.github.io/opencv3-on-tx2/) or [Installing OpenCV 3.4.6 on Jetson Nano](https://jkjung-avt.github.io/opencv-on-nano/).
