@@ -41,18 +41,19 @@ sed -i '168s/range(num_boundaries),/list(range(num_boundaries)),/' \
        object_detection/utils/learning_schedules.py
 sed -i '225s/reversed(zip(output_feature_map_keys, output_feature_maps_list)))/reversed(list(zip(output_feature_map_keys, output_feature_maps_list))))/' \
        object_detection/models/feature_map_generators.py
+
 echo "Installing object detection library"
 echo $PROTOC
 $PROTOC object_detection/protos/*.proto --python_out=.
-$PYTHON setup.py install --user
+$PYTHON setup.py develop
 popd
 
 pushd $MODELS_DIR/research/slim
 echo $PWD
 echo "Installing slim library"
-$PYTHON setup.py install --user
+$PYTHON setup.py develop
 popd
 
 echo "Installing tf_trt_models"
 echo $PWD
-$PYTHON setup.py install --user
+$PYTHON setup.py develop
