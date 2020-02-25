@@ -1,10 +1,11 @@
-TensorFlow/TensorRT Models
+Thermal Camera Detection Project
 ====================================
 
 This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) and [jkjung's](https://github.com/jkjung-avt/tf_trt_models) fork of NVIDIA's repository.
 
+* [Project Introduction]()
 * [Setup](#setup)
-* [Training](#training)
+* [Training](tensorflow_training/README.md)
 
 <a name="setup"></a>
 
@@ -46,6 +47,8 @@ $ conda activate tf1_12_gpu
 $ cd tf_trt_models
 $ ./install.sh
 ```
+
+if everything went smoothly, you should be able to simply run the <em>object_detection_tutorial.ipynb</em> provided by Google, located in <em>third_party/models/research/object_detection</em>. 
 
 
 

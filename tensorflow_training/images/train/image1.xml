@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>image1.png</filename>
+	<path>/home/hiram/Documents/tf_trt_models_local/tensorflow_training/images/image1.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>758</width>
+		<height>398</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>30</xmin>
+			<ymin>42</ymin>
+			<xmax>748</xmax>
+			<ymax>366</ymax>
+		</bndbox>
+	</object>
+</annotation>
