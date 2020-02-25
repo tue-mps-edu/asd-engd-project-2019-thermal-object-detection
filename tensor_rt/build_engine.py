@@ -32,18 +32,6 @@ MODEL_SPECS = {
         'max_size': 0.95,
         'input_order': [0, 2, 1],  # order of loc_data, conf_data, priorbox_data
     },
-    'ssd_mobilenet_v1_egohands': {
-        'input_pb':   os.path.abspath(os.path.join(
-                          DIR_NAME, 'ssd_mobilenet_v1_egohands.pb')),
-        'tmp_uff':    os.path.abspath(os.path.join(
-                          DIR_NAME, 'tmp_v1_egohands.uff')),
-        'output_bin': os.path.abspath(os.path.join(
-                          DIR_NAME, 'TRT_ssd_mobilenet_v1_egohands.bin')),
-        'num_classes': 2,
-        'min_size': 0.05,
-        'max_size': 0.95,
-        'input_order': [0, 2, 1],  # order of loc_data, conf_data, priorbox_data
-    },
     'ssd_mobilenet_v2_coco': {
         'input_pb':   os.path.abspath(os.path.join(
                           DIR_NAME, 'ssd_mobilenet_v2_coco.pb')),
@@ -54,24 +42,12 @@ MODEL_SPECS = {
         'num_classes': 91,
         'min_size': 0.2,
         'max_size': 0.95,
-        'input_order': [1, 0, 2],  # order of loc_data, conf_data, priorbox_data
-    },
-    'ssd_mobilenet_v2_egohands': {
-        'input_pb':   os.path.abspath(os.path.join(
-                          DIR_NAME, 'ssd_mobilenet_v2_egohands.pb')),
-        'tmp_uff':    os.path.abspath(os.path.join(
-                          DIR_NAME, 'tmp_v2_egohands.uff')),
-        'output_bin': os.path.abspath(os.path.join(
-                          DIR_NAME, 'TRT_ssd_mobilenet_v2_egohands.bin')),
-        'num_classes': 2,
-        'min_size': 0.05,
-        'max_size': 0.95,
         'input_order': [0, 2, 1],  # order of loc_data, conf_data, priorbox_data
     },
 }
+
 INPUT_DIMS = (3, 300, 300)
 DEBUG_UFF = False
-
 
 def add_plugin(graph, model, spec):
     """add_plugin
