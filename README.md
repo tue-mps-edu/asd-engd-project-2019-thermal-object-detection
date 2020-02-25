@@ -1,11 +1,12 @@
 Thermal Camera Detection
 ====================================
 
-This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) and [jkjung's](https://github.com/jkjung-avt/tf_trt_models) fork of NVIDIA's repository. Below, you will find an index of the contents of this repository so you can use them based on your needs. However, be sure to follow the setup process for the scripts to work properly.
+This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) and [jkjung's](https://github.com/jkjung-avt/tf_trt_models) fork of NVIDIA's repository. Below, you will find an index of the contents of this repository so you can use them based on your needs. However, to fully understand the pipeline, we advice you to follow them in order. Also, be sure to first follow the setup process for the scripts to work properly.
 
-* [Project Description](docs/README.md)
+* [Project Description](docs/)
 * [Training](tensorflow_training/)
-* [TensorRT optimization](tensor_rt/README.md)
+* [TensorRT optimization](tensor_rt/)
+* [Camera Integration and Deployment]()
 
 <a name="setup"></a>
 
@@ -50,5 +51,5 @@ $ conda activate tf1_12_gpu
 $ ./install.sh
 ```
 
-if everything went smoothly, you should be able to seamlessly execute the scripts provided in this repository.
+if everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository.
 
