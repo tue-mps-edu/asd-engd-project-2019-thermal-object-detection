@@ -54,6 +54,4 @@ echo "Installing slim library"
 $PYTHON setup.py develop
 popd
 
-echo "Installing tf_trt_models"
-echo $PWD
-$PYTHON setup.py develop
+
