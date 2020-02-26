@@ -5,7 +5,7 @@ This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-J
 
 * [Project Description](docs/)
 * [Training](tensorflow_training/)
-* [TensorRT optimization](tensor_rt/)
+* [TensorRT optimization](tensorrt/)
 * [Camera Integration and Deployment](src/)
 
 <a name="setup"></a>
@@ -40,6 +40,8 @@ After cloning the repository, setup the conda environment with the given <em>yml
 $ cd tf_trt_models
 $ conda env create -f environment/tf1_12_gpu.yml
 ```
+
+<em>Note: Be sure to restart the terminal before attempting to create the new conda environment. This is to allow conda to initialize the base environment via the .bashrc file on the home directory </em>
 
 
 
