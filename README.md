@@ -65,3 +65,13 @@ $ python model_builder_test.py
 
 
 
+This script verifies the installation of the setup, along with its dependencies. You should see the following output.
+
+```
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.062s
+
+OK
+```
+
