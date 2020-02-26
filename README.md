@@ -55,7 +55,7 @@ $ ./install.sh
 
 
 
-If everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository. To test this, run the following. The output should show a test on 18 models, and an OK message without errors.
+If everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository. 
 
 ```
 $ cd tensorflow_training
