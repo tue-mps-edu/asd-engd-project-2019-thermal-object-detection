@@ -53,5 +53,15 @@ $ conda activate tf1_12_gpu
 $ ./install.sh
 ```
 
-if everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository.
+
+
+If everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository. To test this, run the following. The output should show a test on 18 models, and an OK message without errors.
+
+```
+$ cd tensorflow_training
+
+$ python model_builder_test.py
+```
+
+
 
