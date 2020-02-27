@@ -4,12 +4,10 @@
 
 # Refer Dependicies_read.md file to see that you have all the prerequisites.
 
-### Things to be edited before running the script:
-
-
 ### @Authors: t.s.r.parvathaneni@tue.nl(Ram), s.m.patwardhan@tue.nl (Sukrut)
 
-  ## SECTION 1 ========= XML to TFRecords
+## SECTION 1 ========= XML to TFRecords
+
   # Importing all necessary libraries
 import xml.etree.ElementTree as ET
 import tensorflow as tf

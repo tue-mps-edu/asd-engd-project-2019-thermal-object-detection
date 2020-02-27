@@ -7,6 +7,7 @@ TensorFlow requires the TFRecords format for training. Therefore, we  must conve
 ```
 $  python xml_2_tfr.py --xml_input=data/test/  --output_path=training/test.record
 $  python xml_2_tfr.py --xml_input=data/train/  --output_path=training/train.record
+
 ```
 
 Once the process of TFRecords generation has done, move these files to training folder. Alongside adding TFRecords, include .config file of the chosen neural network for the training in the  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder. Config file can be found in the  [samples](https://github.com/tensorflow/models/tree/6518c1c7711ef1fdbe925b3c5c71e62910374e3e/research/object_detection/samples) and can be adjusted according to the requirements by modifying parameters like batch size, number of classes, number of epochs, learning rate and enabling and disabling the dropout layer alongside choosing the dropout keep probability.
