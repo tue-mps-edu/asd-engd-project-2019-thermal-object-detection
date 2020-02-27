@@ -4,75 +4,10 @@
 
 # Refer Dependicies_read.md file to see that you have all the prerequisites.
 
-### Things to be edited before running the script:
-
-# Path to directory for the test or train images change 'path'
-# Section 1 is for resize and section 2 is for rename and section 3 is for converting xml to tfrecords
-
-# In section 2 run change the format of file in "if file.endswith(".xml"):" to your requirements
-
-
-
 ### @Authors: t.s.r.parvathaneni@tue.nl(Ram), s.m.patwardhan@tue.nl (Sukrut)
 
-##+++++++++++++++++++++++++====================================++++++++++++++++++++++++++++++++++++++
-from PIL import Image
-import os
+## SECTION 1 ========= XML to TFRecords
 
-### SECTION 1 ========= Resize
-##os.chdir('C:/Users/20195177/OneDrive - TU Eindhoven/Python_DeepLearning/SSD-Mobilenet_V2/Data/Test')
-#path="C:/Users/20195177/OneDrive - TU Eindhoven/Python_DeepLearning/SSD-Mobilenet_V2/Data/Train/"
-#os.chdir(path)
-#dirs = os.listdir( path )
-#def resize():
-#    i = 0 
-#    for item in dirs:
-#        if os.path.isfile(path+item):
-#            file = (path+item)
-#            if file.endswith(".jpeg"):
-#                im = Image.open(path+item)
-#                f, e = os.path.splitext(path+item)
-#                imResize = im.resize((720,540), Image.ANTIALIAS)
-#                imResize.save('Image_'+str(i)+'.jpg', 'JPEG', quality=90)
-#                i=i+1
-#                print("done image " + str(i))
-#    return
-#resize()
-#
-#path="C:/Users/20195177/OneDrive - TU Eindhoven/Python_DeepLearning/SSD-Mobilenet_V2/Data/Test/"
-#os.chdir(path)
-#dirs = os.listdir( path )
-#def resize():
-#    i = 0 
-#    for item in dirs:
-#        if os.path.isfile(path+item):
-#            file = (path+item)
-#            if file.endswith(".jpeg"):
-#                im = Image.open(path+item)
-#                f, e = os.path.splitext(path+item)
-#                imResize = im.resize((720,540), Image.ANTIALIAS)
-#                imResize.save('Image_'+str(i)+'.jpg', 'JPEG', quality=90)
-#                i=i+1
-#                print("done image " + str(i))
-#    return
-#resize()
-## SECTION 2 ========= Rename
-#def rename():
-   # i = 0
-   # for item in dirs:
-    #    if os.path.isfile(path+item):
-       #     file = (path+item)
-       #     if file.endswith(".xml"):
-        #        dst ="image_" + str(i) + ".xml"
-        #        src = path + item
-         #       os.rename(src, dst) 
-        #        i=i+1
-         #       print("done image " + str(i))
-  #  return
-#rename()
-  ################################################################################
-  #################################################################################
-  ## SECTION 3 ========= XML to TFRecords
   # Importing all necessary libraries
 import xml.etree.ElementTree as ET
 import tensorflow as tf

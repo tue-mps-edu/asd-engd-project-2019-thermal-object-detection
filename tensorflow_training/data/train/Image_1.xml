@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Train</folder>
+	<filename>Image_1.jpg</filename>
+	<path>C:\Users\20195177\OneDrive - TU Eindhoven\Python_DeepLearning\SSD-Mobilenet_V2\Data\Train\Image_1.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>720</width>
+		<height>540</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>232</xmin>
+			<ymin>229</ymin>
+			<xmax>469</xmax>
+			<ymax>425</ymax>
+		</bndbox>
+	</object>
+</annotation>

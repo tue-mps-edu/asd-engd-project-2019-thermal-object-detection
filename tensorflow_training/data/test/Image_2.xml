@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Test</folder>
+	<filename>Image_2.jpg</filename>
+	<path>/home/sukrut/Python Projects/Data_for_testing/Test/Image_2.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>720</width>
+		<height>540</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1</xmin>
+			<ymin>89</ymin>
+			<xmax>668</xmax>
+			<ymax>514</ymax>
+		</bndbox>
+	</object>
+</annotation>
