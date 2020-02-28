@@ -91,7 +91,7 @@ def main():
     open_window(WINDOW_NAME, args.image_width, args.image_height,
                 'Camera TensorRT SSD Demo for Jetson Nano')
     vis = BBoxVisualization(cls_dict)
-    loop_and_detect(cam, trt_ssd, conf_th=0.3, vis=vis)
+    loop_and_detect(0, trt_ssd, conf_th=0.3, vis=vis)
 
     cv2.destroyAllWindows()
 
