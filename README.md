@@ -6,7 +6,8 @@ This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-J
 * [Project Description](docs/)
 * [Training](tensorflow_training/)
 * [TensorRT optimization](tensorrt/)
-* [Camera Integration and Deployment](src/)
+* [Thermal Camera Mounting](CAD/)
+* [System Integration](src/)
 
 
 
