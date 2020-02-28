@@ -28,7 +28,7 @@ After running this, you should see communication with the Tau2 camera. Some feat
 Finally, we open a new terminal and run the inference.
 
 ```
-$ python3 trt_ssd.py --model ssd_mobilenet_v2_coco --vid 0 --usb
+$ python3 trt_ssd.py --model ssd_mobilenet_v2_coco
 ```
 
 
