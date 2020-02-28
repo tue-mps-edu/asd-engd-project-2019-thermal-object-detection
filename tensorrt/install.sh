@@ -10,10 +10,23 @@ if ! grep 'cuda/bin' ${HOME}/.bashrc > /dev/null ; then
   echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\${LD_LIBRARY_PATH}" >> ${HOME}/.bashrc
 fi
 
+source ~/.bashrc
 
+#Install Tensorflow
+
+sudo apt-get update
+sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev
+sudo apt-get install python3-pip
+sudo pip3 install -U pip testresources setuptools
+sudo pip3 install -U numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 enum34 futures protobuf
+
+sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 tensorflow-gpu==1.15.0+nv19.12
+
+#sudo pip3 install cython
 # install pycuda if necessary
 if ! python3 -c "import pycuda" > /dev/null 2>&1; then
-  ./install_pycuda.sh
+  echo "installing pycuda..."
+  scripts/install_pycuda.sh
 fi
 
 echo "** Patch 'graphsurgeon.py' in TensorRT"
@@ -34,6 +47,6 @@ fi
 echo "** Making symbolic link of libflattenconcat.so"
 
 trt_version=$(echo /usr/lib/aarch64-linux-gnu/libnvinfer.so.? | cut -d '.' -f 3)
-ln -sf libflattenconcat.so.${trt_version} libflattenconcat.so
+ln -sf libflattenconcat.so.${trt_version} ../src/ssd/libflattenconcat.so
 
 echo "** Installation done"
