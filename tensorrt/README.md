@@ -76,7 +76,7 @@ graphs {
 Finally, we optimize the model by executing the build_engine
 
 ```
-$ python build_engine.py ssd_mobilenet_v2_coco
+$ python3 build_engine.py ssd_mobilenet_v2_coco
 ```
 
 *Note: This process takes a while.*
