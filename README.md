@@ -14,12 +14,12 @@ This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-J
 
 In order to run the code in this repository, it is necessary that the host computer used for training, as well as the target platform used for online inference have the necessary software already installed. To facilitate this process, we provide a set of installation scripts. Please refer to the following sections to setup each accordingly.
 
-- [Host Setup](#Host Setup) 
-  - Lenovo Thinkpad P1 (Intel Core i7 8750H @2.20 GHz), Nvidia Quadro P1000 Graphics.
-- [Target Platform Setup](#Target Platform Setup)
-  - Nvidia Jetson Xavier AGX
+- [Host Setup](#Host-Setup) 
+  - *Lenovo Thinkpad P1 (Intel Core i7 8750H @2.20 GHz), Nvidia Quadro P1000 Graphics.*
+- [Target Platform Setup](#Target-Platform-Setup)
+  - *Nvidia Jetson Xavier AGX*
 
-<a name="Host Setup"></a>
+<a name="Host-Setup"></a>
 
 ## Host Setup
 
@@ -88,7 +88,7 @@ OK
 
 
 
-<a name="Target Platform Setup"></a>
+<a name="Target-Platform-Setup"></a>
 
 ## Target Platform Setup
 
@@ -108,4 +108,3 @@ $ scripts/installSwapfile.sh
 ```
 
 *Note: This step is optional. However, if you decide to go ahead, be sure to reboot your system for all changes to apply.*
-
