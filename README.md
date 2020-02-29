@@ -31,15 +31,13 @@ In order to use this repository, you must first make sure that the host computer
 Refer to these links to install the prerequisites:
 
 - [NVIDIA drivers](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)
-
 - [Anaconda Install](https://www.anaconda.com/distribution/)
-
-  
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 Once these prerequisites have been met, clone this repository
 
 ```
-$ git clone https://github.com/Hrayo712/tf_trt_models
+$ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
 ```
 
 <em>Note: The repository includes tensorflow object detection API submodules under the third_party folder. These can be cloned automatically by adding the --recursive flag to the clone command. Otherwise, the install script will do it for you.</em>
