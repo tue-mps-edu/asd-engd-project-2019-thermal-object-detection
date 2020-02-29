@@ -47,7 +47,7 @@ $ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
 After cloning the repository, setup the conda environment with the given <em>yml</em> file to create the virtual environment with all the required dependencies. This process can take a while.
 
 ```
-$ cd tf_trt_models
+$ cd thermal_object_detection
 $ conda env create -f environment/tf1_12_gpu.yml
 ```
 
