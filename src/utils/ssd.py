@@ -50,8 +50,8 @@ class TrtSSD(object):
             ctypes.CDLL("ssd/libflattenconcat.so")
         trt.init_libnvinfer_plugins(self.trt_logger, '')
 
-    def _load_engine(self):
-        TRTbin = 'ssd/TRT_%s.bin' % self.model
+    def _load_engine(self, model_path):
+        TRTbin = model_path
         with open(TRTbin, 'rb') as f, trt.Runtime(self.trt_logger) as runtime:
             return runtime.deserialize_cuda_engine(f.read())
 
@@ -70,14 +70,14 @@ class TrtSSD(object):
                 self.cuda_outputs.append(cuda_mem)
         return self.engine.create_execution_context()
 
-    def __init__(self, model, input_shape, output_layout=7):
+    def __init__(self, model, model_path , input_shape, output_layout=7):
         """Initialize TensorRT plugins, engine and conetxt."""
         self.model = model
         self.input_shape = input_shape
         self.output_layout = output_layout
         self.trt_logger = trt.Logger(trt.Logger.INFO)
         self._load_plugins()
-        self.engine = self._load_engine()
+        self.engine = self._load_engine(model_path)
 
         self.host_inputs = []
         self.cuda_inputs = []
