@@ -18,19 +18,16 @@ $ sudo modprobe v4l2loopback
 Finally, we run the daemon to connect the module to the camera via TeAx's library.
 
 ```
-$ sudo LD_PRELOAD=TCG_SDK_2018_02_14/libthermalgrabber/lib/libthermalgrabber.so ./TCGrabberUSBV4L2d
+$ sudo LD_PRELOAD=TCG_SDK_2018_02_14/libthermalgrabber/lib/libthermalgrabber.so ./TCGrabberUSBV4L2d /dev/video0
 ```
 
 After running this, you should see communication with the Tau2 camera. Some features are not enabled by default, nevertheless, communication is still possible as long as the daemon is running.
 
 
-
 Finally, we open a new terminal and run the inference.
 
 ```
-$ python3 trt_ssd.py --model ssd_mobilenet_v2_coco
+$ python3 trt_ssd.py --model ssd_mobilenet_v2_thermal --video /dev/video0 --conf_th 0.6
 ```
-
-
 
 If everything goes well, you should be able to see online inference with the thermal camera feed on screen.
