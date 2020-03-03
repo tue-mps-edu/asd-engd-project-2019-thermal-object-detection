@@ -27,7 +27,7 @@ The first step to perform TensorRT optimization is to convert frozen graph files
 
 The *build_engine.py* loads the frozen graph file (.pb), and saves the uff model along a *.pbtxt file for debugging. Afterwards, the TensorRT engine will be created, and saved a .bin file. 
 
-To modify the build_engine to your requirements, the only need that must be done is to include your model to MODEL_SPECS. The number of classes must match the number of classes of the given model, plus an additional one (for the background). Furthermore min_size and max_size are parameters which come from the config file of the model (look for ssd_anchor_generator min_scale and max_scale parameters ). 
+To modify the build_engine to your requirements, the only need that must be done is to include your model to MODEL_SPECS. The number of classes must match the number of classes of the given model, plus an additional one (for the background). Furthermore min_size and max_size are parameters which come from the config file of the model (look for ssd_anchor_generator min_scale and max_scale parameters ). Additionally, DIR_NAME must be modified to reflect the right path to the frozen graph, and output files.
 
 ```
 MODEL_SPECS = {
