@@ -102,6 +102,9 @@ def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
             #calculate the FPS
             fps = 1.0 / (toc - tic)
 
+        else:
+            print("[ERROR] - FRAME CAPTURE")
+
         key = cv2.waitKey(1)
         if key == 27:  # ESC key: quit program
             break
