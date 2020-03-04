@@ -29,7 +29,22 @@ $ sudo LD_PRELOAD=TCG_SDK_2018_02_14/libthermalgrabber/lib/libthermalgrabber.so 
 
 
 
-After running this, you should see communication with the Tau2 camera. Some features are not enabled by default (This will lead to some error messages showing on screen), nevertheless, communication is still possible as long as the daemon is running.
+After running this, you should see communication with the Tau2 camera. 
+
+
+
+*Note: Some features are not enabled by default. This will lead to some error messages showing on screen (see below). Nevertheless, communication is still possible as long as the daemon is running.*
+
+
+
+```
+Request with 17 bytes: 55 41 52 54 c 6e 0 0 8e 0 2 df a2 0 40 48 c4 
+ TauCom: Error:
+:CAM_FEATURE_NOT_ENABLED
+Error: Frame check failed
+```
+
+
 
 Finally, we open a new terminal and run the object detector. The following command runs the object detector with the given model, model path, video device and confidence threshold. 
 
