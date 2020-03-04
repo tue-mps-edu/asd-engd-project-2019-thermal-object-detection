@@ -26,6 +26,7 @@ def _postprocess_trt(img, output, conf_th, output_layout):
     """Postprocess TRT SSD output."""
     img_h, img_w, _ = img.shape
     boxes, confs, clss = [], [], []
+
     for prefix in range(0, len(output), output_layout):
         #index = int(output[prefix+0])
         conf = float(output[prefix+2])
@@ -50,9 +51,8 @@ class TrtSSD(object):
             ctypes.CDLL("ssd/libflattenconcat.so")
         trt.init_libnvinfer_plugins(self.trt_logger, '')
 
-    def _load_engine(self):
-        TRTbin = 'ssd/TRT_%s.bin' % self.model
-        with open(TRTbin, 'rb') as f, trt.Runtime(self.trt_logger) as runtime:
+    def _load_engine(self, model_path): 
+        with open(model_path, 'rb') as f, trt.Runtime(self.trt_logger) as runtime:
             return runtime.deserialize_cuda_engine(f.read())
 
     def _create_context(self):
@@ -70,14 +70,14 @@ class TrtSSD(object):
                 self.cuda_outputs.append(cuda_mem)
         return self.engine.create_execution_context()
 
-    def __init__(self, model, input_shape, output_layout=7):
+    def __init__(self, model, model_path , input_shape, output_layout=7):
         """Initialize TensorRT plugins, engine and conetxt."""
         self.model = model
         self.input_shape = input_shape
         self.output_layout = output_layout
         self.trt_logger = trt.Logger(trt.Logger.INFO)
         self._load_plugins()
-        self.engine = self._load_engine()
+        self.engine = self._load_engine(model_path)
 
         self.host_inputs = []
         self.cuda_inputs = []
@@ -98,16 +98,14 @@ class TrtSSD(object):
         img_resized = _preprocess_trt(img, self.input_shape)
         np.copyto(self.host_inputs[0], img_resized.ravel())
 
-        cuda.memcpy_htod_async(
-            self.cuda_inputs[0], self.host_inputs[0], self.stream)
+        cuda.memcpy_htod_async(self.cuda_inputs[0], self.host_inputs[0], self.stream)
         self.context.execute_async(
             batch_size=1,
             bindings=self.bindings,
             stream_handle=self.stream.handle)
-        cuda.memcpy_dtoh_async(
-            self.host_outputs[1], self.cuda_outputs[1], self.stream)
-        cuda.memcpy_dtoh_async(
-            self.host_outputs[0], self.cuda_outputs[0], self.stream)
+
+        cuda.memcpy_dtoh_async(self.host_outputs[1], self.cuda_outputs[1], self.stream)
+        cuda.memcpy_dtoh_async(self.host_outputs[0], self.cuda_outputs[0], self.stream)
         self.stream.synchronize()
 
         output = self.host_outputs[0]
