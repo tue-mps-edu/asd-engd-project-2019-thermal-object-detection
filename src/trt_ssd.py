@@ -14,8 +14,10 @@ import pycuda.autoinit  # This is needed for initializing CUDA driver
 
 from utils.ssd_classes import get_cls_dict
 from utils.ssd import TrtSSD
+from utils.camera import add_camera_args, Camera
 from utils.display import open_window, set_display, show_fps
 from utils.visualization import BBoxVisualization
+
 
 class Range(object):
     def __init__(self, start, end):
@@ -24,42 +26,31 @@ class Range(object):
     def __eq__(self, other):
         return self.start <= other <= self.end
 
-WINDOW_NAME = 'Thermal Camera Detection'
 
+WINDOW_NAME = 'TrtSsdDemo'
 NETWORK_INPUT_SIZE = (300, 300)
-
-VIDEO_DEVICES = [
-    '/dev/video0',
-    '/dev/video1',
-    '/dev/video2',
-]
 SUPPORTED_MODELS = [
+
     'ssd_mobilenet_v2_coco',
     'ssd_mobilenet_v2_thermal',
 ]
 
-TESTING_PATH = './testing/'
 
 def parse_args():
     """Parse input arguments."""
     desc = ('Capture and display live camera video, while doing '
             'real-time object detection with TensorRT optimized '
             'SSD model on Jetson')
-
     parser = argparse.ArgumentParser(description=desc)
-    parser.add_argument('--model',     dest='model',       type=str,   default='ssd_mobilenet_v2_thermal',choices=SUPPORTED_MODELS)
+    parser = add_camera_args(parser)
+    parser.add_argument('--model', type=str, default='ssd_mobilenet_v2_thermal',choices=SUPPORTED_MODELS)
+    parser.add_argument('--conf_th',   dest='conf_th',     type=float, default=0.6, choices=[Range(0,1)]) 
     parser.add_argument('--model_path',dest='model_path',  type=str )
-    parser.add_argument('--video',     dest='video',       type=str,   default='/dev/video0', choices=VIDEO_DEVICES) 
-    parser.add_argument('--width',     dest='image_width', type=int,   default=640) # This is the resolution of the thermal camera
-    parser.add_argument('--height',    dest='image_height',type=int,   default=512)
-    parser.add_argument('--conf_th',   dest='conf_th',     type=float, default=0.5, choices=[Range(0,1)]) 
-    parser.add_argument('--testing',   dest='testing',     type=bool,  default=False) 
-
     args = parser.parse_args()
     return args
 
 
-def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
+def loop_and_detect(cam, trt_ssd, conf_th, vis):
     """Continuously capture images from camera and do object detection.
 
     # Arguments
@@ -68,43 +59,25 @@ def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
       conf_th: confidence/score threshold for object detection.
       vis: for visualization.
     """
-    
     full_scrn = False
-    i = 0
     fps = 0.0
-    cap = cv2.VideoCapture(cam)
-
-    width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
+    #tic = time.time()
     while True:
         if cv2.getWindowProperty(WINDOW_NAME, 0) < 0:
             break
-
         tic = time.time()
-
-        ret, img = cap.read()
-
+        img = cam.read()
         if img is not None:
-
             boxes, confs, clss = trt_ssd.detect(img, conf_th)
             toc = time.time()
-
             img = vis.draw_bboxes(img, boxes, confs, clss)
             img = show_fps(img, fps)
             cv2.imshow(WINDOW_NAME, img)
 
-            #Store the result of inference for later verification
-            if testing == True:
-                cv2.imwrite(TESTING_PATH + 'img{}.jpeg'.format(i),img)
-                i = i + 1
-
-            #calculate the FPS
-            fps = 1.0 / (toc - tic)
-
-        else:
-            print("[ERROR] - FRAME CAPTURE")
-
+            curr_fps = 1.0 / (toc - tic)
+            # calculate an exponentially decaying average of fps number
+            fps = curr_fps if fps == 0.0 else (fps*0.95 + curr_fps*0.05)
+            #tic = toc
         key = cv2.waitKey(1)
         if key == 27:  # ESC key: quit program
             break
@@ -115,27 +88,24 @@ def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
 
 def main():
     args = parse_args()
+    cam = Camera(args)
+    cam.open()
+    if not cam.is_opened:
+        sys.exit('Failed to open camera!')
 
-    #Get the Class Labels
     cls_dict = get_cls_dict(args.model.split('_')[-1])
-
-    #Load the TRT Engine from file
     trt_ssd = TrtSSD(args.model, args.model_path, NETWORK_INPUT_SIZE)
-    
-    open_window(WINDOW_NAME, args.image_width, args.image_height,'Camera TensorRT SSD Demo for Jetson')
+
+    cam.start()
+    open_window(WINDOW_NAME, args.image_width, args.image_height,
+                'Camera TensorRT SSD Demo for Jetson')
     vis = BBoxVisualization(cls_dict)
+    loop_and_detect(cam, trt_ssd, args.conf_th, vis=vis)
 
-    #Get the video settings and confidence threshold to run detections
-    #args = vars(args)
-    
-    #cam = int(args['video'][-1])
-    #conf_th = args['conf_th']
-    cam = int(args.video[-1])
-    conf_th = args.conf_th
-
-    loop_and_detect(cam, trt_ssd, conf_th, vis, args.testing)
-
+    cam.stop()
+    cam.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
     main()

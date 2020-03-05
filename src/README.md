@@ -51,7 +51,7 @@ Finally, we open a new terminal and run the object detector. The following comma
 
 
 ```
-$ python3 trt_ssd.py --model ssd_mobilenet_v2_thermal --model_path ssd/TRT_ssd_mobilenet_v2_thermal --video /dev/video0 --conf_th 0.6
+$ python3 trt_ssd.py --model ssd_mobilenet_v2_thermal --model_path ssd/TRT_ssd_mobilenet_v2_thermal.bin --usb --vid 0 --conf_th 0.6
 ```
 
 
