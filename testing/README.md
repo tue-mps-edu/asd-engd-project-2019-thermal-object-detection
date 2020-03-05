@@ -127,7 +127,7 @@ This NVIDIA Jetson Xavier is connected to thermal camera as shown below. It is m
 
 Following is the setup of the system deployed in the vehicle:
 
-![](C:/Users/20195009/Desktop/2.JPG)
+![Car_image](C:/Users/sukru/Desktop/image.jpeg?raw=true)
 
 # 2 Compliances to Test
 
