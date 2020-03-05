@@ -48,6 +48,5 @@ echo "** Making symbolic link of libflattenconcat.so"
 
 trt_version=$(echo /usr/lib/aarch64-linux-gnu/libnvinfer.so.? | cut -d '.' -f 3)
 ln -sf libflattenconcat.so.${trt_version} libflattenconcat.so
-cp libflattenconcat.so.${trt_version} ../src/ssd/libflattenconcat.so.${trt_version}
-cp libflattenconcat.so ../src/ssd/libflattenconcat.so
+
 echo "** Installation done"

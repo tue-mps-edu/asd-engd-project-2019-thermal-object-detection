@@ -55,7 +55,7 @@ def add_camera_args(parser):
                         default=640, type=int)
     parser.add_argument('--height', dest='image_height',
                         help='image height [480]',
-                        default=480, type=int)
+                        default=512, type=int)
     return parser
 
 
