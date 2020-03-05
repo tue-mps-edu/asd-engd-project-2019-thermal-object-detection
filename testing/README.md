@@ -1,92 +1,8 @@
- 
-
- 
-
-​																	TU Eindhoven
-
- 
-
-​											Department of Mathematics and Computer Science
-
-​															Automotive Systems Design
-
- 
-
-![img](doc_images/University_Logo.png)
-
- 
-
- 
-
- 
-
-​											Thermal Object Detector Beta Testing Plan
-
- 
-
- 
-
-​																		Prepared by 
-
-​													T. S. Ram Parvathaneni & Ayush Maheshwari
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
-© TU Eindhoven 2020. All rights reserved. No part of this publication may be reproduced without the written permission of the copyright owner.
+# Thermal Object Detector Beta Testing Plan
 
 
 
-TABLE OF CONTENTS
-
-[LIST OF ABBREVIATIONS. ii](#_Toc34214322)
-
-[1 Objective. 1](#_Toc34214328)
-
-[1.1 Introduction. 1](#_Toc34214329)
-
-[1.2 Architecture. 2](#_Toc34214330)
-
-[2 Compliance. 2](#_Toc34214331)
-
-[3 Constraints. 3](#_Toc34214332)
-
-[4 Procedure. 4](#_Toc34214333)
-
-[4.1 Procedure. 4](#_Toc34214334)
-
-[4.2 Post Procedure. 4](#_Toc34214336)
-
-
-
- 
-
- 
-
- 
-
-
-
- 
-
-LIST OF ABBREVIATIONS
+# LIST OF ABBREVIATIONS
 
 VOC = Visual Object Classes 
 
@@ -100,16 +16,13 @@ IoU = Intersection over Union
 
  
 
- 
-
-**
-**
-
 # 1 Objective
 
-The objective of the Beta Test is to test and verify the efficiency of “trained neural network” for object detection using thermal camera in real time environment using NVIDIA Jetson.
+The objective of the Beta Test is to test and verify the functionality of  neural network pipeline for object detection using thermal camera in real time environment using NVIDIA Jetson and to ensure the proper mounting of the hardware on the car.
 
 ## 1.1 Introduction
+
+### 1.1.1. Object Detection System
 
 Thermal cameras are one of the emerging technologies in the field of autonomous vehicles. This is due to their ability to detect objects that emit heat irrespective of the weather conditions and they are insensitive to flare, glare when exposed to the direct light unlike normal RGB cameras. Many organisations increased their extent of research in object detection using thermal cameras alongside RGB cameras. Deep learning is playing crucial role in the object detection. Advancements in deep learning are significant in the past ten years. Powerful neural networks came to existence in the thorough research in this field. 
 
@@ -119,21 +32,41 @@ For this project, pre-trained neural network has been trained using the concept 
 
 The neural network that we have chosen for the object detection is MobileNet V2 SSD 300 based on its performance reasons. It surpassed all the networks available currently available with its speed and accuracy. For the training, we have used around 15000 FLIR thermal images and their corresponding annotated files in JSON format. After the training of the neural network, it provides a frozen graph which can be deployed in to NVIDIA Jetson Xavier for optimising its performance. 
 
-## 1.2 Architecture
+### 1.1.2  Beta Testing
+
+Testing of a system is generally a standard procedure followed in every project. This is done to ensure that the all the subsystems working together in a proper way and to identify the anamolies in the system. Additonally, testing procedure makes sure that a system is robust or not and reveals new issues that have not been encountered during the development phase of a system.
+
+In this project, a beta test has been set as first milestone to check the integration and performance of the thermal object detection system that has been developed. The test results will help to focus on specific points that helps to enhance the system performance as well as to identify the outliers that are affecting the system functionality.
+
+## 1.2 Hardware Setup
 
 This NVIDIA Jetson Xavier is connected to thermal camera as shown below. It is mounted on the roof of the car. Thermal camera is further connected to The NVIDIA Jetson Xavier which is mounted in back of car (trunk) via mini B to USB wire. The Jetson is further connected to the monitor placed in second row of car to run the test as well as to observe the inference.
-
-![Alt text](C:/Users/20195009/Desktop/1.jpg)
 
 Following is the setup of the system deployed in the vehicle:
 
 ![test_setup](doc_images/testsetup.jpeg)
 
-# 2 Compliances to Test
+# 2 Testing Setup
 
 This section will give insights of the compliances need to be fulfilled to carry out the test for safety as well as seamless operation of test. Following are the compliances for the test: 
 
-1. <u>No of people for the assistance in the car other than driver.</u>
+1. **<u>Rules before starting the test. (Checklist)</u>**
+
+   - ​	Camera mounting should bolted to roof properly.
+
+   - ​	Camera should be mounted to camera holder by 4 screws properly.
+
+   - ​	Jetson should be mounted properly to the base plate in trunk of the car.
+
+   - ​	Wiring peripherals should be connected to devices properly.
+
+   - ​	The script required to initiate the test via NVIDIA Jetson.
+
+   - ​	Tyre Pressure check.
+
+   - ​	Note the odometer reading before the test.
+
+2. **<u>No of people for the assistance in the car other than driver</u>**
 
 ​		Driver : Tijs (or AIIM personnel) 
 
@@ -143,7 +76,7 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​		Back Seat II : *Any one can volunteer.*
 
-2. <u>Trajectory and corresponding driving scenario</u>
+3. **<u>Trajectory and corresponding driving scenario</u>**
 
 ​		Point to point trajectory (road path) will be decided by Koen and Tijs. The trajectory should cover both 		following urban and rural scenarios.
 
@@ -153,49 +86,29 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​		Rural Scenario : Simulating Rural road @ 20-30 Kmph
 
-3. <u>Configuration of the Camera</u>
+4. **<u>Configuration of the Camera</u>**
 
-​		The camera configuration is controlled by the FLIR provided Camera Controller GUI software. It needs to be made sure that thermal camera configuration is in factory default settings (Setup<FFC<Auto<7200 Frames.)
+   The camera configuration is controlled by the FLIR provided Camera Controller GUI software. It needs to be made sure that thermal camera configuration is in factory default settings (Setup<FFC<Auto<7200 Frames.)
 
-4.<u>Time and duration of the test.</u>
+5. **<u>Time and duration of the test</u>**
 
-​	Date : 6/3/2020
+   Date : 6/3/2020
 
-​	Time : 10:30 to 12:00 (1hour 30mins)
+   Time : 10:30 to 12:00 (1hour 30mins)
 
-​	Backup day : If there is rain during that time, new test time will be set as per Tijs. 
+   Backup day : If there is rain during that time, new test time will be set as per Tijs. 
 
-5. <u>Rules before starting the test. (Checklist)</u>
+6. <u>**Environmental Conditions**</u>
 
-​	Camera mounting should bolted to roof properly.
-
-​	Camera should be mounted to camera holder by 4 screws properly.
-
-​	Jetson should be mounted properly to the base plate in trunk of the car.
-
-​	Wiring peripherals should be connected to devices properly.
-
-​	The script required to initiate the test via NVIDIA Jetson.
-
-​	Tyre Pressure check.
-
-​	Note the odometer reading before the test.
-
-6. <u>Environmental Conditions</u>
-
-   ​	There should be no moderate or heavy rain during any point of test. If there will be any test will be    halted.
-
- 
-
- 
+   There should be no moderate or heavy rain during any point of test. If there will be any, test will be    halted.
 
 # 3 Constraints 
 
 This section describes in detail the constraints to the tests scenario. The preliminary constraints are as follows: 
 
-1. <u>Weather Conditions</u>: This test is constrained to be performed only in absence of moderate or heavy rainfall.
+1. <u>**Weather Conditions**</u>: This test is constrained to be performed only in absence of moderate or heavy rainfall.
 
-2. <u>Thermal camera:</u> The thermal camera is recording the video based on the specific configuration given by Camera Controller GUI factory default set.
+2. <u>**Thermal camera**:</u> The thermal camera is recording the video based on the specific configuration given by Camera Controller GUI factory default set.
 
  
 
@@ -203,19 +116,21 @@ This section describes in detail the constraints to the tests scenario. The prel
 
 ## 4.1Procedure
 
-​	The installation of the whole system and its verification should be done before the test starts. 
+This section contains all the key information about the procedure that should be followed before starting the test and during the test. 
 
-​	Installation of the system includes the mounting of the camera to the 3D printed CAD mounting which was fixed to the car using the nut and bolts. It also consider the mounting of the Jetson Xavier at the rear end of the car and its interface with both the camera and laptop should be ensured. 
+The installation of the whole system and its verification should be done 30 mins before the test starts. The time can be varied depending on the availability of the car and stakeholder.
 
-​	Once after this process, the whole software integration of the system should be tested using the laptop to check the correct functioning of the system. 
+Installation of the system includes the mounting of the thermal camera on the 3D printed mounting system which was fixed to the car roof using fastners. In addition, it includes the mounting of the Jetson Xavier at the rear end of the car in the trunk and its connection with both the camera and laptop through wiring interface should be ensured. 
 
-​	Kindly run the camera on Jetson for 1 hour to check the 
+Once after this process, the whole software integration of the system should be tested using the laptop to check the correct functioning of the system. 
+
+Kindly run the camera on Jetson for 1 hour to check the operating limit of it. This is necessary to prevent the camera operation failure during the test.
 
 
 
 ## 4.2 Post Procedure
 
-​	Once after the test is done, the data should be collected and stored in the local PC for the offline analysis of the inference that the trained neural network generated while testing. 
+Once after the test is done, the data should be collected and stored in the local PC for the offline analysis of the inference that the trained neural network generated while testing. 
 
 The laptop can be disconnected from the Jetson Xavier. The data obtained from the test will help to calculate the mAP(Mean Average Precision) score based on the IoU of the predicted bounding boxes of the trained neural network. 
 
@@ -223,7 +138,7 @@ Thermal Camera and Jetson Xavier can be unscrewed and detached from the mounting
 
  
 
-# 
+
 
  
 
