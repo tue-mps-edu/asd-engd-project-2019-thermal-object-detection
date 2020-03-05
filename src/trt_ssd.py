@@ -26,9 +26,10 @@ class Range(object):
     def __eq__(self, other):
         return self.start <= other <= self.end
 
-
+TESTING_PATH = './testing/'
 WINDOW_NAME = 'TrtSsdDemo'
 NETWORK_INPUT_SIZE = (300, 300)
+
 SUPPORTED_MODELS = [
 
     'ssd_mobilenet_v2_coco',
@@ -46,11 +47,12 @@ def parse_args():
     parser.add_argument('--model', type=str, default='ssd_mobilenet_v2_thermal',choices=SUPPORTED_MODELS)
     parser.add_argument('--conf_th',   dest='conf_th',     type=float, default=0.6, choices=[Range(0,1)]) 
     parser.add_argument('--model_path',dest='model_path',  type=str )
+    parser.add_argument('--testing',   dest='testing',     type=bool,  default=False) 
     args = parser.parse_args()
     return args
 
 
-def loop_and_detect(cam, trt_ssd, conf_th, vis):
+def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
     """Continuously capture images from camera and do object detection.
 
     # Arguments
@@ -59,6 +61,7 @@ def loop_and_detect(cam, trt_ssd, conf_th, vis):
       conf_th: confidence/score threshold for object detection.
       vis: for visualization.
     """
+    i = 0
     full_scrn = False
     fps = 0.0
     #tic = time.time()
@@ -78,6 +81,11 @@ def loop_and_detect(cam, trt_ssd, conf_th, vis):
             # calculate an exponentially decaying average of fps number
             fps = curr_fps if fps == 0.0 else (fps*0.95 + curr_fps*0.05)
             #tic = toc
+            #Store the result of inference for later verification
+            if testing == True:
+                cv2.imwrite(TESTING_PATH + 'img{}.jpeg'.format(i),img)
+                i = i + 1
+
         key = cv2.waitKey(1)
         if key == 27:  # ESC key: quit program
             break
@@ -100,7 +108,7 @@ def main():
     open_window(WINDOW_NAME, args.image_width, args.image_height,
                 'Camera TensorRT SSD Demo for Jetson')
     vis = BBoxVisualization(cls_dict)
-    loop_and_detect(cam, trt_ssd, args.conf_th, vis=vis)
+    loop_and_detect(cam, trt_ssd, args.conf_th, vis, args.testing)
 
     cam.stop()
     cam.release()
