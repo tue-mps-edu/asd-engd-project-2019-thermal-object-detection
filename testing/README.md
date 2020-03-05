@@ -68,23 +68,23 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 2. **<u>No of people for the assistance in the car other than driver</u>**
 
-​		Driver : Tijs (or AIIM personnel) 
+   - Driver : Tijs (or AIIM personnel) 
 
-​		Front Seat : Koen
+   - Front Seat : Koen
 
-​		Back Seat I : Hiram (for monitoring the inference on monitor/Laptop)
+   - Back Seat I : Hiram (for monitoring the inference on monitor/Laptop)
 
-​		Back Seat II : *Any one can volunteer.*
+   - Back Seat II : *Any one can volunteer.*
 
 3. **<u>Trajectory and corresponding driving scenario</u>**
 
-​		Point to point trajectory (road path) will be decided by Koen and Tijs. The trajectory should cover both 		following urban and rural scenarios.
+   Point to point trajectory (road path) will be decided by Koen and Tijs. The trajectory should cover both following urban and rural scenarios.
 
-​		Urban Scenario I : Simulating Highway road @ 70-80 Kmph
+   - Urban Scenario I : Simulating Highway road @ 70-80 Kmph
 
-​		Urban Scenario II : Simulating City road @ 40-50 Kmph
+   - Urban Scenario II : Simulating City road @ 40-50 Kmph
 
-​		Rural Scenario : Simulating Rural road @ 20-30 Kmph
+   - Rural Scenario : Simulating Rural road @ 20-30 Kmph
 
 4. **<u>Configuration of the Camera</u>**
 
@@ -114,7 +114,7 @@ This section describes in detail the constraints to the tests scenario. The prel
 
 # 4 Procedure
 
-## 4.1Procedure
+## 4.1 Procedure
 
 This section contains all the key information about the procedure that should be followed before starting the test and during the test. 
 
