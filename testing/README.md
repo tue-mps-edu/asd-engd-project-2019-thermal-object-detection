@@ -12,7 +12,7 @@
 
  
 
-![img](file:///C:\Users\20195009\AppData\Local\Temp\msohtmlclip1\01\clip_image002.png)
+![img](doc_images/University_Logo.png)
 
  
 
@@ -111,9 +111,9 @@ The objective of the Beta Test is to test and verify the efficiency of “traine
 
 ## 1.1 Introduction
 
-Thermal cameras are one of the emerging technologies in the field of autonomous vehicles. This is due to their ability to detect the things that emit heat irrespective of the weather conditions and they are insensitive to flare, glare when exposed to the direct light unlike normal RGB cameras. Many organisations increased their extent of research in object detection using thermal cameras alongside RGB cameras. Deep learning is playing crucial role in the object detection. Advancements in deep learning are significant in the past ten years. Powerful neural networks came to existence in the thorough research in this field. 
+Thermal cameras are one of the emerging technologies in the field of autonomous vehicles. This is due to their ability to detect objects that emit heat irrespective of the weather conditions and they are insensitive to flare, glare when exposed to the direct light unlike normal RGB cameras. Many organisations increased their extent of research in object detection using thermal cameras alongside RGB cameras. Deep learning is playing crucial role in the object detection. Advancements in deep learning are significant in the past ten years. Powerful neural networks came to existence in the thorough research in this field. 
 
-This ASD project delivers an thermal imaging system deployed on the vehicle which detects pedestrian, cyclists, cars during harsh weather conditions, low day-light and night-time conditions.
+This ASD project delivers an object detection system using thermal camera deployed on the vehicle which detects pedestrian, cyclists, cars during harsh weather conditions, low day-light and night-time conditions.
 
 For this project, pre-trained neural network has been trained using the concept of transfer learning based on training set and validation set of thermal images provided by FLIR website. In general, the datasets that are going to be fed to the training are of two types either PASCAL VOC data sets or COCO datasets. PASCAL VOC datasets are of XML type and COCO datasets are of JSON type. 
 
@@ -133,7 +133,7 @@ Following is the setup of the system deployed in the vehicle:
 
 This section will give insights of the compliances need to be fulfilled to carry out the test for safety as well as seamless operation of test. Following are the compliances for the test: 
 
-·    <u>No of people for the assistance in the car other than driver.</u>
+1. <u>No of people for the assistance in the car other than driver.</u>
 
 ​		Driver : Tijs (or AIIM personnel) 
 
@@ -143,7 +143,7 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​		Back Seat II : *Any one can volunteer.*
 
-·    <u>Trajectory and corresponding driving scenario</u>
+2. <u>Trajectory and corresponding driving scenario</u>
 
 ​		Point to point trajectory (road path) will be decided by Koen and Tijs. The trajectory should cover both 		following urban and rural scenarios.
 
@@ -153,11 +153,11 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​		Rural Scenario : Simulating Rural road @ 20-30 Kmph
 
-·    <u>Configuration of the Camera</u>
+3. <u>Configuration of the Camera</u>
 
 ​		The camera configuration is controlled by the FLIR provided Camera Controller GUI software. It needs to be made sure that thermal camera configuration is in factory default settings (Setup<FFC<Auto<7200 Frames.)
 
-·    <u>Time and duration of the test.</u>
+4.<u>Time and duration of the test.</u>
 
 ​	Date : 6/3/2020
 
@@ -165,7 +165,7 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​	Backup day : If there is rain during that time, new test time will be set as per Tijs. 
 
-·    <u>Rules before starting the test. (Checklist)</u>
+5. <u>Rules before starting the test. (Checklist)</u>
 
 ​	Camera mounting should bolted to roof properly.
 
@@ -181,9 +181,9 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 ​	Note the odometer reading before the test.
 
-·    <u>Environmental Conditions</u>
+6. <u>Environmental Conditions</u>
 
-​	There should be no moderate or heavy rain during any point of test. If there will be any test will be halted.
+   ​	There should be no moderate or heavy rain during any point of test. If there will be any test will be    halted.
 
  
 
@@ -193,9 +193,9 @@ This section will give insights of the compliances need to be fulfilled to carry
 
 This section describes in detail the constraints to the tests scenario. The preliminary constraints are as follows: 
 
-·    <u>Weather Conditions</u>: This test is constrained to be performed only in absence of moderate or heavy rainfall.
+1. <u>Weather Conditions</u>: This test is constrained to be performed only in absence of moderate or heavy rainfall.
 
-·    <u>Thermal camera:</u> The thermal camera is recording the video based on the specific configuration given by Camera Controller GUI factory default set.
+2. <u>Thermal camera:</u> The thermal camera is recording the video based on the specific configuration given by Camera Controller GUI factory default set.
 
  
 
@@ -217,7 +217,7 @@ This section describes in detail the constraints to the tests scenario. The prel
 
 ​	Once after the test is done, the data should be collected and stored in the local PC for the offline analysis of the inference that the trained neural network generated while testing. 
 
-The laptop can be disconnected from the Jetson Xavier. The inference graph and the data obtained from the test will help to calculate the mAP(Mean Average Precision) score based on the IoU of the predicted bounding boxes of the trained neural network. 
+The laptop can be disconnected from the Jetson Xavier. The data obtained from the test will help to calculate the mAP(Mean Average Precision) score based on the IoU of the predicted bounding boxes of the trained neural network. 
 
 Thermal Camera and Jetson Xavier can be unscrewed and detached from the mounting. Jetson Xavier is used to optimise the frozen inference graphs offline obtained after training the neural network. 
 
