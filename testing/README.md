@@ -123,13 +123,11 @@ The neural network that we have chosen for the object detection is MobileNet V2 
 
 This NVIDIA Jetson Xavier is connected to thermal camera as shown below. It is mounted on the roof of the car. Thermal camera is further connected to The NVIDIA Jetson Xavier which is mounted in back of car (trunk) via mini B to USB wire. The Jetson is further connected to the monitor placed in second row of car to run the test as well as to observe the inference.
 
-![img](file:///C:\Users\20195009\AppData\Local\Temp\msohtmlclip1\01\clip_image004.png)
+![Alt text](C:\Users\20195009\Desktop\1.jpg)
 
 Following is the setup of the system deployed in the vehicle:
 
-![img](file:///C:\Users\20195009\AppData\Local\Temp\msohtmlclip1\01\clip_image006.jpg)
-
- 
+![Alt text](C:\Users\20195009\Desktop\2.jpg)
 
 # 2 Compliances to Test
 
