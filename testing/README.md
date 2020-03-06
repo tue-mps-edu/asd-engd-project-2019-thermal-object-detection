@@ -114,7 +114,7 @@ This section describes in detail the constraints to the tests scenario. The prel
 
 # 4 Procedure
 
-## 4.1 Procedure
+## 4.1 Pre-testing Procedure
 
 This section contains all the key information about the procedure that should be followed before starting the test and during the test. 
 
@@ -128,7 +128,7 @@ Kindly run the camera on Jetson for 1 hour to check the operating limit of it. T
 
 
 
-## 4.2 Post Procedure
+## 4.2 Post-testing Procedure
 
 Once after the test is done, the data should be collected and stored in the local PC for the offline analysis of the inference that the trained neural network generated while testing. 
 
