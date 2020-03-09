@@ -10,7 +10,12 @@ structure of this analysis
 
 ## Assumptions
 
-assumptions we made for this analysis
+In order to make a valuable functional safety analysis of the thermal object detection system, multiple assumptions are made. 
+
+- The thermal camera is mounted in the car, with clear view and waterproof design.
+- Precision and recall is over 99%, so when an object is visible, we assume that it is detected correctly.
+- The thermal object detection system is embedded in the PC on the computer and will be used as an inference for the control node. The figure below will show the architecture of the assumed system.
+- 
 
 completely in car, waterproof, precision & recall really high
 
@@ -32,7 +37,7 @@ wrt technology
 
 In order to have a clear understanding of the additional value of the thermal camera detection system in terms of functional safety, a risk analysis is made for possible risks and their severity levels. This analysis is done for the autonomous vehicle with the thermal camera connected, and without the thermal camera detected (RGB only). The assumption is made that the thermal camera is connected to the PC via a USB cable and the detection system is embedded in the ROS node of the PC. 
 
-(explanation ASIL)
+Automotive Safety Integrity Levels (explanation ASIL)
 
 | Risk # | Explanation                                                  | Severity (RGB only) | Severity (RGB +thermal) | Exposure Probability | Hazard Probability (RGB only) | Hazard probability (RGB+thermal) |
 | ------ | ------------------------------------------------------------ | ------------------- | ----------------------- | -------------------- | ----------------------------- | -------------------------------- |
@@ -42,10 +47,10 @@ In order to have a clear understanding of the additional value of the thermal ca
 | 4      | RGB camera malfunction                                       | 5                   | 1                       | 1                    | 1                             | 1                                |
 | 5      | Missed object detection due to light glare                   | 5                   | 5                       | 3                    | 4                             | 1                                |
 | 6      | Incorrect classification due to occlusion                    | 2                   | 2                       | 5                    | 3                             | 2                                |
-| 8      | incorrect classification (good weather)                      | 2                   | 2                       | 4                    | 1                             | 1                                |
-| 9      | incorrect classification (bad weather)                       | 2                   | 2                       | 2                    | 3                             | 1                                |
+| 8      | incorrect classification in good weather                      | 2                   | 2                       | 4                    | 1                             | 1                                |
+| 9      | incorrect classification because of bad weather                       | 2                   | 2                       | 2                    | 3                             | 1                                |
 | 10     | incorrect classification because of light glare              | 2                   | 2                       | 3                    | 3                             | 1                                |
-| 11     | incorrect classification (nighttime)                         | 2                   | 2                       | 2                    | 4                             | 1                                |
+| 11     | incorrect classification because of nighttime driving                         | 2                   | 2                       | 2                    | 4                             | 1                                |
 | 12     | Computer failure                                             | 5                   | 5                       | 1                    | 1                             | 1                                |
 | 13     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | 5                   | 5                       | 1                    | 2                             | 1                                |
 | 14     | Missed object detection due to change in orientation of RGB camera | 5                   | 5                       | 1                    | 2                             | 1                                |
