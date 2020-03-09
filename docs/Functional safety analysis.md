@@ -16,7 +16,7 @@ completely in car, waterproof, precision & recall really high
 
 add visio image for assumed architecture
 
-![Assumed architecture of the system](doc_images/05032020_integration_diagram_v2_koen.jpg)
+![Assumed architecture of the system](doc_images/05032020_integration_diagram_v2_koen.jpg | width=100)
 
 ## Scenarios
 
