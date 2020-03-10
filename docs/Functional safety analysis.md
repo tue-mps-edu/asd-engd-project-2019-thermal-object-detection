@@ -10,13 +10,14 @@ structure of this analysis
 
 ## Assumptions
 
-assumptions we made for this analysis
+In order to make a valuable functional safety analysis of the thermal object detection system, multiple assumptions are made. 
 
-completely in car, waterproof, precision & recall really high
+- The thermal camera is mounted in the car, with clear view and waterproof design.
+- Precision and recall is over 99%, so when an object is visible, we assume that it is detected correctly.
+- The thermal object detection system is embedded in the PC on the computer and will be used as an inference for the control node. The figure below will show the architecture of the assumed system.
+- 
 
-add visio image for assumed architecture
-
-[Assumed architecture of the system](doc_images/05032020_integration_diagram_v2_koen.jpg)
+![Assumed architecture of the system](doc_images/05032020_integration_diagram_v2_koen.jpg)
 
 ## Scenarios
 
@@ -56,7 +57,40 @@ tell how incorrect/no classifications can happen (software based)
 
 malfunction can happen due to short circuit or power supply failure
 
+Risk analysis for RGB only
+
+| Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
+| ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
+| 1      | RGB camera USB cable to PC malfunction                       | S3       | E1       | C1              | QM         |
+| 2      | Missed object detection because of bad weather conditions    | S3       | E4       | C3              | D          |
+| 3      | Missed object detection because of nighttime driving         | S3       | E4       | C3              | D          |
+| 4      | RGB camera malfunction                                       | S3       | E1       | C1              | QM         |
+| 5      | Missed object detection because of light glare               | S3       | E4       | C3              | D          |
+| 6      | Incorrect classification because of occlusion                | S1       | E3       | C3              | A          |
+| 7      | Incorrect classification in good weather conditions          | S1       | E1       | C3              | QM         |
+| 8      | Incorrect classification in bad weather conditions           | S1       | E4       | C3              | B          |
+| 9      | Incorrect classification because of light glare              | S1       | E3       | C2              | QM         |
+| 10     | Incorrect classification because of nighttime driving        | S1       | E4       | C3              | B          |
+| 11     | Computer failure                                             | S3       | E1       | C1              | QM         |
+| 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C2              | QM         |
+| 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C2              | QM         |
 
 
 
+Analysis for RGB+thermal camera
 
+| Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
+| ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
+| 1      | RGB camera USB cable to PC malfunction                       | S1       | E1       | C1              | QM         |
+| 2      | Missed object detection because of bad weather conditions    | S3       | E1       | C3              | A          |
+| 3      | Missed object detection because of nighttime driving         | S3       | E1       | C3              | A          |
+| 4      | RGB camera malfunction                                       | S1       | E1       | C1              | QM         |
+| 5      | Missed object detection because of light glare               | S3       | E1       | C3              | A          |
+| 6      | Incorrect classification because of occlusion                | S1       | E2       | C3              | A          |
+| 7      | Incorrect classification in good weather conditions          | S1       | E1       | C3              | QM         |
+| 8      | Incorrect classification in bad weather conditions           | S1       | E1       | C3              | QM         |
+| 9      | incorrect classification because of light glare              | S1       | E1       | C3              | QM         |
+| 10     | Incorrect classification because of nighttime driving        | S1       | E1       | C3              | QM         |
+| 11     | Computer failure                                             | S3       | E1       | C1              | QM         |
+| 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C1              | QM         |
+| 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C1              | QM         |
