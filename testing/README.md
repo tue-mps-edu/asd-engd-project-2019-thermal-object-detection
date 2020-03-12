@@ -2,7 +2,7 @@
 
 
 
-# LIST OF ABBREVIATIONS
+# List of Abbreviations
 
 VOC = Visual Object Classes 
 
@@ -14,7 +14,13 @@ mAP = Mean Average Precision
 
 IoU = Intersection over Union
 
- 
+# Post Process Analysis
+
+The below link directs you to the documentation done on the analysis after the test. 
+
+[Post Process Analysis](testing/Beta_Test_Post_Analysis.md)
+
+This describes how well the team tried to cover all the planned test procedure prior to the test which were mentioned in detail below. 
 
 # 1 Objective
 
@@ -34,7 +40,7 @@ The neural network that we have chosen for the object detection is MobileNet V2 
 
 ### 1.1.2  Beta Testing
 
-Testing of a system is generally a standard procedure followed in every project. This is done to ensure that the all the subsystems working together in a proper way and to identify the anamolies in the system. Additonally, testing procedure makes sure that a system is robust or not and reveals new issues that have not been encountered during the development phase of a system.
+Testing of a system is generally a standard procedure followed in every project. This is done to ensure that the all the subsystems working together in a proper way and to identify the anamolies in the system. Additionally, testing procedure makes sure that a system is robust or not and reveals new issues that have not been encountered during the development phase of a system.
 
 In this project, a beta test has been set as first milestone to check the integration and performance of the thermal object detection system that has been developed. The test results will help to focus on specific points that helps to enhance the system performance as well as to identify the outliers that are affecting the system functionality.
 
@@ -135,6 +141,8 @@ Once after the test is done, the data should be collected and stored in the loca
 The laptop can be disconnected from the Jetson Xavier. The data obtained from the test will help to calculate the mAP(Mean Average Precision) score based on the IoU of the predicted bounding boxes of the trained neural network. 
 
 Thermal Camera and Jetson Xavier can be unscrewed and detached from the mounting. Jetson Xavier is used to optimise the frozen inference graphs offline obtained after training the neural network. 
+
+The link provided above in the section Post process analysis will give you more insights above test went on the day.
 
  
 
