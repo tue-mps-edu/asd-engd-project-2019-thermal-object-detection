@@ -18,7 +18,7 @@ IoU = Intersection over Union
 
 The below link directs you to the documentation done on the analysis after the test. 
 
-[Post Process Analysis](testing/Beta_Test_Post_Analysis.md)
+[Post Process Analysis](Beta_Test_Post_Analysis.md)
 
 This describes how well the team tried to cover all the planned test procedure prior to the test which were mentioned in detail below. 
 
