@@ -16,11 +16,15 @@ Based on the below results we can infer that **DROPOUT** and **SOFTMAX** feature
 
 ### 1.)**Total Loss**
 
+The image below shows us the Total Loss (difference in the predicted value and the actual value) what the network train's for based on number of training steps. It is quite evident that the training loss decreases as we increase the number of training steps. By changing different hyper-parameters (indicated by different colours in the graph) we can see the difference in the training losses.
+
 ![loss](doc_images/Total_Loss.jpeg)
 
  
 
 ### 2.) **Avg mAP Values**
+
+The image below shows us the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. The comparison of all hyper-parameters are made against the baseline result indicated in green colour in the image below.
 
 ![all](doc_images/Avg_mAP.jpeg)
 
@@ -28,17 +32,23 @@ Based on the below results we can infer that **DROPOUT** and **SOFTMAX** feature
 
 ### 3.) **mAP for Person**
 
+The image below shows us the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our class which is 'person' here and compared against the baseline result indicated in green colour in the image below.
+
 ![person](doc_images/mAP_person.jpeg)
 
  
 
 ### 4.) **mAP for Bicycle**
 
+The image below shows us the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our class which is 'Bicycle' here and compared against the baseline result indicated in green colour in the image below.
+
 ![bicycle](doc_images/mAP_bicycle.jpeg)
 
  
 
 ### 5.) **mAP for Car**
+
+The image below shows us the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our class which is 'car' here and compared against the baseline result indicated in green colour in the image below.
 
 ![car](doc_images/mAP_Car.jpeg)
 
