@@ -16,13 +16,13 @@ Based on the below results we can infer that **DROPOUT** and **SOFTMAX** feature
 
 ### 1.)**Total Loss**
 
-![img](doc_images\Total Loss.png)
+![img](doc_images/Total Loss.png)
 
  
 
 ### 2.) **Avg mAP Values**
 
-![img](doc_images\Avg mAP.PNG)
+![img](doc_images/Avg mAP.PNG)
 
  
 
@@ -34,13 +34,13 @@ Based on the below results we can infer that **DROPOUT** and **SOFTMAX** feature
 
 ### 4.) **mAP for Bicycle**
 
-![img](doc_images\mAP Bicycle.PNG)
+![img](doc_images/mAP Bicycle.PNG)
 
  
 
 ### 5.) **mAP for Car**
 
-![img](doc_images\mAP Car.PNG)
+![img](doc_images/mAP Car.PNG)
 
  
 
