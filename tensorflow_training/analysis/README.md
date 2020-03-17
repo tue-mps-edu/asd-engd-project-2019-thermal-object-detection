@@ -2,8 +2,6 @@
 
 Training of neural network MobileNet V2 SSD was performed on Flir dataset which contains 8862 images as the training set and 1366 images as the test set. To check the influence of hyperparameters on the model’s accuracy we have varied 1 hyperparameter at a time and evaluated the mean average precision(mAP) scores. The following hyperparameters were varied: 
 
-*Table 1: Hyperparameters replaced with the default ones in the neural network architecture*
-
 | Sl.No |   Hyperparameter    |  Initial Value  | Replaced Value                                               |
 | ----- | :-----------------: | :-------------: | :----------------------------------------------------------- |
 | 1.    | Activation function |     SIGMOID     | SOFTMAX                                                      |
@@ -11,6 +9,8 @@ Training of neural network MobileNet V2 SSD was performed on Flir dataset which 
 | 3.    |  Data Augmentation  | Horizontal Flip | Black Patches                                                |
 | 4.    |     Decay Steps     |    8,00,756     | 5000                                                         |
 | 5.    |       DROPOUT       |       OFF       | ON                                                           |
+
+*Table 1: Hyperparameters replaced with the default ones in the neural network architecture*
 
 ### Reasons:
 
@@ -34,52 +34,44 @@ Based on the results depicted in the below graph of total loss one can conclude 
 
 ### 1.)**Total Loss**
 
-The figure 1 illustrates the total loss (difference in the predicted value and the actual value) of the neural network during the training per each hyperparameter. Depending on the obtained results, one can conclude that the training loss decreases as we increase the number of training steps. By changing different hyper-parameters (indicated by different colours in the graph) we can see the difference in the pattern of training losses.
-
-*Figure 1: Total loss of the trained neural network per different hyperparameter*
+Figure 1 illustrates the total loss (difference in the predicted value and the actual value) of the neural network during the training per each hyperparameter. Depending on the obtained results, one can conclude that the training loss decreases as we increase the number of training steps. By changing different hyperparameters (indicated by different colours in the graph) we can see the difference in the pattern of training losses.
 
 ![loss](doc_images/Total_Loss.jpeg)
 
- 
+*Figure 1: Total loss of the trained neural network per different hyperparameter*
 
 ### 2.) **Average mAP Values**
 
-The figure 2 depicts the mean average precision value(mAP) evaluated for each hyperparameter changed individually. The results of trained neural network(MobileNet V2 SSD) with different hyper-parameters are shown in the figure, together with the baseline result, indicated in the green colour.
+Figure 2 depicts the mAP value evaluated for each hyperparameter changed individually. The results of trained neural network(MobileNet V2 SSD) with different hyperparameters are shown in the figure, together with the baseline result, indicated in the green colour.
 
-*Figure 2: Average mAP value of all classes for the trained neural network per different hyperparameters*
+
 
 ![figure](doc_images/Avg_mAP.jpeg)
 
- 
+ *Figure 2: Average mAP value of all classes for the trained neural network per different hyperparameters*
 
 ### 3.) **mAP for Person**
 
-The figure 3 illustrates the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our classes which is 'person' and compared with the baseline result indicated in green colour in the figure below.
-
-*Figure 3: Average mAP value of person for the trained neural network per different hyperparameters*
+Figure 3 illustrates the mAP value evaluated for each hyperparameter changed individually. This is particularly evaluated for one of our classes which is 'person' and compared with the baseline result indicated in green colour in the figure below.
 
 ![person](doc_images/mAP_person.jpeg)
 
- 
+ *Figure 3: Average mAP value of person for the trained neural network per different hyperparameters*
 
 ### 4.) **mAP for Bicycle**
 
-The figure 4 depicts the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our classes which is 'Bicycle' and compared with the baseline result indicated in green colour in the figure below.
-
-*Figure 4: Average mAP value of bicycle for the trained neural network per different hyperparameters*
+Figure 4 depicts the mAP value evaluated for each hyperparameter changed individually. This is particularly evaluated for one of our classes which is 'Bicycle' and compared with the baseline result indicated in green colour in the figure below.
 
 ![bicycle](doc_images/mAP_bicycle.jpeg)
 
- 
+ *Figure 4: Average mAP value of bicycle for the trained neural network per different hyperparameters*
 
 ### 5.) **mAP for Car**
 
-The figure 5 shows the mean average precision value(mAP) evaluated for each hyper-parameter changed individually. This is particularly evaluated for one of our classes which is 'car' and compared with the baseline result indicated in green colour in the figure below.
-
-*Figure 5: Average mAP value of car for the trained neural network per different hyperparameters*
+Figure 5 shows the mAP value evaluated for each hyperparameter changed individually. This is particularly evaluated for one of our classes which is 'car' and compared with the baseline result indicated in green colour in the figure below.
 
 ![car](doc_images/mAP_Car.jpeg)
 
- 
+ *Figure 5: Average mAP value of car for the trained neural network per different hyperparameters*
 
  
