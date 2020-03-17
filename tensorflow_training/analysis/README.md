@@ -34,7 +34,7 @@ Based on the results depicted in the below graph of total loss one can conclude 
 
 The figure below illustrates the total loss (difference in the predicted value and the actual value) what the network train's for based on number of training steps. Depending on the obtained results, one can conclude that the training loss decreases as we increase the number of training steps. By changing different hyper-parameters (indicated by different colours in the graph) we can see the difference in the pattern of training losses.
 
-![loss](doc_images/total_loss.jpeg)
+![loss](doc_images/Total_Loss.jpeg)
 
  
 
