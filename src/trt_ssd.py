@@ -10,6 +10,7 @@ import time
 import argparse
 
 import cv2
+import csv
 import pycuda.autoinit  # This is needed for initializing CUDA driver
 
 from utils.ssd_classes import get_cls_dict
@@ -18,6 +19,9 @@ from utils.camera import add_camera_args, Camera
 from utils.display import open_window, set_display, show_fps
 from utils.visualization import BBoxVisualization
 
+from utils import label_map_util
+from utils import visualization_utils as vis_util
+from utils.inference_utils import *
 
 class Range(object):
     def __init__(self, start, end):
@@ -29,6 +33,10 @@ class Range(object):
 TESTING_PATH = './testing/'
 WINDOW_NAME = 'TrtSsdDemo'
 NETWORK_INPUT_SIZE = (300, 300)
+
+NUM_CLASSES = 3
+
+# Path to frozen detection graph. This is the actual model that is used for the object detection.
 
 SUPPORTED_MODELS = [
 
@@ -46,55 +54,82 @@ def parse_args():
     parser = add_camera_args(parser)
     parser.add_argument('--model', type=str, default='ssd_mobilenet_v2_thermal',choices=SUPPORTED_MODELS)
     parser.add_argument('--conf_th',   dest='conf_th',     type=float, default=0.6, choices=[Range(0,1)]) 
-    parser.add_argument('--model_path',dest='model_path',  type=str )
-    parser.add_argument('--testing',   dest='testing',     type=bool,  default=False) 
+    parser.add_argument('--model_path',dest='model_path',  type=str)
+    parser.add_argument('--fps_testing',   dest='fps_testing',     type=bool,  default=False)
+    parser.add_argument('--non_optimized_graph', dest='non_optimized_graph', type=bool, default=False) 
+    parser.add_argument('--path_to_labels', dest='path_to_labels', type=str) 
     args = parser.parse_args()
     return args
 
 
-def loop_and_detect(cam, trt_ssd, conf_th, vis, testing):
+def loop_and_detect(cam, model, conf_th, vis, fps_testing, non_optimized_graph):
     """Continuously capture images from camera and do object detection.
 
     # Arguments
       cam: the camera instance (video source).
-      trt_ssd: the TRT SSD object detector instance.
+      model: the TRT SSD object detector instance or the inference graph def.
       conf_th: confidence/score threshold for object detection.
       vis: for visualization.
     """
+    global category_index
     i = 0
     full_scrn = False
     fps = 0.0
+    FPS_list = [[]]
     #tic = time.time()
     while True:
         if cv2.getWindowProperty(WINDOW_NAME, 0) < 0:
             break
+
         tic = time.time()
         img = cam.read()
+ 
         if img is not None:
-            boxes, confs, clss = trt_ssd.detect(img, conf_th)
-            toc = time.time()
-            img = vis.draw_bboxes(img, boxes, confs, clss)
-            img = show_fps(img, fps)
+            
+            if non_optimized_graph == False:
+                 boxes, confs, clss = model.detect(img, conf_th)
+                 toc = time.time()
+                 img = vis.draw_bboxes(img, boxes, confs, clss)
+                 img = show_fps(img, fps)
+            elif non_optimized_graph == True: 
+                 print("running inference") 
+                 output_dict = run_inference_for_single_image(img, model)
+                 toc = time.time()
+                 vis_util.visualize_boxes_and_labels_on_image_array(img, output_dict['detection_boxes'], output_dict['detection_classes'], output_dict['detection_scores'],category_index,
+                                                                   instance_masks=output_dict.get('detection_masks'), use_normalized_coordinates=True, line_thickness=8)
+                 img = show_fps(img, fps)
+            
             cv2.imshow(WINDOW_NAME, img)
 
             curr_fps = 1.0 / (toc - tic)
             # calculate an exponentially decaying average of fps number
             fps = curr_fps if fps == 0.0 else (fps*0.95 + curr_fps*0.05)
-            #tic = toc
-            #Store the result of inference for later verification
-            if testing == True:
-                cv2.imwrite(TESTING_PATH + 'img{}.jpeg'.format(i),img)
-                i = i + 1
-
+            #append FPS for writing it to CSV if necessary  
+            FPS_list.append([fps])
+   
+              
         key = cv2.waitKey(1)
         if key == 27:  # ESC key: quit program
+            if fps_testing == True:
+                with open('./FPS_test.csv','w') as csvfile:
+                    fps_writer = csv.writer(csvfile)
+                
+                    for row in FPS_list:
+                        fps_writer.writerow(row)
+            
             break
+        
         elif key == ord('F') or key == ord('f'):  # Toggle fullscreen
             full_scrn = not full_scrn
             set_display(WINDOW_NAME, full_scrn)
 
 
+category_index = 0
+
 def main():
+
+    global category_index
+
     args = parse_args()
     cam = Camera(args)
     cam.open()
@@ -102,13 +137,25 @@ def main():
         sys.exit('Failed to open camera!')
 
     cls_dict = get_cls_dict(args.model.split('_')[-1])
-    trt_ssd = TrtSSD(args.model, args.model_path, NETWORK_INPUT_SIZE)
+
+    if args.non_optimized_graph == False:
+        print("Loading TensorRT Engine")
+        model = TrtSSD(args.model, args.model_path, NETWORK_INPUT_SIZE)
+
+    elif args.non_optimized_graph == True:
+        print("Loading Non-Optimized Frozen Graph")
+        model = load_graph_from_file(args.model_path)
+        label_map = label_map_util.load_labelmap(args.path_to_labels)
+        categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
+        category_index = label_map_util.create_category_index(categories)
+        
 
     cam.start()
-    open_window(WINDOW_NAME, args.image_width, args.image_height,
-                'Camera TensorRT SSD Demo for Jetson')
+    open_window(WINDOW_NAME, args.image_width, args.image_height,'Camera TensorRT SSD Demo for Jetson')
     vis = BBoxVisualization(cls_dict)
-    loop_and_detect(cam, trt_ssd, args.conf_th, vis, args.testing)
+
+
+    loop_and_detect(cam, model, args.conf_th, vis, args.fps_testing, args.non_optimized_graph)
 
     cam.stop()
     cam.release()

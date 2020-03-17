@@ -52,6 +52,9 @@ Finally, we open a new terminal and run the object detector. The following comma
 
 ```
 $ python3 trt_ssd.py --model ssd_mobilenet_v2_thermal --model_path ssd/TRT_ssd_mobilenet_v2_thermal.bin --usb --vid 0 --conf_th 0.6
+
+$ python3 trt_ssd.py --model ssd_mobilenet_v2_thermal --model_path inference_graph_softmax/frozen_inference_graph.pb --image --filename image3.jpg --non_optimized_graph True --path_to_labels inference_graph_softmax/object_detection.pbtxt --fps_testing True
+
 ```
 
 
