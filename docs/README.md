@@ -2,9 +2,9 @@
 
 This document covers the systems architecture related work for this project. It consists of interface diagram, requirements engineering, stakeholder analysis and functional safety analysis. The goal of all this analyses is to ensure that the project scope stays feasible and relevant within the project timeline. The functional safety analysis is a direct requirement of the stakeholders as well. The interface diagram depicts the interactions between the various sub-systems - pre-processing, software and hardware. 
 
-- [Stakeholder analysis](Stakeholder analysis.md)
+- [Stakeholder analysis](Stakeholder_analysis.md)
 - [Requirements](Requirements.md)
-- [Functional safety analysis](Functional safety analysis.md)
+- [Functional safety analysis](Functional_safety_analysis.md)
 
 ## Scope of the project
 
