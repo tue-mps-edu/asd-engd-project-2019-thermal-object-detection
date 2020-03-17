@@ -39,7 +39,7 @@ Refer to these links to install the prerequisites:
 Once these prerequisites have been met, clone this repository
 
 ```
-$ git clone https://github.com/Hrayo712/tf_trt_models
+$ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
 ```
 
 <em>Note: The repository includes tensorflow object detection API submodules under the third_party folder. These can be cloned automatically by adding the --recursive flag to the clone command. Otherwise, the install script will do it for you.</em>
@@ -49,7 +49,7 @@ $ git clone https://github.com/Hrayo712/tf_trt_models
 After cloning the repository, setup the conda environment with the given <em>yml</em> file to create the virtual environment with all the required dependencies. This process can take a while.
 
 ```
-$ cd tf_trt_models
+$ cd thermal_object_detection
 $ conda env create -f environment/tf1_12_gpu.yml
 ```
 
