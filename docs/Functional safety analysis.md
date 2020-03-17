@@ -1,65 +1,52 @@
 # Functional Safety Analysis
 
-introduction:
-
-current situation, our system embedded in the car
-
-Hypothesis
-
-structure of this analysis
+In order to give a clear idea about feasibility, risks and safety a functional safety analysis is made for the object detection system. The main question that raised at the stakeholders' side was *what risks are present when using an object detection system containing only a RGB camera and how does adding a object detection system using a thermal camera mitigate these problems?* To answer this question, we made a new assumed architecture and assumed accuracy levels, then the scenarios that are analysed are elaborated and finally a risk analysis is made using the ASIL levels of safety.
 
 ## Assumptions
 
 In order to make a valuable functional safety analysis of the thermal object detection system, multiple assumptions are made. 
+- The car is a SAE level 4 automated car (high driving automation), which will drive autonomously, but can send takeover requests to the driver if there is a failure in the system (e.g. malfunctioning camera's, PC malfunction). 
 - The thermal camera is mounted in the car, with clear view and waterproof design.
 - Precision and recall is over 99%, so when an object is visible, we assume that it is detected correctly.
-- The thermal object detection system is embedded in the PC on the computer and will be used as an inference for the control node. The figure below will show the architecture of the assumed system.
+- The thermal object detection system is embedded in the PC on the computer and will be used as an inference for the control node. 
 
-  
-
-add visio image for assumed architecture
+The figure below will show the architecture of the assumed system. The trained neural network for the thermal object detection system is deployed on the ROS node in the CPU of the vehicle, which will use the TITAN V for speeding up calculations. In this system the NVIDIA Jetson Xavier is not needed anymore because the inference will now be directly sent to the control node, instead of saving it into a database. With this architecture it is assumed that the vehicle can drive fully autonomously with two object detection systems. These two systems send their inference to the control node and the control node will send signals to the actuators.
 
 ![Assumed architecture of the system](doc_images/05032020_integration_diagram_v2_koen.jpg)
 
+*Figure 1: assumed architecture for the functional safety analysis*
+
 ## Scenarios
 
-where is the vehicle being tested and the analysis (which situations?)
-
-when it fails what is the damage
+The weather scenarios that are assumed in this analysis are *good weather* and *bad weather*. Bad weather contains situations where the human eye would have difficulties to have a clear view of the environment, like rain, snow or fog. Other scenarios are nighttime driving and light glare from the sun. The assumption is made that the car is only driving on asphalted roads, because in the Netherlands there are almost only these types of roads, plus when the car is driving autonomously it will choose a path determined by the GPS which will not contain any unpaved roads. 
 
 ## Limitations
 
-wrt technology
+Even when the assumed architecture and accuracy assumptions are integrated/met, there are still some limitations for the functional safety analysis. Those are listed below:
+
+- Snow taken into account in *bad weather* in the analysis, but the limitation is that the thermal camera has difficulties detecting cars that are standing still.
+- Occlusion will still be a limiting factor for the object detection system. As there are two detection systems present in the assumed architecture, the chance of detecting objects with occlusion is slightly increased. 
+- Objects with same temperature might be still missed using thermal camera only. The RGB camera mitigates this problem during daytime, but in nighttime conditions this is still a limiting factor. Examples are standing still cars.
+- There will still be risk of failure of the PC or cables/cameras which will not be mitigated with our system.
 
 ## Risk Analysis
 
-In order to have a clear understanding of the additional value of the thermal camera detection system in terms of functional safety, a risk analysis is made for possible risks and their severity levels. This analysis is done for the autonomous vehicle with the thermal camera connected, and without the thermal camera detected (RGB only). The assumption is made that the thermal camera is connected to the PC via a USB cable and the detection system is embedded in the ROS node of the PC. 
+In order to have a clear understanding of the additional value of the thermal camera detection system in terms of functional safety, a risk analysis is made for possible risks and their severity levels. This analysis is done for the autonomous vehicle with both the thermal camera and RGB camera connected, and without the thermal camera detected (RGB only). The assumption is made that the thermal camera is connected to the PC via a USB cable and the detection system is embedded in the ROS node of the PC (see image of the architecture above). 
 
-Automotive Safety Integrity Levels (explanation ASIL)
+The risk analysis which is made is based on the Automotive Safety Integrity Levels (ASIL) described in the functional safety standard ISO26262. The levels are based on severity (how much harm does the risk to the driver or other traffic participants), exposure  (how often does the situation occur) and controllability (how capable is the driver to take over the control when a risk occurs). The figure below shows the ASIL levels in a table. 
 
-| Risk # | Explanation                                                  | Severity (RGB only) | Severity (RGB +thermal) | Exposure Probability | Hazard Probability (RGB only) | Hazard probability (RGB+thermal) |
-| ------ | ------------------------------------------------------------ | ------------------- | ----------------------- | -------------------- | ----------------------------- | -------------------------------- |
-| 1      | RGB camera USB cable to PC malfunction                       | 5                   | 1                       | 1                    | 1                             | 1                                |
-| 2      | Missed object detection during bad weather conditions        | 5                   | 5                       | 2                    | 4                             | 1                                |
-| 3      | Missed object detection during nighttime driving             | 5                   | 5                       | 2                    | 5                             | 1                                |
-| 4      | RGB camera malfunction                                       | 5                   | 1                       | 1                    | 1                             | 1                                |
-| 5      | Missed object detection due to light glare                   | 5                   | 5                       | 3                    | 4                             | 1                                |
-| 6      | Incorrect classification due to occlusion                    | 2                   | 2                       | 5                    | 3                             | 2                                |
-| 8      | incorrect classification in good weather                      | 2                   | 2                       | 4                    | 1                             | 1                                |
-| 9      | incorrect classification because of bad weather                       | 2                   | 2                       | 2                    | 3                             | 1                                |
-| 10     | incorrect classification because of light glare              | 2                   | 2                       | 3                    | 3                             | 1                                |
-| 11     | incorrect classification because of nighttime driving                         | 2                   | 2                       | 2                    | 4                             | 1                                |
-| 12     | Computer failure                                             | 5                   | 5                       | 1                    | 1                             | 1                                |
-| 13     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | 5                   | 5                       | 1                    | 2                             | 1                                |
-| 14     | Missed object detection due to change in orientation of RGB camera | 5                   | 5                       | 1                    | 2                             | 1                                |
+![ASIL](doc_images/ASIL.png)
 
-#Put explanation and analysis here.
+*Figure 2: ASIL table based on its severity level, controllability level and exposure. QM means quality measured, A is the lowest ASIL and D is the highest, causing serious harm to participants when it happens.*
 
-tell how incorrect/no classifications can happen (software based)
+The goal is to reduce the potential harm/ASIL to a more controllable risk in order to proof the stakeholders that the risk is mitigated by adding an object detection system based on thermal imaging (proof of concept). The explanation of the risks needs some more elaboration. This is listed below:
 
-malfunction can happen due to short circuit or power supply failure
+- A malfunction can happen because of a short circuit, power supply failure, overheating hardware.
+- A missed object detection is an object which should be detected but is not. This can happen because of weather conditions, nighttime driving or glare. The algorithm does not see enough features to detect and classify the object. 
+- Incorrect classification means that an object is detected, but it was classified incorrectly. If the object detection algorithm sends the inference to the control node, it could be that the car acts differently on an object. For example, a car is detected as a person. The speed of a car is way higher, so when detecting it as a person it could be that the control algorithm calculates that it can do certain controls without any risk, but in reality it is different.
+- Change in orientation of the camera could happen when an object hits the camera, the driver accidently moves the camera or when driving on rough terrain. 
 
-Risk analysis for RGB only
+The first table below is showing the risk analysis for the object detection system using a RGB camera only. One thing to keep in mind is that the risks that are listed below are the risks that have differences when comparing the two systems (object detection system containing only a RGB camera and object detection system containing RGB and thermal camera). If all risks would be listed, most of them will be exactly the same because these risks will not be mitigated with addition of the thermal image-based object detection system. 
 
 | Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
@@ -77,9 +64,9 @@ Risk analysis for RGB only
 | 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C2              | QM         |
 | 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C2              | QM         |
 
+*Table 1: Risk analysis using the ASIL table for the object detection system using a RGB camera only*
 
-
-Analysis for RGB+thermal camera
+The second table shows the analysis for the same risks, but then for the object detection system using both the RGB and thermal camera. 
 
 | Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
@@ -96,3 +83,12 @@ Analysis for RGB+thermal camera
 | 11     | Computer failure                                             | S3       | E1       | C1              | QM         |
 | 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C1              | QM         |
 | 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C1              | QM         |
+
+*Table 2: Risk analysis using the ASIL table for the object detection system using a RGB camera and a thermal camera*
+
+Based on the ASIL letters the risks with ASIL D (numbers 2, 3 and 5) are brought back to level A when including a object detection system with thermal camera. A lot of risks are hard to control, because missed detections are not noted by the algorithm so the car will not send a signal that the driver has to take over. Controllability of risks which contain orientation or malfunctioning problems are controllable because the car will send a notification to the driver that he or she has to take over. The exposure (probability) of a lot of risks is significantly lower in our system, because the thermal camera does not depend on weather conditions or light emission. Risk number 6 is the only risk that still has the same ASIL A. As with two detection sources the classification could be slightly better, occlusion is hard to mitigate. 
+
+## Conclusion 
+
+One can draw the conclusion that when adding the assumed object detection system based on thermal images will lower the chance of the risks that occur with an object detection system using a RGB camera only. The ASIL D drops till A and all other ASIL dropped to QM, except for the risk of incorrect classification because of occlusion. 
+

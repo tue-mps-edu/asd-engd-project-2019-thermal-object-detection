@@ -1,6 +1,6 @@
 # Stakeholder analysis
 
-In this paragraph stakeholders are discussed. Who are the stakeholders of the project and what are their concerns? Answers to these questions will help to have clear reasoning behind the [requirements]() made. In the table below the stakeholders are mentioned together with their main concerns.
+In this paragraph stakeholders are discussed. Who are the stakeholders of the project and what are their concerns? Answers to these questions will help to have clear reasoning behind the [requirements](Requirements.md) made. In the table below the stakeholders are mentioned together with their main concerns.
 
 | Stakeholder             | Main concern                                                 |
 | ----------------------- | ------------------------------------------------------------ |
