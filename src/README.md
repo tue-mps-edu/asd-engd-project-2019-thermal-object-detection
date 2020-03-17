@@ -1,9 +1,11 @@
  System Integration
 ====================================
 
-By this point, we'll assume a Neural Network model has been already [trained](../tensorflow_training/) and [optimized](../tensorrt/). However, before running the python script to perform online object detection on thermal images with the [Tau2 camera](../CAD/), we need to install a kernel module to the Jetson Xavier to interface with the camera as a regular device (E.g. /dev/video0).
 
-First, we must install the libraries of the TeAx's Thermal Grabber. For this, run the installation script provided in this folder. This script will install some dependencies (if needed), and then compile the necessary libraries to interface with the Tau2. 
+
+At this point, it is assumed that the Neural Network model has been already [trained](../tensorflow_training/) and [optimized](../tensorrt/). Also, the Thermal camera is assumed to be placed in the vehicle, as described in the [camera mounting](../CAD/README.md). However, before running the python script to perform online object detection on thermal images with the [Tau2 camera](../CAD/), some setup is required to interface with the camera as a regular video device (E.g. /dev/video0).
+
+First, the libraries for TeAx's Thermal Grabber must be installed. Run the installation script provided in this folder. This script will install some dependencies (if needed), and then compile the necessary libraries to interface with the Tau2. 
 
 ```
 $ ./install.sh
@@ -11,7 +13,7 @@ $ ./install.sh
 
 
 
-Then, we load the kernel module. 
+Then, the v4l2loopback kernel module must be loaded for the Thermal Grabber library to interface with.
 
 ```
 $ sudo modprobe v4l2loopback
