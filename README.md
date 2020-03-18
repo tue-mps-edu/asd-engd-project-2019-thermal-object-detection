@@ -35,7 +35,7 @@ Refer to these links to install the prerequisites:
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Windows install
-Once these prerequisites have been met, download the [windows installation script](https://raw.githubusercontent.com/tue-mps-edu/thermal_object_detection/issue_33_readmewindowsinstall/windows_install.bat).
+Once these prerequisites have been met, download the [windows installation script](https://raw.githubusercontent.com/tue-mps-edu/thermal_object_detection/issue_33_readmewindowsinstall/windows_install.bat?token=ACOIGZXFFXUXYVVFJVE6LZK6PKQ7I).
 
 
 ## Linux install
