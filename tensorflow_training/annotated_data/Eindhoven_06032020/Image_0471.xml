@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Hiram</folder>
+	<filename>Image_0471.jpeg</filename>
+	<path>C:\Users\20176756\TU Eindhoven\Elands, K.C.A. - Labelling _Images\Hiram\Image_0471.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>402</xmin>
+			<ymin>271</ymin>
+			<xmax>462</xmax>
+			<ymax>318</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>264</xmin>
+			<ymin>248</ymin>
+			<xmax>283</xmax>
+			<ymax>272</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Hiram</folder>
+	<filename>Image_0659.jpeg</filename>
+	<path>C:\Users\20176756\TU Eindhoven\Elands, K.C.A. - Labelling _Images\Hiram\Image_0659.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>152</xmin>
+			<ymin>257</ymin>
+			<xmax>209</xmax>
+			<ymax>282</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>240</xmin>
+			<ymin>253</ymin>
+			<xmax>255</xmax>
+			<ymax>284</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Suyash</folder>
+	<filename>Image_1432.jpeg</filename>
+	<path>C:\Users\20195008\TU Eindhoven\Elands, K.C.A. - ASD project module 2\Recorded data\Labelling _Images\Suyash\Image_1432.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>395</xmin>
+			<ymin>229</ymin>
+			<xmax>408</xmax>
+			<ymax>263</ymax>
+		</bndbox>
+	</object>
+</annotation>

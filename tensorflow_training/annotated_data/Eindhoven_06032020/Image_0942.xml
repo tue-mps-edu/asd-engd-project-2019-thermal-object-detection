@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Labelled</folder>
+	<filename>Image_0942.jpeg</filename>
+	<path>C:/Ram/Labelled/Image_0942.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>404</xmin>
+			<ymin>274</ymin>
+			<xmax>474</xmax>
+			<ymax>320</ymax>
+		</bndbox>
+	</object>
+</annotation>

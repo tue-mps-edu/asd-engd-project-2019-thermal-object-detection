@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Suyash</folder>
+	<filename>Image_1418.jpeg</filename>
+	<path>C:\Users\20195008\TU Eindhoven\Elands, K.C.A. - ASD project module 2\Recorded data\Labelling _Images\Suyash\Image_1418.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>68</xmin>
+			<ymin>261</ymin>
+			<xmax>222</xmax>
+			<ymax>382</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>257</xmin>
+			<ymin>273</ymin>
+			<xmax>459</xmax>
+			<ymax>441</ymax>
+		</bndbox>
+	</object>
+</annotation>

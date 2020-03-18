@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Sukrut</folder>
+	<filename>Image_1235.jpeg</filename>
+	<path>C:\Users\20195017\TU Eindhoven\Elands, K.C.A. - ASD project module 2\Recorded data\Labelling _Images\Sukrut\Image_1235.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>424</xmin>
+			<ymin>261</ymin>
+			<xmax>517</xmax>
+			<ymax>337</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>336</xmin>
+			<ymin>263</ymin>
+			<xmax>348</xmax>
+			<ymax>276</ymax>
+		</bndbox>
+	</object>
+</annotation>
