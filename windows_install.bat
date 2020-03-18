@@ -21,7 +21,7 @@ cd /d "%directorynew1%"
 setx directorynew "%cd%"
 set root="%cd%"
 call %root%\activate.bat %root%
-cd /d "%Location%"
+cd /d "%mypath%"
 cd "environment"
 call conda env create -f tf1_12_gpu.yml
 call conda activate tf1_12_gpu
