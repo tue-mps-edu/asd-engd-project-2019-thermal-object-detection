@@ -37,7 +37,7 @@ In order to use this repository, you must first make sure that the host computer
 ## Windows install
  Once the aforementioned [Prerequisites](#Prerequisites) have been met, follow the following steps for the installation:
 
- <em>Note:* Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.*</em>
+ <em>Note:Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.</em>
 
  1. Navigate to the [windows_install.bat](https://github.com/tue-mps-edu/thermal_object_detection/blob/issue_33_readmewindowsinstall/windows_install.bat) in the repository.  
  2. In the top right corner, right-click the Raw button and choose "Save link as..." in order to download the script to the directory of your choice.
