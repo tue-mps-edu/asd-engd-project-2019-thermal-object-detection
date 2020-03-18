@@ -27,15 +27,36 @@ In order to run the code in this repository, it is necessary that the host compu
 In order to use this repository, you must first make sure that the host computer has the latest NVIDIA drivers installed. Afterwards, you will need Anaconda3 to a virtual environment (conda) using the *yml* file provided in the repository.
 
 
-
-Refer to these links to install the prerequisites:
+## Prerequisites:
 
 - [NVIDIA drivers](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)
 - [Anaconda Install](https://www.anaconda.com/distribution/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- Active Internet connection
 
 ## Windows install
-Once these prerequisites have been met, download the [windows installation script](https://raw.githubusercontent.com/tue-mps-edu/thermal_object_detection/issue_33_readmewindowsinstall/windows_install.bat?token=ACOIGZXFFXUXYVVFJVE6LZK6PKQ7I).
+Once the aforementioned [prerequisites](#Prerequisites)have been met follow the following steps for the installation:
+
+1. navigate to the [windows_install.bat](https://github.com/tue-mps-edu/thermal_object_detection/blob/issue_33_readmewindowsinstall/windows_install.bat) in the repo.  
+2. In the top right, right click the Raw button
+3. Save as to the directory of your choice
+4. Right click on the downloaded file and select "Run as administrator". Please note that this step is crucial and the installation will fail if executed without administrative privileges.
+5. You will be asked to choose directory for installation.  Please follow the instructions presented on the screen to continue. 
+6. Please note that halfway through the installation the computer will be restarted. After you log back in to your account, the script will automatically continue.Please grant the administrative privileges which you will be requested again after this restart. 
+
+If the installation is successful you should see an output as follows.
+
+```
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.066s
+OK
+```
+
+The virtual environment required to carry out model trainings by using object-detection API's is now ready. Before starting the training run the following command to access the installed environment.
+```
+$ conda activate tf1_12_gpu
+```
 
 
 ## Linux install

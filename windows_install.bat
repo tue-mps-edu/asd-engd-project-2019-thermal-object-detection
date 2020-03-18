@@ -15,7 +15,6 @@ cd /d "%Location%"
 :-------------------------------------- 
 
 @Echo Welcome to the installation of object detection API.
-pause
 git clone -b issue_33_readmewindowsinstall --recurse-submodules https://github.com/tue-mps-edu/thermal_object_detection.git
 cd "thermal_object_detection/third_party"
 cd "../"
@@ -43,6 +42,7 @@ setx Path "%cd%\third_party\models\research\slim;%cd%\third_party\protoc-3.11.4-
 setx Path "C:\Windows\System32;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;%Path%" 
 cd /d "third_party\models\research"
 msg * A restart is requried to install rest of the script. Please save your work and press ok!
+pause
 @Echo Confirm to continue with the restart
 pause
 
