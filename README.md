@@ -35,16 +35,17 @@ In order to use this repository, you must first make sure that the host computer
 - Active Internet connection
 
 ## Windows install
-Once the aforementioned [prerequisites](#Prerequisites)have been met follow the following steps for the installation:
+ Once the aforementioned [Prerequisites](#Prerequisites) have been met, follow the following steps for the installation:
 
-1. navigate to the [windows_install.bat](https://github.com/tue-mps-edu/thermal_object_detection/blob/issue_33_readmewindowsinstall/windows_install.bat) in the repo.  
-2. In the top right, right click the Raw button
-3. Save as to the directory of your choice
-4. Right click on the downloaded file and select "Run as administrator". Please note that this step is crucial and the installation will fail if executed without administrative privileges.
-5. You will be asked to choose directory for installation.  Please follow the instructions presented on the screen to continue. 
-6. Please note that halfway through the installation the computer will be restarted. After you log back in to your account, the script will automatically continue.Please grant the administrative privileges which you will be requested again after this restart. 
+ <em>Note: *Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.*</em>
 
-If the installation is successful you should see an output as follows.
+ 1. Navigate to the [windows_install.bat](https://github.com/tue-mps-edu/thermal_object_detection/blob/issue_33_readmewindowsinstall/windows_install.bat) in the repository.  
+ 2. In the top right corner, right-click the Raw button and choose "Save link as" in order to download the script to the directory of your choice.
+ 4. Right-click on the downloaded file and select "Run as administrator". Please note that this step is crucial, and the installation will fail if executed without administrative privileges.
+ 5. As a next step, you will be asked to choose a directory for installation. Make sure to follow the instructions prompted/displayed during the installation.   
+ 6. You will be prompted to save your work in order to proceed with the restart. After you log back into your account, the script will automatically continue. Please grant the administrative privileges which you will be requested again after this restart. 
+
+ If the installation is successful, you should see an output as follows.
 
 ```
 ..................
@@ -53,7 +54,7 @@ Ran 18 tests in 0.066s
 OK
 ```
 
-The virtual environment required to carry out model trainings by using object-detection API's is now ready. Before starting the training run the following command to access the installed environment.
+ The virtual environment required to carry out model training by using object-detection API's is now ready. Before starting the training run the following command to access the installed environment.
 ```
 $ conda activate tf1_12_gpu
 ```
