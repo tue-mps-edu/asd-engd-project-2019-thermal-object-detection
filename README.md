@@ -27,19 +27,20 @@ In order to run the code in this repository, it is necessary that the host compu
 In order to use this repository, you must first make sure that the host computer has the latest NVIDIA drivers installed. Afterwards, you will need Anaconda3 to a virtual environment (conda) using the *yml* file provided in the repository.
 
 
-
-Refer to these links to install the prerequisites:
+## Prerequisites
 
 - [NVIDIA drivers](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)
-
 - [Anaconda Install](https://www.anaconda.com/distribution/)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- Active internet connection
 
-  
 
+
+## Linux install
 Once these prerequisites have been met, clone this repository
 
 ```
-$ git clone https://github.com/Hrayo712/tf_trt_models
+$ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
 ```
 
 <em>Note: The repository includes tensorflow object detection API submodules under the third_party folder. These can be cloned automatically by adding the --recursive flag to the clone command. Otherwise, the install script will do it for you.</em>
@@ -49,7 +50,7 @@ $ git clone https://github.com/Hrayo712/tf_trt_models
 After cloning the repository, setup the conda environment with the given <em>yml</em> file to create the virtual environment with all the required dependencies. This process can take a while.
 
 ```
-$ cd tf_trt_models
+$ cd thermal_object_detection
 $ conda env create -f environment/tf1_12_gpu.yml
 ```
 
@@ -87,6 +88,40 @@ Ran 18 tests in 0.062s
 OK
 ```
 
+## Windows install
+ Once the aforementioned [Prerequisites](#Prerequisites) have been met, clone this repository
+
+```
+$ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
+```
+
+ <em>**Note: Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.**</em>
+
+ Navigate to the repository, right-click on the following file and select "Run as administrator". Please note that this step is crucial, and the installation will fail if executed without administrative privileges.
+ 
+ ```
+$ windows_install.bat
+```
+
+  
+Halfway through the script you will be asked to save your work in order to proceed with the restart.This is necessary for proper initialization of the paths added to the environment variables. 
+When you log back in again after the restart, the script will automatically continue. Please make sure to grant the administrative privileges re-requested after the restart. 
+
+ If the installation is successful, you should see an output as follows.
+
+```
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.066s
+OK
+```
+
+ The virtual environment required to carry out model training by using tensorflow and object detection API is now ready. Before starting the training run the following command to access the installed environment.
+```
+$ conda activate tf1_12_gpu
+```
+
+Instructions for training the models are elaborated in [tensorflow_training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training) folder of this repository.
 
 
 <a name="Target-Platform-Setup"></a>
