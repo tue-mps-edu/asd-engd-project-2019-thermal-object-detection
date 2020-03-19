@@ -10,7 +10,7 @@
 
 ## References
 
-- [Speed/accuracy trade-offs for modern convolutional object detectors] (https://arxiv.org/pdf/1611.10012.pdf)
+- [Speed/accuracy trade-offs for modern convolutional object detectors](https://arxiv.org/pdf/1611.10012.pdf)
 
   
 
@@ -40,7 +40,7 @@ The 2 main factors are: -
 
   It has been observed from research that input image size or image resizing has a significant effect on the accuracy of the network and based on available data we observe that decreasing the resolution by a factor 2 in both dimensions results in lower accuracy by 15.88% on an average. Also, smaller resolution images tend to detect larger objects easily but fail to detect smaller objects. This can be observed in the SSD mobile net network which resizes the images for its input layer and thus we have a poor accuracy. The figure below clearly indicates the performance of network based on image size.
 
-![img](doc_images/mAPVsGPUTime_2.JPG)
+![img](doc_images/mAPVsGPUTime_2.jpeg)
 
 *Figure 1: Overall mAP vs GPU Time of different object detectors based on image size*	
 
@@ -50,7 +50,7 @@ Thus based on the above figure we can say that higher resolution images have sig
 
   Due to smaller input image Mobile net network gets the benefit of speed in terms of real-time processing of images whereas Faster RCNN on the other hand are comparatively slower. The figure below gives us a good estimate in terms of GPU time.
 
-![img](doc_images/mAPVsGPUTime.jpg)
+![img](doc_images/mAPVsGPUTime.jpeg)
 
 *Figure 2: Overall mAP vs GPU Time of different object detecting architecture*s
 
@@ -64,7 +64,7 @@ Now to make the most of speed and accuracy trade off, Faster RCNN inception v2 m
 
 ## **Results & Discussion**
 
-![img](doc_images/Results.jpg)
+![img](doc_images/Results.jpeg)
 
 *Figure 3: Performance comparison between three neural network architectures* 
 
