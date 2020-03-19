@@ -4,13 +4,108 @@ This repository is based on [tensorflow object detection API](https://github.com
 
 In supervised deep learning, the recorded data needs to be cleaned and labelled before it can be used for training. It is assumed here that the recorded data is already cleaned and ready for labelling.
 
+
 ![tftworkflow](doc_images/tftworkflow.jpg)
 
+*Figure 1: General workflow of tensorflow training* 
+
+## Data Split
+As a first step, unannotated dataset needs to be divided into two subsets namely training and testing. A training subset, as the name suggests, is used to train the model, while test subset is used to test the trained model.Please note that test subset is only used when the model is completely trained in order to evaluate its performance. As a general guideline, the complete dataset is divided into the subsets of  80% training and 20% testing. More information on this topic can be found at  [Training and Test Sets: Splitting Data](https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data).
+
+
+
+
 ## Data labelling
-The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup. While the choice between the two is left to user discretion, it should be noted that the workflow for both the formats is marginally different. The data needs to be divided in advanced   change in workflow if used one or the other
+The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup. The choice between the two is left to user discretion, since these annotated files are ultimately converted to a cross-platform and cross-language binary format(TFRecord) as shown in Figure 1. 
+An example of annotation XML file for a image in a Pascal VOC format is shown below.
+```
+<object>
+	<name>fig</name>
+	<pose>Unspecified</pose>
+	<truncated>0</truncated>
+	<difficult>0</difficult>
+	<bndbox>
+		<xmin>256</xmin>
+		<ymin>27</ymin>
+		<xmax>381</xmax>
+		<ymax>192</ymax>
+	</bndbox>
+</object>
+```
+
+While an example of annotation JSON file with data for one image in COCO format can be shown as follows.
+```
+{
+  "type": "instances",
+  "images": [
+    {
+      "file_name": "0.jpg",
+      "height": 600,
+      "width": 800,
+      "id": 0
+    }
+  ]
+  "categories": [
+    {
+      "supercategory": "none",
+      "name": "date",
+      "id": 0
+    }
+  ]
+  "annotations": [
+    {
+      "id": 1,
+      "bbox": [
+        100,
+        116,
+        140,
+        170
+      ],
+      "image_id": 0,
+      "segmentation": [],
+      "ignore": 0,
+      "area": 23800,
+      "iscrowd": 0,
+      "category_id": 0
+    }
+  ]
+}
+```
+
+As seen in the above examples, there is significant difference between the two formats in the following area:
+
+* Bounding boxes - 
+Pascal VOC bounding box is the x and y co-ordinates of the top left and x and y co-ordinates of the bottom right edge of the rectangle.On the other hand, bounding box in COCO is the x and y co-ordinate of the top left and the height and width.
+* Data storage - Annotations in COCO format generate a single JSON file for the whole dataset while Pascal VOC creates separate XML files per image.
+
+While choosing either format does not impact model training,the workflow for both the formats is marginally different. To elaborate, we need to sort the annotated data in testing and training as a next step as shown in Figure 1. While not impossible, its challenging to reliably split a combined JSON file into two sets. As a result, its much more convenient to first split the data and then label while using COCO annotation. On the other hand, as Pascal VOC has separate files, they can be divided into test data and train data even after labelling. To summarize,
+
+`Recommended workflow for lablling in COCO format `
+* Split the unannotated data in training and testing
+* Label and create separate annotation JSON files for training and testing.
+
+`Recommended workflow for lablling in Pascal VOC format`
+* Split the unannotated data in training and testing
+* Label and create separate annotation JSON files for training and testing.
 
 
-To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. The images and their corresponding annotated files must have same names and should be divided into two different sets named as training and test data sets.
+
+
+
+
+
+
+For annotating the images in both the formats, several open source softwares are available. As an example [VGG Image Annotator](http://www.robots.ox.ac.uk/~vgg/software/via/) can be used for COCO annotations while [LabelImg](https://github.com/tzutalin/labelImg) can be used to annotate in PASCAL VOC format.   
+
+
+It should be ensured that the images and their corresponding annotated files must have same names when using PASCAL VOC format.
+
+and should be divided into two different sets named as training and test data sets.
+
+ 
+
+
+To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. 
 
 * [annotated_data](annotated_data/) 
 * [label_map](label_map/)
