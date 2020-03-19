@@ -1,10 +1,8 @@
-## Created on Fri Feb 14 10:20:44 2020
-### This script is adopted from google object detection API demo repository hosted at: 
-## https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134
-
+#Created on Fri Feb 14 10:20:44 2020
+# This script is adopted from google object detection API demo at:
+# https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134
 # Refer Dependicies_read.md file to see that you have all the prerequisites.
-
-### @Authors: t.s.r.parvathaneni@tue.nl(Ram), s.m.patwardhan@tue.nl (Sukrut)
+#@Authors: t.s.r.parvathaneni@tue.nl(Ram), s.m.patwardhan@tue.nl (Sukrut)
 
 ## SECTION 1 ========= XML to TFRecords
 
@@ -33,9 +31,9 @@ def class_text_to_int(row_label):
     if row_label == 'car':
         return 1
     print('car')
-    
 
-# Reads the xml and the images, and create the tf records files. 
+
+# Reads the xml and the images, and create the tf records files.
 def xml_to_tf(path_input, path_output):
     xml_list = []
     column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
@@ -49,7 +47,7 @@ def xml_to_tf(path_input, path_output):
 
             tree = ET.parse(xmlFile)
             root = tree.getroot()
-            
+
             filename = root[1].text #+ IMAGE_EXT
             width = int(root[4][0].text)
             height = int(root[4][1].text)
@@ -60,7 +58,7 @@ def xml_to_tf(path_input, path_output):
             ymaxs = []
             classes_text = []
             classes = []
-            
+
 
             for member in root.findall('object'):
                 car = member[0].text
@@ -68,7 +66,7 @@ def xml_to_tf(path_input, path_output):
                 ymin = int(member[4][1].text)
                 xmax = int(member[4][2].text)
                 ymax = int(member[4][3].text)
-                
+
                 xmins.append(xmin/width)
                 xmaxs.append(xmax/width)
                 ymins.append(ymin/height)
@@ -93,7 +91,7 @@ def xml_to_tf(path_input, path_output):
                 'image/object/class/label': dataset_util.int64_list_feature(classes),
             }))
             return tf_example
-           
+
 
 
 def main(_):
@@ -101,7 +99,7 @@ def main(_):
 
     tf_example = xml_to_tf(FLAGS.xml_input, FLAGS.output_path)
     writer.write(tf_example.SerializeToString())
-    writer.close()             
+    writer.close()
     output_path = os.path.join(os.getcwd(), FLAGS.output_path)
     print('Successfully created the TFRecords: {}'.format(output_path))
 

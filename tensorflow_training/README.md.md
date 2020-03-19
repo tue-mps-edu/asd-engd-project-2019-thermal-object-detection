@@ -1,12 +1,39 @@
-## TensorFlow Training
+## Tensorflow Training
+
+This repository is based on [tensorflow object detection API](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection) and a tutorial on [Custom Object Detection for Nvidia Jetson Nano](https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134). This setup enables transfer learning with a set of pre-trained deep learning models built into the tensorflow object detection API. Before you can start with the training, be sure to follow the steps and install all the dependencies from the main [README.md](../). 
+
+In supervised deep learning, the recorded data needs to be cleaned and labelled before it can be used for training. It is assumed here that the recorded data is already cleaned and ready for labelling.
+
+![tftworkflow](doc_images/tftworkflow.jpg)
+
+## Data labelling
+The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup. While the choice between the two is left to user discretion, it should be noted that the workflow for both the formats is marginally different. The data needs to be divided in advanced   change in workflow if used one or the other
+
+
+To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. The images and their corresponding annotated files must have same names and should be divided into two different sets named as training and test data sets.
+
+* [annotated_data](annotated_data/) 
+* [label_map](label_map/)
+* [model_config](model_config/)
+* [model_evalulation](model_evalulation/)
+* [model_frozen_inference_graph](model_frozen_inference_graph/)
+* [model_training_checkpoints](model_training_checkpoints/)
+* [pretrained_baseline_google_models](pretrained_baseline_google_models/)
+* [supporting_scripts](supporting_scripts/)
+* [training_data](training_data/)
 
  To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. The images and their corresponding annotated files must have same names and should be divided into two different sets named as training and test data sets.
 
 TensorFlow requires the TFRecords format for training. Therefore, we  must convert XML files to TFRecords, in order to begin the training.
 
 ```
-$  python xml_2_tfr.py --xml_input=data/test/  --output_path=training/test.record
-$  python xml_2_tfr.py --xml_input=data/train/  --output_path=training/train.record
+$  python supporting_scripts/xml_2_tfr.py --xml_input=data/test/  --output_path=training/test.record
+$  python supporting_scripts/xml_2_tfr.py --xml_input=data/train/  --output_path=training/train.record
+```
+
+
+```
+$  python json_2_tfr.py --input_image_dir=Train_flir/ --input_annotations_file=Train_Flir/thermal_annotation.json --output_dir=Train_tfrecord/
 ```
 
 Once the process of TFRecords generation has done, move these files to training folder. Alongside adding TFRecords, include .config file of the chosen neural network for the training in the  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder. Config file can be found in the  [samples](https://github.com/tensorflow/models/tree/6518c1c7711ef1fdbe925b3c5c71e62910374e3e/research/object_detection/samples) and can be adjusted according to the requirements by modifying parameters like batch size, number of classes, number of epochs, learning rate and enabling and disabling the dropout layer alongside choosing the dropout keep probability.
