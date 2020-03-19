@@ -92,7 +92,7 @@ OK
  Once the aforementioned [Prerequisites](#Prerequisites) have been met, clone this repository
 
 ```
-$ git clone https://github.com/tue-mps-edu/thermal_object_detection.git
+$ git clone --recurse-submodules https://github.com/tue-mps-edu/thermal_object_detection.git
 ```
 
  <em>**Note: Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.**</em>
