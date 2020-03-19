@@ -10,7 +10,7 @@
 
 ## References
 
-- [Speed/accuracy trade-offs for modern convolutional object detectors]: https://arxiv.org/pdf/1611.10012.pdf
+- [Speed/accuracy trade-offs for modern convolutional object detectors] (https://arxiv.org/pdf/1611.10012.pdf)
 
   
 
