@@ -136,7 +136,7 @@ def _postprocess_tf(img, boxes, scores, classes, conf_th):
 class TfSSD(object):
     """TfSSD class encapsulates things needed to run TensorFlow SSD."""
 
-    def __init__(self, model, input_shape):
+    def __init__(self, model, model_path, input_shape):
         self.model = model
         self.input_shape = input_shape
 
@@ -144,7 +144,7 @@ class TfSSD(object):
         ssd_graph = tf.Graph()
         with ssd_graph.as_default():
             graph_def = tf.GraphDef()
-            with tf.gfile.GFile('ssd/%s.pb' % model, 'rb') as fid:
+            with tf.gfile.GFile(model_path, 'rb') as fid:
                 serialized_graph = fid.read()
                 graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(graph_def, name='')

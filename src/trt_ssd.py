@@ -14,14 +14,14 @@ import csv
 import pycuda.autoinit  # This is needed for initializing CUDA driver
 
 from utils.ssd_classes import get_cls_dict
-from utils.ssd import TrtSSD
+from utils.ssd import TrtSSD, TfSSD
 from utils.camera import add_camera_args, Camera
 from utils.display import open_window, set_display, show_fps
 from utils.visualization import BBoxVisualization
 
 from utils import label_map_util
 from utils import visualization_utils as vis_util
-from utils.inference_utils import *
+
 
 class Range(object):
     def __init__(self, start, end):
@@ -58,11 +58,12 @@ def parse_args():
     parser.add_argument('--fps_testing',   dest='fps_testing',     type=bool,  default=False)
     parser.add_argument('--non_optimized_graph', dest='non_optimized_graph', type=bool, default=False) 
     parser.add_argument('--path_to_labels', dest='path_to_labels', type=str) 
+    parser.add_argument('--record_video',   dest='record_video',     type=bool,  default=False)
     args = parser.parse_args()
     return args
 
 
-def loop_and_detect(cam, model, conf_th, vis, fps_testing, non_optimized_graph):
+def loop_and_detect(cam, model, conf_th, vis, fps_testing, record_video):
     """Continuously capture images from camera and do object detection.
 
     # Arguments
@@ -76,7 +77,10 @@ def loop_and_detect(cam, model, conf_th, vis, fps_testing, non_optimized_graph):
     full_scrn = False
     fps = 0.0
     FPS_list = [[]]
-    #tic = time.time()
+
+    if record_video == True:    
+        out = cv2.VideoWriter('Online_Inference_Recording.mp4',cv2.VideoWriter_fourcc(*'MP4V'), 30, (cam.img_width,cam.img_height))
+
     while True:
         if cv2.getWindowProperty(WINDOW_NAME, 0) < 0:
             break
@@ -86,27 +90,23 @@ def loop_and_detect(cam, model, conf_th, vis, fps_testing, non_optimized_graph):
  
         if img is not None:
             
-            if non_optimized_graph == False:
-                 boxes, confs, clss = model.detect(img, conf_th)
-                 toc = time.time()
-                 img = vis.draw_bboxes(img, boxes, confs, clss)
-                 img = show_fps(img, fps)
-            elif non_optimized_graph == True: 
-                 print("running inference") 
-                 output_dict = run_inference_for_single_image(img, model)
-                 toc = time.time()
-                 vis_util.visualize_boxes_and_labels_on_image_array(img, output_dict['detection_boxes'], output_dict['detection_classes'], output_dict['detection_scores'],category_index,
-                                                                   instance_masks=output_dict.get('detection_masks'), use_normalized_coordinates=True, line_thickness=8)
-                 img = show_fps(img, fps)
-            
+            boxes, confs, clss = model.detect(img, conf_th)
+            toc = time.time()
+            img = vis.draw_bboxes(img, boxes, confs, clss)
+            img = show_fps(img, fps)
+             
             cv2.imshow(WINDOW_NAME, img)
-
+ 
             curr_fps = 1.0 / (toc - tic)
+
             # calculate an exponentially decaying average of fps number
             fps = curr_fps if fps == 0.0 else (fps*0.95 + curr_fps*0.05)
+           
             #append FPS for writing it to CSV if necessary  
             FPS_list.append([fps])
-   
+            
+            if record_video == True:    
+                out.write(img)     
               
         key = cv2.waitKey(1)
         if key == 27:  # ESC key: quit program
@@ -117,6 +117,8 @@ def loop_and_detect(cam, model, conf_th, vis, fps_testing, non_optimized_graph):
                     for row in FPS_list:
                         fps_writer.writerow(row)
             
+            if record_video == True:
+                out.release()
             break
         
         elif key == ord('F') or key == ord('f'):  # Toggle fullscreen
@@ -144,10 +146,7 @@ def main():
 
     elif args.non_optimized_graph == True:
         print("Loading Non-Optimized Frozen Graph")
-        model = load_graph_from_file(args.model_path)
-        label_map = label_map_util.load_labelmap(args.path_to_labels)
-        categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
-        category_index = label_map_util.create_category_index(categories)
+        model = TfSSD(args.model, args.model_path, NETWORK_INPUT_SIZE)
         
 
     cam.start()
@@ -155,7 +154,7 @@ def main():
     vis = BBoxVisualization(cls_dict)
 
 
-    loop_and_detect(cam, model, args.conf_th, vis, args.fps_testing, args.non_optimized_graph)
+    loop_and_detect(cam, model, args.conf_th, vis, args.fps_testing, args.record_video)
 
     cam.stop()
     cam.release()
