@@ -40,7 +40,7 @@ IoU means Intersection over Union. It is also referred as Jaccard Index. This is
 
 Currently, an IoU threshold of 0.5 is used by PASCAL VOC challenge, while MS COCO averages mAP over various IoU thresholds with a step of 0.05 from 0.5 to 0.95.
 
-![img](doc_images\clip_image.jpeg)
+![](doc_images/clip_image.jpeg)
 
 *Figure 1: IoU calculation of the following example*
 
