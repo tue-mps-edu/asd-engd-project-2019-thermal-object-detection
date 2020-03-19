@@ -89,7 +89,7 @@ OK
 ```
 
 ## Windows install
- Once the aforementioned [Prerequisites](#Prerequisites) have been met, clone this repository
+Once the aforementioned [prerequisites](#Prerequisites) have been met, clone this repository as follows. The repository includes tensorFlow object detection API submodules under the third_party folder. Thus, for the script work correctly, it is necessary to clone the repository by adding the --recursive flag to the clone command.
 
 ```
 $ git clone --recurse-submodules https://github.com/tue-mps-edu/thermal_object_detection.git
