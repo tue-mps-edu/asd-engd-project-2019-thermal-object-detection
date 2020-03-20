@@ -34,7 +34,7 @@ Currently, an IoU threshold of 0.5 is used by PASCAL VOC challenge, while MS COC
 
 
 
-![img](doc_images\clip_image.jpeg)
+![img](doc_images/clip_image.jpeg)
 
 *Figure 1: IoU calculation example*
 
