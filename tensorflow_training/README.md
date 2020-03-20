@@ -127,7 +127,7 @@ data
 ## Conversion to tfrecords
 TFRecord is a binary cross-platform, cross-language format used for efficient serialization of structured data. On top of being cross-platform, tfrecords offers crucial performance benefits  (e.g. faster read speeds, less storage) and has ability to handle large datasets.As a result, tensorflow uses tfrecords as its only supported input format.More information about the format can be found at [TFRecord and tf.Example](https://www.tensorflow.org/tutorials/load_data/tfrecord) and at [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564) .
 
-In order to convert the [annotated data](#Datalabelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize virtual conda environment installed from the main [README.md](../).
+In order to convert the [annotated data](#Data%20labelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize virtual conda environment installed from the main [README.md](../).
 
 ```
 $ conda activate tf1_12_gpu
@@ -169,8 +169,9 @@ where,
 The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labelmap)
 
 ## Label map
-.pbtxt file can be edited depending on the number and types of classes that our network has to be trained. This file is already available in  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder.a simple text editor is enough
 
+After [generating tfrecords](#Conversion%20to%20tfrecords) for test and train data, next step is to create a label map associated with the dataset.This label map defines a mapping from string class names to integer class Ids. It should include all the classes included in annotated data. As an important note, tensorflow can only read Label maps starting from id 1.
+A sample label map is shows as follows.
 ```
 item {
     id: 1
@@ -182,7 +183,11 @@ item {
 }
 ```
 
-* [label_map](label_map/)
+These maps can be created and edited using any text editor. However they must be saved as .pbtxt file instead of .txt file. The map should be placed in [label_map](label_map/) folder.A sample file of the label map is provided in the same folder.
+
+## Model configuration
+
+* 
 * [model_config](model_config/)
 * [model_evalulation](model_evalulation/)
 * [model_frozen_inference_graph](model_frozen_inference_graph/)
