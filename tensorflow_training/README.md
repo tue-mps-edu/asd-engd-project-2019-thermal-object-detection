@@ -12,11 +12,19 @@ In supervised deep learning, the recorded data needs to be cleaned and labelled 
 ## Data Split
 As a first step, unannotated dataset needs to be divided into two subsets namely training and testing. A training subset, as the name suggests, is used to train the model, while test subset is used to test the trained model.Please note that test subset is only used when the model is completely trained in order to evaluate its performance. As a general guideline, the complete dataset is divided into the subsets of  80% training and 20% testing. More information on this topic can be found at  [Training and Test Sets: Splitting Data](https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data).
 
+The divided data should then be kept in the [data](data/) directory. As an example a Dummy_dataset in the required format is showm as follows 
+ 
+```
+data
+ ├── Dummy_dataset
+ │ ├── train
+ │ ├── test
+```
 
-
+<em>Note: For reference, [data](data/) folder also includes datasets recorded during the project as well thermal data set provided by Flir. </em>
 
 ## Data labelling
-The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup. The choice between the two is left to user discretion, since these annotated files are ultimately converted to a cross-platform and cross-language binary format(TFRecord) as shown in Figure 1. 
+After the data is sorted as per [Data Split](#Datasplit), we can now proceed to label the data. The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup.COCO uses JSON format while Pascal VOC uses XML for the annotated data. The choice between the two is left to user discretion, since these annotated files are ultimately converted to a cross-platform and cross-language binary format(TFRecord) as shown in Figure 1. 
 An example of annotation XML file for a image in a Pascal VOC format is shown below.
 ```
 <object>
@@ -72,70 +80,96 @@ While an example of annotation JSON file with data for one image in COCO format 
 }
 ```
 
-As seen in the above examples, there is significant difference between the two formats in the following area:
+As seen in the above examples, there is significant difference between the two formats as described below.
 
 * Bounding boxes - 
 Pascal VOC bounding box is the x and y co-ordinates of the top left and x and y co-ordinates of the bottom right edge of the rectangle.On the other hand, bounding box in COCO is the x and y co-ordinate of the top left and the height and width.
 * Data storage - Annotations in COCO format generate a single JSON file for the whole dataset while Pascal VOC creates separate XML files per image.
 
-While choosing either format does not impact model training,the workflow for both the formats is marginally different. To elaborate, we need to sort the annotated data in testing and training as a next step as shown in Figure 1. While not impossible, its challenging to reliably split a combined JSON file into two sets. As a result, its much more convenient to first split the data and then label while using COCO annotation. On the other hand, as Pascal VOC has separate files, they can be divided into test data and train data even after labelling. To summarize,
+Despite these differences, it should be noted that choosing either format does not impact model training.However it has  an impact on the tool you choose for labelling the data. For annotating the images in both the formats, several open source softwares are available. As an example [VGG Image Annotator](http://www.robots.ox.ac.uk/~vgg/software/via/) can be used for COCO annotations while [LabelImg](https://github.com/tzutalin/labelImg) can be used to annotate in PASCAL VOC format.   
 
-`Recommended workflow for lablling in COCO format `
-* Split the unannotated data in training and testing
-* Label and create separate annotation JSON files for training and testing.
-
-`Recommended workflow for lablling in Pascal VOC format`
-* Split the unannotated data in training and testing
-* Label and create separate annotation JSON files for training and testing.
-
-
-
-
-
-
-
-
-For annotating the images in both the formats, several open source softwares are available. As an example [VGG Image Annotator](http://www.robots.ox.ac.uk/~vgg/software/via/) can be used for COCO annotations while [LabelImg](https://github.com/tzutalin/labelImg) can be used to annotate in PASCAL VOC format.   
-
-
-It should be ensured that the images and their corresponding annotated files must have same names when using PASCAL VOC format.
-
-and should be divided into two different sets named as training and test data sets.
-
- 
-
-
-To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. 
-
-* [annotated_data](annotated_data/) 
-* [label_map](label_map/)
-* [model_config](model_config/)
-* [model_evalulation](model_evalulation/)
-* [model_frozen_inference_graph](model_frozen_inference_graph/)
-* [model_training_checkpoints](model_training_checkpoints/)
-* [pretrained_baseline_google_models](pretrained_baseline_google_models/)
-* [supporting_scripts](supporting_scripts/)
-* [training_data](training_data/)
-
- To commence the training of the Neural Network, we need annotated [images](images) with their respective annotated files. For annotating images, [Label Image](https://github.com/tzutalin/labelImg)  application is being employed which provides the annotated files in the format of [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/) which is a XML file. The images and their corresponding annotated files must have same names and should be divided into two different sets named as training and test data sets.
-
-TensorFlow requires the TFRecords format for training. Therefore, we  must convert XML files to TFRecords, in order to begin the training.
-
+It should be ensured that the images and their corresponding annotated files must have same names when using Pascal VOC format. The final folder for Pascal VOC should look like
 ```
-$  python supporting_scripts/xml_2_tfr.py --xml_input=data/test/  --output_path=training/test.record
-$  python supporting_scripts/xml_2_tfr.py --xml_input=data/train/  --output_path=training/train.record
+data
+ ├── Dummy_dataset
+ │ ├── train
+ │ │ ├── image_name_0.jpg
+ │ │ ├── image_name_0.xml
+ │ │ ├── ...
+ │ │ ├── image_name_N.jpg
+ │ │ ├── image_name_N.xml
+ │ ├── test
+ │ │ ├── image_name_0.jpg
+ │ │ ├── image_name_0.xml
+ │ │ ├── ...
+ │ │ ├── image_name_N.jpg
+ │ │ ├── image_name_N.xml
 ```
 
+On the other hand, the final directory for datasets annotated in COCO format should look like 
+```
+data
+ ├── Dummy_dataset
+ │ ├── train
+ │ │ ├── images_directory
+ │ │ │ ├── image_name_0.jpg
+ │ │ │ ├── ...
+ │ │ │ ├── image_name_N.jpg
+ │ │ ├── annotation_file.json
+ │ ├── test
+ │ │ ├── images_directory
+ │ │ │ ├── image_name_0.jpg
+ │ │ │ ├── ...
+ │ │ │ ├── image_name_N.jpg
+ │ │ ├── annotation_file.json
+```
+
+## Conversion to tfrecords
+TFRecord is a binary cross-platform, cross-language format used for efficient serialization of structured data. On top of being cross-platform, tfrecords offers crucial performance benefits  (e.g. faster read speeds, less storage) and has ability to handle large datasets.As a result, tensorflow uses tfrecords as its only supported input format.More information about the format can be found at [TFRecord and tf.Example](https://www.tensorflow.org/tutorials/load_data/tfrecord) and at [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564) .
+
+In order to convert the [annotated data](#Datalabelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize virtual conda environment installed from the main [README.md](../).
 
 ```
-$  python json_2_tfr.py --input_image_dir=Train_flir/ --input_annotations_file=Train_Flir/thermal_annotation.json --output_dir=Train_tfrecord/
+$ conda activate tf1_12_gpu
+```
+Next, depending upon the labelling format, please follow the instructions either from `Only for the Pascal_VOC` section or from `Only for the COCO` section.
+
+ `Only for the Pascal_VOC` format issue the following commend to generate tfrecord file for the annotated data. Please note that this command is an example which creates tfrecords for Dummy_dataset. The input path for your test and train directories needs to be configured before issuing this command.  
+
+```
+$  python supporting_scripts/xml_tfrecord.py --xml_input=data/Dummy_dataset/test/  --output_path=tfrecords/test_tfr/test.record
+
+$  python supporting_scripts/xml_tfrecord.py --xml_input=data/Dummy_dataset/train/  --output_path=tfrecords/train_tfr/train.record
 ```
 
-Once the process of TFRecords generation has done, move these files to training folder. Alongside adding TFRecords, include .config file of the chosen neural network for the training in the  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder. Config file can be found in the  [samples](https://github.com/tensorflow/models/tree/6518c1c7711ef1fdbe925b3c5c71e62910374e3e/research/object_detection/samples) and can be adjusted according to the requirements by modifying parameters like batch size, number of classes, number of epochs, learning rate and enabling and disabling the dropout layer alongside choosing the dropout keep probability.
+where,
 
-Next to this, paths has to be specified for the training and testing data records, .pbtxt file, checkpoint file of the neural network. 
+`xml_input` = Relative path to test/ train directory containing images and corresponding XML files. 
 
-.pbtxt file can be edited depending on the number and types of classes that our network has to be trained. This file is already available in  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder.
+`output_path`= This is the output path for the generated tfrecords file. User doesn't need to change this path.
+
+The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labelmap).
+
+`Only for the COCO` format issue the following commend to generate tfrecord file for the annotated data.Please note that this command is an example which creates tfrecords for Flir dataset. The input path for your test and train directories needs to be configured before issuing this command. 
+
+```
+$  python json_tfrecord.py --input_image_dir=data/Flir/test/thermal_8_bit --input_annotations_file=data/Flir/test/thermal_annotations.json --output_dir=tfrecords/test_tfr/test.record
+
+$  python json_tfrecord.py --input_image_dir=data/Flir/train/thermal_8_bit --input_annotations_file=data/Flir/train/thermal_annotations.json --output_dir=tfrecords/train_tfr/train.record
+```
+
+where,
+
+`input_image` = Relative path to test/ train directory containing images.
+
+`input_annotations_file`=  Relative path to test/ train directory containing JSON annotation file.
+
+`output_dir`= This is the output path for the generated tfrecords file. User doesn't need to change this path.
+
+The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labelmap)
+
+## Label map
+.pbtxt file can be edited depending on the number and types of classes that our network has to be trained. This file is already available in  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder.a simple text editor is enough
 
 ```
 item {
@@ -147,6 +181,24 @@ item {
     name: 'Person'
 }
 ```
+
+* [label_map](label_map/)
+* [model_config](model_config/)
+* [model_evalulation](model_evalulation/)
+* [model_frozen_inference_graph](model_frozen_inference_graph/)
+* [model_training_checkpoints](model_training_checkpoints/)
+* [pretrained_baseline_google_models](pretrained_baseline_google_models/)
+* [supporting_scripts](supporting_scripts/)
+* [tfrecords](tfrecords/)
+
+
+
+
+Once the process of TFRecords generation has done, move these files to training folder. Alongside adding TFRecords, include .config file of the chosen neural network for the training in the  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder. Config file can be found in the  [samples](https://github.com/tensorflow/models/tree/6518c1c7711ef1fdbe925b3c5c71e62910374e3e/research/object_detection/samples) and can be adjusted according to the requirements by modifying parameters like batch size, number of classes, number of epochs, learning rate and enabling and disabling the dropout layer alongside choosing the dropout keep probability.
+
+Next to this, paths has to be specified for the training and testing data records, .pbtxt file, checkpoint file of the neural network. 
+
+
 
 Checkpoint file can be found in the [ssd_mobilenet_v2_coco_208_03_29](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/ssd_mobilenet_v2_coco_2018_03_29) . This folder is available from the link provided. 
 
