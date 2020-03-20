@@ -455,7 +455,28 @@ where,
 As an output you will see mAP score for entire dataset and each class in both tensorboard and command prompt. An example of how the end result will look like is shown as below
 
 ```
-placeholder for mAP resutls 
+INFO:tensorflow:# success: 1366
+INFO:tensorflow:# success: 1366
+INFO:tensorflow:# skipped: 0
+INFO:tensorflow:# skipped: 0
+INFO:tensorflow:Writing metrics to tf summary.
+INFO:tensorflow:Writing metrics to tf summary.
+INFO:tensorflow:Losses/Loss/classification_loss: 3.204588
+INFO:tensorflow:Losses/Loss/classification_loss: 3.204588
+INFO:tensorflow:Losses/Loss/localization_loss: 1.455510
+INFO:tensorflow:Losses/Loss/localization_loss: 1.455510
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'bicycle'": 0.179572
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'bicycle'": 0.179572
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'car'": 0.584676
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'car'": 0.584676
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'person'": 0.339082
+INFO:tensorflow:PascalBoxes_PerformanceByCategory/AP@0.5IOU/b"b'person'": 0.339082
+INFO:tensorflow:PascalBoxes_Precision/mAP@0.5IOU: 0.367777
+INFO:tensorflow:PascalBoxes_Precision/mAP@0.5IOU: 0.367777
+INFO:tensorflow:Metrics written to tf summary.
+INFO:tensorflow:Metrics written to tf summary.
+INFO:tensorflow:Finished evaluation!
+INFO:tensorflow:Finished evaluation!
 ```
 
 ## Additional information
