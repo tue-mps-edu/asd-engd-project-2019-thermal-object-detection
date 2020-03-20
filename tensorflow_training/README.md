@@ -1,6 +1,6 @@
 ## Tensorflow Training
 
-This repository is based on [tensorflow object detection API](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection) and a tutorial on [Custom Object Detection for Nvidia Jetson Nano](https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134). This setup enables transfer learning with a set of pre-trained deep learning models built into the tensorflow object detection API. Before you can start with the training, be sure to follow the steps and install all the dependencies from the main [README.md](../). 
+This repository is based on [tensorflow object detection API](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection) and a tutorial on [Custom Object Detection for Nvidia Jetson Nano](https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134). This setup enables transfer learning with a set of pre-trained deep learning models built into the tensorflow object detection API. Before you can start with the training, be sure to follow the steps and install all the dependencies from the main [README.md](../). These guidelines work the same for both Linux as well as windows based machines. 
 
 In supervised deep learning, the recorded data needs to be cleaned and labelled before it can be used for training. It is assumed here that the recorded data is already cleaned and ready for labelling.
 
@@ -321,35 +321,109 @@ label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
 After making all the changes above save the file and now we are ready to start training.
 
 ## Model training
-Checklist
-remove older frozen grpahs
+
+Before starting with the training please recheck the setup with the following check list:
+
+- [tfrecords](tfrecords/) includes tfrecords file for both train and test sets
+- [label_map](label_map/) includes the correct label_map.pbtxt file
+- [pretrained_baseline_google_models(pretrained_baseline_google_models/) includes correct base model 
+- [model_config](model_config/) includes correct configuration file saved with all the changes made in [Model configuration](#Model%20configuration)
+- Please make sure that [model_evalulation](model_evalulation/), [model_frozen_inference_graph](model_frozen_inference_graph/), [model_training_checkpoints](model_training_checkpoints/) folders are empty and do not contain any files from earlier trainings.
+
+If everything is in order, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository.  Initialize virtual conda environment by
+
+```
+$ conda activate tf1_12_gpu
+```
+
+To start the training, 
+
+```
+$ python train.py --logtostderr --train_dir=model_training_checkpoints/ --pipeline_config_path=model_config/ssd_mobilenet_v2_coco.config
+```
+where,
+
+`train_dir` = This is the directory where new training checkpoints will be saved. User does not need to change this value.
+
+`pipeline_config_path`= This is the path to configuration file saved in [model_config](model_config/).The above command includes path to an ssd_mobilenet_v2_coco.config file as an example. However, it should be changed when training with a different configuration.
+
+If successful, you should see the following result on the screen
+```
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+INFO:tensorflow:Starting Session.
+INFO:tensorflow:Starting Session.
+INFO:tensorflow:Saving checkpoint to path C:/models-1.12.0/research/object_detection/model_for_training/Model_Inference_trial/model.ckpt
+INFO:tensorflow:Saving checkpoint to path C:/models-1.12.0/research/object_detection/model_for_training/Model_Inference_trial/model.ckpt
+INFO:tensorflow:Starting Queues.
+INFO:tensorflow:Starting Queues.
+INFO:tensorflow:global_step/sec: 0
+INFO:tensorflow:global_step/sec: 0
+INFO:tensorflow:Recording summary at step 0.
+INFO:tensorflow:Recording summary at step 0.
+INFO:tensorflow:global step 1: loss = 19.4835 (20.271 sec/step)
+INFO:tensorflow:global step 1: loss = 19.4835 (20.271 sec/step)
+INFO:tensorflow:global step 2: loss = 18.9409 (1.634 sec/step)
+INFO:tensorflow:global step 2: loss = 18.9409 (1.634 sec/step)
+INFO:tensorflow:global step 3: loss = 18.8032 (1.925 sec/step)
+```
+
+While the model is training, its possible to visualize various metrics such as  loss, accuracy, histograms of weights and biases and model graphs. Full documentation on tensorbaord can be found at [Tensorboard_guide](https://www.tensorflow.org/tensorboard/get_started). To initiate the tensorbaord, start additional instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Run the following commands to activate conda virtual environment and run tensorboard.
+
+```
+$ conda activate tf1_12_gpu
+$ tensorboard --logdir=model_training_checkpoints/
+```
+where,
+
+`logdir` = This is the directory where model is saving new checkpoints during the training. User does not need to change is path.
+
+<em>Note: Tesnorbaord can sometimes fail to load. Use of google chrome is highly recommend since other browser have known issues. If nothing else work, use the following command instead to initiate the tensorboard.
+```
+$ conda activate tf1_12_gpu
+$ tensorboard --logdir=model_training_checkpoints/ -host localhost --port 8088
+```
+</em>
+
+Since the training can be computationally intensive. To see the resource allocation, start a new instance of the terminal/ command prompt and run the following
+```
+$ nvidia-smi -l 100
+```
+You should see the following panel. Note that the panel automatically refreshes every 100 seconds.
+
+![Nvidia_smi_panel](doc_images/Nvidia_smi.JPG)
+
+*Figure 2: Nvidia resource monitoring panel* 
+
+Once the training is finished, navigate to [model_training_checkpoints](model_training_checkpoints/) and confirm if you following results
+
+```
+model_training_checkpoints
+ ├── model_training_checkpoints
+ │ ├── saved_model
+ │ ├── checkpoint
+ │ ├── frozen_inference_graph.pb
+ │ ├── model.ckpt.data-00000-of-00001
+ │ ├── model.ckpt.index
+ │ ├── model.ckpt.meta
+ │ ├── pipeline.config
+```
+
 
 ## Model evaluation
 
 
-
-
-
-* [model_evalulation](model_evalulation/)
-* [model_frozen_inference_graph](model_frozen_inference_graph/)
-* [model_training_checkpoints](model_training_checkpoints/)
 * [supporting_scripts](supporting_scripts/)
 
 
 
 
 
-After following these steps, training can be started in the python environment by using the following command.
 
-```
-$ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_mobilenet_v2_coco.config
-```
 
-During training, use the TensorBoard to catch up the training.
 
-```
-$ tensorboard --logdir=training/
-```
 
 Once upon finishing the training, the .pb file has to be generated in order to feed it in to the Jetson Xavier for the optimization of inference model. The .pb file is called as frozen inference graph which is an input for loading the model.
 
@@ -357,19 +431,7 @@ Once upon finishing the training, the .pb file has to be generated in order to f
 $ python export_inference_graph.py --input_type image_tensor --pipeline_config_path training/ssdlite_mobilenet_v2_coco.config --trained_checkpoint_prefix training/model.ckpt-XXXX --output_directory inference_graph
 ```
 
-Evaluation of the trained network can be done by running eval.py file. Pycocotools needs to be installed on Windows and Linux operating systems. In the Conda virtual environment execute the following commands for respective operating systems.
-
-For Windows:
-
-```
-pip install git+https://github.com/philferriere/cocoapi.git#egg=pycocotools^&subdirectory=PythonAPI
-```
-
-For Linux:
-
-```
-pip install pycocotools
-```
+Evaluation of the trained network can be done by running eval.py file. 
 
 
 # mAP evaluation code 
