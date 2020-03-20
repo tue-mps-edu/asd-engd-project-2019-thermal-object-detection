@@ -166,7 +166,7 @@ where,
 
 `output_dir`= This is the output path for the generated tfrecords file. User doesn't need to change this path.
 
-The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labelmap)
+The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labe%20lmap)
 
 ## Label map
 
@@ -186,20 +186,118 @@ item {
 These maps can be created and edited using any text editor. However they must be saved as .pbtxt file instead of .txt file. The map should be placed in [label_map](label_map/) folder.A sample file of the label map is provided in the same folder.
 
 ## Model configuration
+The Tensorflow Object Detection API uses protobuf files to configure the training and evaluation process. At a high level, the configeration file is split into five parts:
+* `model configuration` - This defines what type of model will be trained (ie. meta-architecture, feature extractor).
+* `train_config` - This decides what parameters should be used to train model parameters (ie. Stochastic gradient descent  parameters, input preprocessing and feature extractor initialization values).
+* `eval_config` - This determines what set of metrics will be reported for evaluation.
+* `train_input_config` - This defines what dataset the model should be trained on.
+* `eval_input_config` - This defines what dataset the model will be evaluated on. Typically this should be different than the training input dataset.
 
-* 
+
+The skeleton of configuration file is shown below
+```
+model {
+(... Add model config here...)
+}
+
+train_config : {
+(... Add train_config here...)
+}
+
+train_input_reader: {
+(... Add train_input configuration here...)
+}
+
+eval_config: {
+}
+
+eval_input_reader: {
+(... Add eval_input configuration here...)
+}
+```
+
+Depending on the model to be trained (e.g MobilenetV2, ResNET), a corresponding sample file for model configuration can be found at [object detection sample configs](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection/samples/configs). This configuration file allows us to tweak several hyper-parameters of the model such as batch size, number of classes, number of epochs, optimizers, learning rate dropout and data augmentation.
+
+For transfer learning,`train_input_config`,`eval_config` and `eval_input_config` are especially important. An example of the 
+
+```
+train_config: {
+  batch_size: 24
+  optimizer {
+    rms_prop_optimizer: {
+      learning_rate: {
+        exponential_decay_learning_rate {
+          initial_learning_rate: 0.004
+          decay_steps: 800720
+          decay_factor: 0.95
+        }
+      }
+      momentum_optimizer_value: 0.9
+      decay: 0.9
+      epsilon: 1.0
+    }
+  }
+  **fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"**
+  fine_tune_checkpoint_type:  "detection"
+  # Note: The below line limits the training process to 200K steps, which we
+  # empirically found to be sufficient enough to train the pets dataset. This
+  # effectively bypasses the learning rate schedule (the learning rate will
+  # never decay). Remove the below line to train indefinitely.
+  num_steps: 200000
+  data_augmentation_options {
+    random_horizontal_flip {
+    }
+  }
+  data_augmentation_options {
+    ssd_random_crop {
+    }
+  }
+}
+
+train_input_reader: {
+  tf_record_input_reader {
+    input_path: "PATH_TO_BE_CONFIGURED/mscoco_train.record-?????-of-00100"
+  }
+  label_map_path: "PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt"
+}
+
+eval_config: {
+  num_examples: 8000
+  # Note: The below line limits the evaluation process to 10 evaluations.
+  # Remove the below line to evaluate indefinitely.
+  max_evals: 10
+}
+
+eval_input_reader: {
+  tf_record_input_reader {
+    input_path: "PATH_TO_BE_CONFIGURED/mscoco_val.record-?????-of-00010"
+  }
+  label_map_path: "PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt"
+  shuffle: false
+  num_readers: 1
+}
+```
+## Model training
+Checklist
+remove older frozen grpahs
+
+## Model evaluation
+
+
+
+
 * [model_config](model_config/)
 * [model_evalulation](model_evalulation/)
 * [model_frozen_inference_graph](model_frozen_inference_graph/)
 * [model_training_checkpoints](model_training_checkpoints/)
 * [pretrained_baseline_google_models](pretrained_baseline_google_models/)
 * [supporting_scripts](supporting_scripts/)
-* [tfrecords](tfrecords/)
 
 
 
 
-Once the process of TFRecords generation has done, move these files to training folder. Alongside adding TFRecords, include .config file of the chosen neural network for the training in the  [training](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/training) folder. Config file can be found in the  [samples](https://github.com/tensorflow/models/tree/6518c1c7711ef1fdbe925b3c5c71e62910374e3e/research/object_detection/samples) and can be adjusted according to the requirements by modifying parameters like batch size, number of classes, number of epochs, learning rate and enabling and disabling the dropout layer alongside choosing the dropout keep probability.
+
+
 
 Next to this, paths has to be specified for the training and testing data records, .pbtxt file, checkpoint file of the neural network. 
 
