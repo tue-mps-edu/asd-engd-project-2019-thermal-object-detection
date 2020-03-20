@@ -186,7 +186,23 @@ item {
 These maps can be created and edited using any text editor. However they must be saved as .pbtxt file instead of .txt file. The map should be placed in [label_map](label_map/) folder.A sample file of the label map is provided in the same folder.
 
 ## Model configuration
-The Tensorflow Object Detection API uses protobuf files to configure the training and evaluation process. At a high level, the configeration file is split into five parts:
+
+As a next step we need to download the pre-trained models that we want to use as a base model for our training. Download links of all the supported models can be located at [pre-trained models for tensorflow](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Once the model is downloaded, unzip the model and place it in the [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder. As an example, a ssd_mobilenet_v2 model is shown below to illustrate the final outcome of this step.
+```
+pretrained_baseline_google_models
+ ├── ssd_mobilenet_v2_coco_2018_03_29
+ │ ├── saved_model
+ │ ├── checkpoint
+ │ ├── frozen_inference_graph.pb
+ │ ├── model.ckpt.data-00000-of-00001
+ │ ├── model.ckpt.index
+ │ ├── model.ckpt.meta
+ │ ├── pipeline.config
+```
+
+<em>**Note: For reference, [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder already includes  base models for ssd_mobilenet_v2_coco and aster_rcnn_inception_v2_coco. You need to do this step only when you need to use different models other than stated.**</em>
+
+To configure the training and evaluation process of the model discussed earlier, tensorflow object detection API uses a configuration file. At a high level, the configuration file is split into five parts:
 * `model configuration` - This defines what type of model will be trained (ie. meta-architecture, feature extractor).
 * `train_config` - This decides what parameters should be used to train model parameters (ie. Stochastic gradient descent  parameters, input preprocessing and feature extractor initialization values).
 * `eval_config` - This determines what set of metrics will be reported for evaluation.
@@ -216,9 +232,9 @@ eval_input_reader: {
 }
 ```
 
-Depending on the model to be trained (e.g MobilenetV2, ResNET), a corresponding sample file for model configuration can be found at [object detection sample configs](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection/samples/configs). This configuration file allows us to tweak several hyper-parameters of the model such as batch size, number of classes, number of epochs, optimizers, learning rate dropout and data augmentation.
+Depending on the model to be trained (e.g MobilenetV2, ResNET), a corresponding sample file for model configuration should be downloaded from [object detection sample configs](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection/samples/configs) and placed in [model_config](model_config/) folder.The configuration file has .config extension and can be edited with any simple text editor. Configuration file for ssd_mobilenet_v2_coco is already provided in the [model_config](model_config/) as an example.
 
-For transfer learning,`train_input_config`,`eval_config` and `eval_input_config` are especially important. An example of the 
+This configuration file allows us to tweak several hyper-parameters of the model such as batch size, number of classes, number of epochs, optimizers, learning rate dropout and data augmentation.For transfer learning, `train_input_config`, `eval_config` and `eval_input_config` are essential since we need to provide relevant paths to tfrecords, label maps  and  base models in these sections. To elaborate further, aforementioned sections of a configuration file for SSD MobilenetV2 are shown below as an example. 
 
 ```
 train_config: {
@@ -237,7 +253,7 @@ train_config: {
       epsilon: 1.0
     }
   }
-  **fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"**
+  fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"
   fine_tune_checkpoint_type:  "detection"
   # Note: The below line limits the training process to 200K steps, which we
   # empirically found to be sufficient enough to train the pets dataset. This
@@ -253,30 +269,57 @@ train_config: {
     }
   }
 }
+```
 
+For the above section, we need to add the absolute path to the model placed in [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder to the following line:
+
+fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"
+
+This allows the us to load a pre-trained model as a base for our training. Its important to know that most of this model are "frozen" in a sense that their weights wont change as we train the model with our data. Since layers only specific to a class such as feature extractor are getting trained while retaining the weights in frozen layers, this parameter allows us to fine tune the model to our use case.   
+
+```
 train_input_reader: {
   tf_record_input_reader {
-    input_path: "PATH_TO_BE_CONFIGURED/mscoco_train.record-?????-of-00100"
+    input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
   }
-  label_map_path: "PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt"
+  label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
 }
+```
 
+Furthermore we need to provide absolute path to the train tfrecord file located at [tfrecords](tfrecords/) folder to the `eval_input_reader` section shown above.
+
+input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
+
+We also need add path to the label map file placed [label_map](label_map/) folder in this section of the configuration file.
+
+label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
+
+```
 eval_config: {
   num_examples: 8000
   # Note: The below line limits the evaluation process to 10 evaluations.
   # Remove the below line to evaluate indefinitely.
   max_evals: 10
 }
-
 eval_input_reader: {
   tf_record_input_reader {
-    input_path: "PATH_TO_BE_CONFIGURED/mscoco_val.record-?????-of-00010"
+    input_path: "PATH_TO_BE_CONFIGURED/tfrecords/test_tfr/test.record"
   }
-  label_map_path: "PATH_TO_BE_CONFIGURED/mscoco_label_map.pbtxt"
+  label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
   shuffle: false
   num_readers: 1
 }
 ```
+In the `eval_config` section shown above, the parameter `num_examples` should be equal total number test images based on your [data split](#Data%20Split). Finally we need to provide absolute path to the test tfrecord file located at [tfrecords](tfrecords/) to the `eval_input_config` section shown above.
+
+input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
+
+We also need add path to the same label map file used earlier located in [label_map](label_map/) folder.
+
+label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
+
+After making all the changes above save the file and now we are ready to start training.
+
 ## Model training
 Checklist
 remove older frozen grpahs
@@ -286,26 +329,15 @@ remove older frozen grpahs
 
 
 
-* [model_config](model_config/)
+
 * [model_evalulation](model_evalulation/)
 * [model_frozen_inference_graph](model_frozen_inference_graph/)
 * [model_training_checkpoints](model_training_checkpoints/)
-* [pretrained_baseline_google_models](pretrained_baseline_google_models/)
 * [supporting_scripts](supporting_scripts/)
 
 
 
 
-
-
-
-Next to this, paths has to be specified for the training and testing data records, .pbtxt file, checkpoint file of the neural network. 
-
-
-
-Checkpoint file can be found in the [ssd_mobilenet_v2_coco_208_03_29](https://github.com/tue-mps-edu/thermal_object_detection/tree/master/tensorflow_training/ssd_mobilenet_v2_coco_2018_03_29) . This folder is available from the link provided. 
-
-[1]: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
 After following these steps, training can be started in the python environment by using the following command.
 
