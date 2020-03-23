@@ -22,13 +22,13 @@ Recall is the ratio of number of true positives divided by number of true positi
 
 ### Why mAP?
 
-Object Detection algorithm does two tasks both classification and localization of multiple classes and objects in a single image. And these tasks should be evaluated. For this purpose, mAP is used instead of precision metric because the latter is only used in image classification problems and cannot be directly employed in the problems mentioned initially. The reason being, for example, a particular image consists of multiple classes in it, if we use precision metrics it will detect all the objects in an image and divide it by the total no. of objects present in that image. Now these total no. of images are a combination of different classes and so the obtained precision is with respect to the image and not with respect to the class. In other words, we require precision per class and not per image as it has no significance for conducting our evaluation.
+The object detection algorithm does two tasks, namely classification and localization of multiple classes and objects in a single image These tasks are evaluated. For this purpose, mAP is used instead of precision metric because the latter is only used in image classification problems and cannot be directly employed in the problems mentioned initially. The reason being, for example, a particular image consists of multiple classes in it, if we use precision metrics it will detect all the objects in an image and divide it by the total number of objects present in that image. Now these total number of images are a combination of different classes and so the obtained precision is with respect to the image and not with respect to the class. In other words, we require precision per class and not per image as it has no significance for conducting our evaluation.
 
-Along side mAP, IoU(Intersection over Union) is also employed as a metric to evaluate the performance of the object detection system. These metrics are described briefly in the following sections.
+Alongside mAP, IoU(Intersection over Union) is also employed as a metric to evaluate the performance of the object detection system. These metrics are described briefly in the following sections.
 
 ## IoU & mAP
 
-IoU also referred as Jaccard Index is measured using the ground truth bounding boxes and predicted bounding boxes. Measurement is specifically upon the overlap of these bounding boxes. We use this to verify how much our predicted boundary overlaps with the ground truth. In reality, a predefined IoU threshold is set to classify whether the prediction is a true positive or a false positive. Figure 1 depicts an example of calculating IoU on a particular object. 
+IoU, also referred as Jaccard Index, is measured using the ground truth bounding boxes and predicted bounding boxes. Measurement is specifically upon the overlap of these bounding boxes. We use this to verify how much our predicted boundary overlaps with the ground truth. In reality, a predefined IoU threshold is set to classify whether the prediction is a true positive or a false positive. Figure 1 depicts an example of calculating IoU on a particular object. 
 
 Currently, an IoU threshold of 0.5 is used by PASCAL VOC challenge, while MS COCO averages mAP over various IoU thresholds with a step of 0.05 from 0.5 to 0.95.
 
@@ -42,9 +42,9 @@ Currently, an IoU threshold of 0.5 is used by PASCAL VOC challenge, while MS COC
 
 ### Optional
 
-You could also use both the methods of mAP and Precision/Recall to test your network as this gives you a deeper understanding of your network's capabilities. Like mAP score helps you to evaluate and assess your network's performance per class which is beneficial to understand that whether you need to collect more data to improve the mAP scores or not, whereas Precision/Recall helps you evaluate the smallest range up to which your network can perform effectively as even the network is having limitations after reaching a certain bounding box area.
+You could also use both the methods of mAP and precision/recall to test your network as this gives you a deeper understanding of your network's capabilities. Like mAP score helps you to evaluate and assess your network's performance per class which is beneficial to understand that whether you need to collect more data to improve the mAP scores or not, whereas precision/recall helps you evaluate the smallest range up to which your network can perform effectively as even the network is having limitations after reaching a certain bounding box area.
 
-The mAP method has less number of parameters to formulate in terms of logic of operation whereas the COCO evaluation method of precision/recall has too many parameters to deal with like what size of bounding boxes you start with and end with, number of simulations must be done with various recording data to actually prove that these bounding boxes numbers are viable which increases complexity of the project.  
+The mAP method has fewer parameters to formulate in terms of logic of operation whereas the COCO evaluation method of precision/recall has too many parameters to deal with like what size of bounding boxes you start with and end with, number of simulations must be done with various recording data to actually prove that these bounding boxes numbers are viable which increases complexity of the project.  
 
 ## References 
 
