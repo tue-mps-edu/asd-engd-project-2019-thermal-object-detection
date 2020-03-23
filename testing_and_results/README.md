@@ -4,7 +4,7 @@ This folder has two sections:
 
 The first section contains the beta test plan and its post analysis documentation including the images of assembly of the hardware on the car.
 
--  [Beta Test Plan](beta_test_plan/README.md)
+-  [beta_test_plan](beta_test_plan/README.md)
 
 The second section contains all the sub folders of the documentation on different types of tests performed during the training of neural network architecture along with the discussion on their results. The topics that are listed as follows:
 
