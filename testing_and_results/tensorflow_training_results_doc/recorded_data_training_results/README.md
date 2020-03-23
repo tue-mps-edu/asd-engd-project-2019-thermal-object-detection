@@ -8,7 +8,7 @@ A number of tests were performed on the SSD MobileNet v2 network in order to get
 - The SSD MobileNet v2 network was trained using the last checkpoint of the previously trained data (Google images) with the thermal images of FLIR. After the training, evaluation is performed on test images (thermal) to check the mean Average Precision (mAP) value. This mAP value is used as a performance indicator for our network.
 - The results obtained were quite satisfactory but it is always good to tweak some important parameters (hyperparameters) to increase our network’s accuracy. So, a study was performed to evaluate the improvement in accuracy of the network based on tweaking hyperparameters.
 
-- The results obtained shows that by changing the activation function from SIGMOID to SOFTMAX yields us the best performance as shown in fig.1.
+- The results obtained shows that by changing the activation function from SIGMOID to SOFTMAX yields us the best performance as shown in figure 1.
 
  
 
@@ -20,7 +20,7 @@ A number of tests were performed on the SSD MobileNet v2 network in order to get
 
 **Case 1**:- Collection of additional data and combining dataset 
 
-In order to further improve the mAP score of the neural network model for thermal dataset it is decided to collect additional thermal images and build on top of the optimized SSD MobileNet v2 network which was with activation function SOFTMAX. Accordingly, 1548 good quality thermal images are obtained using FLIR TAU camera mounted on top of TOYOTA PRIUS vehicle during the Beta Test. Further information about the Beta Test can be found in [Beta Test Plan](testing_and_results/beta_test_plan/README.md).
+In order to further improve the mAP score of the neural network model for thermal dataset it is decided to collect additional thermal images and build on top of the optimized SSD MobileNet v2 network which was with activation function SOFTMAX. Accordingly, 1548 good quality thermal images are obtained using FLIR TAU camera mounted on top of TOYOTA PRIUS vehicle during the Beta Test. Further information about the Beta Test can be found in [Beta Test Plan](thermal_object_detection/testing_and_results/beta_test_plan/README.md).
 
 These collected images along with FLIR images are combined together and the baseline SSD MobileNet v2 network is trained only with the intuition that a larger dataset would eventually give better results.
 
