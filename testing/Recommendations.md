@@ -18,7 +18,9 @@ During the development of this project, we encountered several constraints and l
 
   This means that data fetched via the grabber will not be affected by the image processing settings of the Tau2. Because of this, Automatic Gain Control (AGC), along with other image-enhancing filter functionalities (DDE, ACE) will not be available. This means that the quality of data obtained with this setup will significantly differ from the data used for training (FLIR's dataset), degrading inference performance. The quality difference is shown in Figure 2. 
 
-  <center> <img src="doc_images/low_res_image.jpeg" alt="Low quality image" style="zoom:20%;" /> <img src="doc_images/high_res_image.jpeg" alt="High quality image" style="zoom:20%;" /> </center>
+  |                                                              |                                                              |
+  | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | ![](/home/hiram/thermal_object_detection/testing/doc_images/low_res_image.jpeg) | ![](/home/hiram/thermal_object_detection/testing/doc_images/high_res_image.jpeg) |
 
   *Figure 2: Low resolution (left) image acquired using the TeAx thermal grabber compared to a high resolution (right) image from FLIR's dataset.*
 
