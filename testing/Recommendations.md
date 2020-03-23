@@ -8,15 +8,9 @@ During the development of this project, we encountered several constraints and l
 
 - The FLIR Tau2 camera is currently attached to the *TeAx ThermalCapture Grabber*. The main functionality of the grabber is to provide an easy interface to transmit image data via USB to the target hardware (PC or Jetson Xavier). Nevertheless, as Figure 1 shows, the thermal grabber's serial interface interacts directly with the Tau2 sensor, streaming 14-bit RAW data only. 
 
-  |                                  |                                     |
-  | -------------------------------- | ----------------------------------- |
-  | ![](doc_images/tau2_grabber.png) | ![](doc_images/grabber_diagram.jpg) |
-
-  
-
   <center><img src="doc_images/grabber_diagram.jpg" alt="thermalgrabber diagram" style="zoom:50%;" /> </center>
 
-  *Figure 1: [Data flow diagram of the FLIR Tau 2 camera connected to the ThermalCapture Grabber](https://thermalcapture.com/wp-content/uploads/2018/02/TCGrabberUSB_DataFlowDiagram.pdf) *
+  *Figure 1: [Data flow diagram of the FLIR Tau 2 camera connected to the ThermalCapture Grabber](https://thermalcapture.com/wp-content/uploads/2018/02/TCGrabberUSB_DataFlowDiagram.pdf)* 
 
   
 
@@ -38,7 +32,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-  **Recommendation:** The current camera mounting design should be used as a baseline to develop a water-proof mounting. 
+  **Recommendation:** The current camera mounting design should be used as a baseline to develop a water-proof mounting. Moreover, the design should be dust-proof to ensure robustness.
 
 
 
@@ -100,7 +94,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-  **Recommendation:** More data needs to be acquired to improve the performance of the system. Furthermore, this data should be taken on different weather conditions due to the inherent temperature differences between settings. Moreover, specific calibration of the camera should be look into to ensure the best performance.
+  **Recommendation:** More data needs to be acquired to improve the performance of the system. It is also important to mention that research is necessary to come up with the right number. Furthermore, this data should be taken on different weather conditions due to the inherent temperature differences between settings. Also, specific calibration of the camera should be looked into to ensure the best performance.
 
   
 
