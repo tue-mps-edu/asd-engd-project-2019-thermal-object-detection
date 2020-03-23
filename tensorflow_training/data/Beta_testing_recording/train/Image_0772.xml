@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Koen</folder>
+	<filename>Image_0772.jpeg</filename>
+	<path>C:/Users/s132270/OneDrive - TU Eindhoven/PDEng ASD/ASD project module 2/Recorded data/Labelling _Images/Koen/Image_0772.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>394</xmin>
+			<ymin>272</ymin>
+			<xmax>439</xmax>
+			<ymax>309</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>363</xmin>
+			<ymin>266</ymin>
+			<xmax>382</xmax>
+			<ymax>288</ymax>
+		</bndbox>
+	</object>
+</annotation>

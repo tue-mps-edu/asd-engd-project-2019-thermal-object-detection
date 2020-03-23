@@ -1,0 +1,38 @@
+<annotation>
+	<folder>Arjun</folder>
+	<filename>Image_0305.jpeg</filename>
+	<path>C:\Users\20195011\TU Eindhoven\Elands, K.C.A. - ASD project module 2\Recorded data\Labelling _Images\Arjun\Image_0305.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>352</xmin>
+			<ymin>268</ymin>
+			<xmax>397</xmax>
+			<ymax>296</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>218</xmin>
+			<ymin>268</ymin>
+			<xmax>250</xmax>
+			<ymax>287</ymax>
+		</bndbox>
+	</object>
+</annotation>

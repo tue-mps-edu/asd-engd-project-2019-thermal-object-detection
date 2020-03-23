@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Labelled</folder>
+	<filename>Image_1102.jpeg</filename>
+	<path>C:/Ram/Labelled/Image_1102.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>512</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>412</xmin>
+			<ymin>265</ymin>
+			<xmax>420</xmax>
+			<ymax>289</ymax>
+		</bndbox>
+	</object>
+</annotation>
