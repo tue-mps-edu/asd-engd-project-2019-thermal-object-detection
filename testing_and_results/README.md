@@ -1,6 +1,6 @@
 # Testing and Results
 
-This folder have two sections:
+This folder has two sections:
 
 The first section contains the beta test plan and its post analysis documentation including the images of assembly of the hardware on the car.
 
@@ -8,7 +8,7 @@ The first section contains the beta test plan and its post analysis documentatio
 
 The second section contains all the sub folders of the documentation on different types of tests performed during the training of neural network architecture along with the discussion on their results. The topics that are listed as follows:
 
-- [Hyperparameters Analysis](tensorflow_training_results_doc/hyperparameter_tweaking_and_tuning/README.md)
+- [Tweaking and Tuning of Hyperparameters](tensorflow_training_results_doc/tweaking_and_tuning_hyperparameters/README.md)
 
 - [Evaluation Metric](tensorflow_training_results_doc/evaluation_metric/README.md)
 
