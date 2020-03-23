@@ -68,17 +68,7 @@ $ ./install.sh
 
 
 
-If everything goes smoothly, you should be able to seamlessly execute the scripts provided in this repository. 
-
-```
-$ cd tensorflow_training
-
-$ python model_builder_test.py
-```
-
-
-
-This script verifies the installation of the setup, along with its dependencies. You should see the following output.
+ If the installation is successful, you should see an output as follows. Now you should be able to execute all the scripts in this repository.
 
 ```
 ..................
@@ -87,6 +77,8 @@ Ran 18 tests in 0.062s
 
 OK
 ```
+
+
 
 ## Windows install
 Once the aforementioned [prerequisites](#Prerequisites) have been met, clone this repository as follows. The repository includes tensorFlow object detection API submodules under the third_party folder. Thus, for the script work correctly, it is necessary to clone the repository by adding the --recursive flag to the clone command.
@@ -98,12 +90,12 @@ $ git clone --recurse-submodules https://github.com/tue-mps-edu/thermal_object_d
  <em>**Note: Please note that halfway through the installation of this script the computer will be restarted automatically. As a result, it is strongly advised to save your work before running the windows_install.bat script.**</em>
 
  Navigate to the repository, right-click on the following file and select "Run as administrator". Please note that this step is crucial, and the installation will fail if executed without administrative privileges.
- 
+
  ```
 $ windows_install.bat
-```
+ ```
 
-  
+
 Halfway through the script you will be asked to save your work in order to proceed with the restart.This is necessary for proper initialization of the paths added to the environment variables. 
 When you log back in again after the restart, the script will automatically continue. Please make sure to grant the administrative privileges re-requested after the restart. 
 
