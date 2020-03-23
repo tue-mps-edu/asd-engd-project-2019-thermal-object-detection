@@ -54,4 +54,10 @@ echo "Installing slim library"
 $PYTHON setup.py develop
 popd
 
+pip install pycocotools
 
+pushd tensorflow_training
+
+python model_builder_test.py
+
+popd
