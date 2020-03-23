@@ -8,11 +8,15 @@ During the development of this project, we encountered several constraints and l
 
 - The FLIR Tau2 camera is currently attached to the *TeAx ThermalCapture Grabber*. The main functionality of the grabber is to provide an easy interface to transmit image data via USB to the target hardware (PC or Jetson Xavier). Nevertheless, as Figure 1 shows, the thermal grabber's serial interface interacts directly with the Tau2 sensor, streaming 14-bit RAW data only. 
 
+  |                                                              |                                                              |
+  | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | ![](/home/hiram/thermal_object_detection/testing/doc_images/tau2_grabber.png) | ![](/home/hiram/thermal_object_detection/testing/doc_images/grabber_diagram.jpg) |
+
   
 
   <center><img src="doc_images/grabber_diagram.jpg" alt="thermalgrabber diagram" style="zoom:50%;" /> </center>
 
-  *Figure 1: data flow diagram of the FLIR Tau 2 camera connected to the thermal grabber*
+  *Figure 1: [Data flow diagram of the FLIR Tau 2 camera connected to the ThermalCapture Grabber](https://thermalcapture.com/wp-content/uploads/2018/02/TCGrabberUSB_DataFlowDiagram.pdf) *
 
   
 
