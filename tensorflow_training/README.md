@@ -1,18 +1,18 @@
-# Tensorflow Training
+# TensorFlow Training
 
-This repository is based on [tensorflow object detection API](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection) and a tutorial on [Custom Object Detection for Nvidia Jetson Nano](https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134). This setup enables transfer learning with a set of pre-trained deep learning models built into the tensorflow object detection API. Before you can start with the training, be sure to follow the steps and install all the dependencies from the main [README.md](../). These guidelines work the same for both Linux as well as windows based machines. 
+This repository is based on [TensorFlow object detection API](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection) and a tutorial on [Custom Object Detection for Nvidia Jetson Nano](https://medium.com/swlh/nvidia-jetson-nano-custom-object-detection-from-scratch-using-tensorflow-and-opencv-113fe4dba134). This setup enables transfer learning with a set of pre-trained deep learning models built into the TensorFlow object detection API. Before you can start with the training, be sure to follow the steps and install all the dependencies from the main [README.md](../). These guidelines work the same for both Linux as well as windows based machines. 
 
 In supervised deep learning, the recorded data needs to be cleaned and labelled before it can be used for training. It is assumed here that the recorded data is already cleaned and ready for labelling.
 
 
 ![tftworkflow](doc_images/tftworkflow.jpg)
 
-*Figure 1: General workflow of tensorflow training* 
+*Figure 1: General workflow of TensorFlow training* 
 
 ## Data Split
-As a first step, unannotated dataset needs to be divided into two subsets namely training and testing. A training subset, as the name suggests, is used to train the model, while test subset is used to test the trained model.Please note that test subset is only used when the model is completely trained in order to evaluate its performance. As a general guideline, the complete dataset is divided into the subsets of  80% training and 20% testing. More information on this topic can be found at  [Training and Test Sets: Splitting Data](https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data).
+As a first step, unannotated dataset needs to be divided into two subsets, namely training and testing. A training subset, as the name suggests, is used to train the model, while the test subset is used to test the trained model. Please note that the test subset is only used when the model is completely trained in order to evaluate its performance. As a general guideline, the complete dataset is divided into the subsets of  80% training and 20% testing. More information on this topic can be found at  [Training and Test Sets: Splitting Data](https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data).
 
-The divided data should then be kept in the [data](data/) directory. As an example a Dummy_dataset in the required format is showm as follows 
+The divided data should then be kept in the [data](data/) directory. As an example, a Dummy_dataset in the required format is shown as follows 
  
 ```
 data
@@ -21,11 +21,11 @@ data
  │ ├── test
 ```
 
-<em>Note: For reference, [data](data/) folder also includes datasets recorded during the project as well thermal data set provided by Flir. </em>
+<em>Note: For reference, [data](data/) folder also includes datasets recorded during the project as well as thermal data set provided by Flir. </em>
 
 ## Data labelling
-After the data is sorted as per [Data Split](#Datasplit), we can now proceed to label the data. The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC) which are both suitable for this setup.COCO uses JSON format while Pascal VOC uses XML for the annotated data. The choice between the two is left to user discretion, since these annotated files are ultimately converted to a cross-platform and cross-language binary format(TFRecord) as shown in Figure 1. 
-An example of annotation XML file for a image in a Pascal VOC format is shown below.
+After the data is sorted as per [Data Split](#Datasplit), the data is now ready to be labelled. The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC), which are both suitable for this setup.COCO uses JSON format while Pascal VOC uses XML for the annotated data. The choice between the two is left to user discretion since these annotated files are ultimately converted to a cross-platform and cross-language binary format (TFRecord) as shown in Figure 1. 
+ An example of an annotation XML file for an image in a Pascal VOC format is shown below.
 ```
 <object>
 	<name>fig</name>
@@ -41,7 +41,7 @@ An example of annotation XML file for a image in a Pascal VOC format is shown be
 </object>
 ```
 
-While an example of annotation JSON file with data for one image in COCO format can be shown as follows.
+While an example of the annotation JSON file with data for one image in COCO format can be shown as follows.
 ```
 {
   "type": "instances",
@@ -80,15 +80,16 @@ While an example of annotation JSON file with data for one image in COCO format 
 }
 ```
 
-As seen in the above examples, there is significant difference between the two formats as described below.
+As seen in the above examples, there is a significant difference between the two formats, which are: 
 
 * Bounding boxes - 
-Pascal VOC bounding box is the x and y co-ordinates of the top left and x and y co-ordinates of the bottom right edge of the rectangle.On the other hand, bounding box in COCO is the x and y co-ordinate of the top left and the height and width.
+The structure of the bounding boxes in Pascal VOC consists of an x and y coordinates of the top left and x and y coordinates of the bottom-right edge of the rectangle. On the other hand, the bounding box in COCO is the x and y coordinate of the top left and the height and width.
 * Data storage - Annotations in COCO format generate a single JSON file for the whole dataset while Pascal VOC creates separate XML files per image.
+* Label ID's - The classes in the COCO format (e.g. car, person, bike) have predefined ID numbers. To prevent issues, and to maintain consistency, the same ID's must be used if the class is already predefined in COCO standard. For additional classes, it is possible to add new IDs when needed. For the Pascal VOC format, the ID's can be freely defined.
 
-Despite these differences, it should be noted that choosing either format does not impact model training.However it has  an impact on the tool you choose for labelling the data. For annotating the images in both the formats, several open source softwares are available. As an example [VGG Image Annotator](http://www.robots.ox.ac.uk/~vgg/software/via/) can be used for COCO annotations while [LabelImg](https://github.com/tzutalin/labelImg) can be used to annotate in PASCAL VOC format.   
+Despite these differences, it should be noted that choosing either format does not impact model training. However, it has an impact on the tool you choose for labelling the data. For annotating the images in both the formats, several open-source softwares are available. As an example, [VGG Image Annotator](http://www.robots.ox.ac.uk/~vgg/software/via/) can be used for COCO annotations while [LabelImg](https://github.com/tzutalin/labelImg) can be used to annotate in PASCAL VOC format.   
 
-It should be ensured that the images and their corresponding annotated files must have same names when using Pascal VOC format. The final folder for Pascal VOC should look like
+It should be ensured that the images and their corresponding annotated files must have the same names when using the Pascal VOC format. The final folder for Pascal VOC should look like
 ```
 data
  ├── Dummy_dataset
@@ -124,17 +125,18 @@ data
  │ │ ├── annotation_file.json
 ```
 
-## Conversion to tfrecords
-TFRecord is a binary cross-platform, cross-language format used for efficient serialization of structured data. On top of being cross-platform, tfrecords offers crucial performance benefits  (e.g. faster read speeds, less storage) and has ability to handle large datasets.As a result, tensorflow uses tfrecords as its only supported input format.More information about the format can be found at [TFRecord and tf.Example](https://www.tensorflow.org/tutorials/load_data/tfrecord) and at [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564) .
+## Conversion to TFRecords
+TFRecord is a binary cross-platform, cross-language format used for efficient serialization of structured data. On top of being cross-platform, TFRecords offers significant performance benefits  (e.g. faster read speeds, less storage) and has the ability to handle large datasets. As a result, TensorFlow uses TFRecords as its only supported input format. More information about the format can be found at [TFRecord and tf.Example](https://www.tensorflow.org/tutorials/load_data/tfrecord) and at [TensorFlow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564).
 
-In order to convert the [annotated data](#Data%20labelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize virtual conda environment installed from the main [README.md](../).
+To convert the [annotated data](#Data%20labelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize the virtual conda environment installed from the main [README.md](../).
 
 ```
 $ conda activate tf1_12_gpu
 ```
 Next, depending upon the labelling format, please follow the instructions either from `Only for the Pascal_VOC` section or from `Only for the COCO` section.
 
- `Only for the Pascal_VOC` format issue the following commend to generate tfrecord file for the annotated data. Please note that this command is an example which creates tfrecords for Dummy_dataset. The input path for your test and train directories needs to be configured before issuing this command.  
+### Only for the Pascal_VOC 
+For the Pascal_VOC format, issue the following command to generate TFRecord file for the annotated data. Please note that this command is an example which creates TFRecords for Dummy_dataset. The input path for your test and train directories needs to be configured before issuing this command.  
 
 ```
 $  python supporting_scripts/xml_tfrecord.py --xml_input=data/Dummy_dataset/test/  --output_path=tfrecords/test_tfr/test.record
@@ -146,11 +148,12 @@ where,
 
 `xml_input` = Relative path to test/ train directory containing images and corresponding XML files. 
 
-`output_path`= This is the output path for the generated tfrecords file. User doesn't need to change this path.
+`output_path`= This is the output path for the generated TFRecords file. User doesn't need to change this path.
 
-The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labelmap).
+The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Labelmap).
 
-`Only for the COCO` format issue the following commend to generate tfrecord file for the annotated data.Please note that this command is an example which creates tfrecords for Flir dataset. The input path for your test and train directories needs to be configured before issuing this command. 
+### Only for the COCO 
+For the COCO format, issue the following command to generate TFRecord file for the annotated data. Please note that this command is an example which creates TFRecords for Flir dataset. The input path for your test and train directories needs to be configured before issuing this command. 
 
 ```
 $  python json_tfrecord.py --input_image_dir=data/Flir/test/thermal_8_bit --input_annotations_file=data/Flir/test/thermal_annotations.json --output_dir=tfrecords/test_tfr/test.record
@@ -164,14 +167,14 @@ where,
 
 `input_annotations_file`=  Relative path to test/ train directory containing JSON annotation file.
 
-`output_dir`= This is the output path for the generated tfrecords file. User doesn't need to change this path.
+`output_dir`= This is the output path for the generated TFRecords file. User doesn't need to change this path.
 
-The generated tfrecord files can be found inside [tfrecords](tfrecords/) folder. We can now proceed to the next section in order to create a [Label map](#Labe%20lmap)
+The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Labe%20lmap)
 
 ## Label map
 
-After [generating tfrecords](#Conversion%20to%20tfrecords) for test and train data, next step is to create a label map associated with the dataset.This label map defines a mapping from string class names to integer class Ids. It should include all the classes included in annotated data. As an important note, tensorflow can only read Label maps starting from id 1.
-A sample label map is shows as follows.
+After [generating TFRecords](#Conversion%20to%20TFRecords) for test and train data, the next step is to create a label map associated with the dataset. This label map defines a mapping from string class names to integer class ID's. It should include all the classes included in the annotated data. As an important note, TensorFlow can only read label maps starting from Id 1.
+ A sample label map is shown as follows.
 ```
 item {
     id: 1
@@ -183,11 +186,11 @@ item {
 }
 ```
 
-These maps can be created and edited using any text editor. However they must be saved as .pbtxt file instead of .txt file. The map should be placed in [label_map](label_map/) folder.A sample file of the label map is provided in the same folder.
+These maps can be created and edited using any text editor. However, they must be saved as .pbtxt file instead of .txt file. The map should be placed in [label_map](label_map/) folder. A sample file of the label map is provided in the same folder.
 
 ## Model configuration
 
-As a next step we need to download the pre-trained models that we want to use as a base model for our training. Download links of all the supported models can be located at [pre-trained models for tensorflow](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Once the model is downloaded, unzip the model and place it in the [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder. As an example, a ssd_mobilenet_v2 model is shown below to illustrate the final outcome of this step.
+As a next step, you need to download the pre-trained models that you want to use as a base model for our training. Download links of all the supported models can be located at [pre-trained models for TensorFlow](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Once the model is downloaded, unzip the model and place it in the [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder. As an example, a ssd_mobilenet_v2 model is shown below to illustrate the final outcome of this step.
 ```
 pretrained_baseline_google_models
  ├── ssd_mobilenet_v2_coco_2018_03_29
@@ -202,9 +205,9 @@ pretrained_baseline_google_models
 
 <em>**Note: For reference, [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder already includes  base models for ssd_mobilenet_v2_coco and aster_rcnn_inception_v2_coco. You need to do this step only when you need to use different models other than stated.**</em>
 
-To configure the training and evaluation process of the model discussed earlier, tensorflow object detection API uses a configuration file. At a high level, the configuration file is split into five parts:
-* `model configuration` - This defines what type of model will be trained (ie. meta-architecture, feature extractor).
-* `train_config` - This decides what parameters should be used to train model parameters (ie. Stochastic gradient descent  parameters, input preprocessing and feature extractor initialization values).
+To configure the training and evaluation process of the model discussed earlier, TensorFlow object detection API uses a configuration file. At a high level, the configuration file is split into five parts: 
+* `model configuration` - This defines what type of model will be trained (i.e. meta-architecture, feature extractor).
+* `train_config` - This decides what parameters should be used to train model parameters (i.e. Stochastic gradient descent parameters, input preprocessing and feature extractor initialization values).
 * `eval_config` - This determines what set of metrics will be reported for evaluation.
 * `train_input_config` - This defines what dataset the model should be trained on.
 * `eval_input_config` - This defines what dataset the model will be evaluated on. Typically this should be different than the training input dataset.
@@ -232,9 +235,9 @@ eval_input_reader: {
 }
 ```
 
-Depending on the model to be trained (e.g MobilenetV2, ResNET), a corresponding sample file for model configuration should be downloaded from [object detection sample configs](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection/samples/configs) and placed in [model_config](model_config/) folder.The configuration file has .config extension and can be edited with any simple text editor. Configuration file for ssd_mobilenet_v2_coco is already provided in the [model_config](model_config/) as an example.
+Depending on the model to be trained (e.g MobileNet v2, ResNET), a corresponding sample file for model configuration should be downloaded from [object detection sample configs](https://github.com/tensorflow/models/tree/v1.12.0/research/object_detection/samples/configs) and placed in [model_config](model_config/) folder.The configuration file has .config extension and can be edited with any simple text editor. The configuration file for ssd_mobilenet_v2_coco is already provided in the [model_config](model_config/) as an example.
 
-This configuration file allows us to tweak several hyper-parameters of the model such as batch size, number of classes, number of epochs, optimizers, learning rate dropout and data augmentation.For transfer learning, `train_input_config`, `eval_config` and `eval_input_config` are essential since we need to provide relevant paths to tfrecords, label maps  and  base models in these sections. To elaborate further, aforementioned sections of a configuration file for SSD MobilenetV2 are shown below as an example. 
+This configuration file allows us to tweak several hyperparameters of the model such as batch size, number of classes, number of epochs, optimizers, learning rate dropout and data augmentation. For transfer learning, `train_input_config`, `eval_config` and `eval_input_config` are essential since you need to provide relevant paths to TFRecords, label maps and base models in these sections. To elaborate further, the aforementioned sections of a configuration file for SSD MobileNet v2 are shown below as an example. 
 
 ```
 train_config: {
@@ -271,11 +274,11 @@ train_config: {
 }
 ```
 
-For the above section, we need to add the absolute path to the model placed in [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder to the following line:
+For the above section, you need to add the absolute path to the model placed in [pretrained_baseline_google_models](pretrained_baseline_google_models/) folder to the following line -
 
-fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"
+ fine_tune_checkpoint: "PATH_TO_BE_CONFIGURED/model.ckpt"
 
-This allows the us to load a pre-trained model as a base for our training. Its important to know that most of this model are "frozen" in a sense that their weights wont change as we train the model with our data. Since layers only specific to a class such as feature extractor are getting trained while retaining the weights in frozen layers, this parameter allows us to fine tune the model to our use case.   
+This allows us to load a pre-trained model as a base for our training. It is essential to know that most of this model is "frozen" in the sense that their weights won't change as you train the model with our data. Since layers only specific to a class such as a feature extractor layer are getting trained while retaining the weights in frozen layers, this parameter allows us to fine-tune the model to our use case.    
 
 ```
 train_input_reader: {
@@ -286,13 +289,13 @@ train_input_reader: {
 }
 ```
 
-Furthermore we need to provide absolute path to the train tfrecord file located at [tfrecords](tfrecords/) folder to the `eval_input_reader` section shown above.
+Furthermore, you need to provide an absolute path to the train TFRecord file located at [tfrecords](tfrecords/) folder to the `eval_input_reader` section shown above.
 
 input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
 
-We also need add path to the label map file placed [label_map](label_map/) folder in this section of the configuration file.
+You also need to add a path to the label map file placed [label_map](label_map/) folder in this section of the configuration file.
 
-label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
+ label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
 
 ```
 eval_config: {
@@ -310,27 +313,27 @@ eval_input_reader: {
   num_readers: 1
 }
 ```
-In the `eval_config` section shown above, the parameter `num_examples` should be equal total number test images based on your [data split](#Data%20Split). Finally we need to provide absolute path to the test tfrecord file located at [tfrecords](tfrecords/) to the `eval_input_config` section shown above.
+In the `eval_config` section shown above, the parameter `num_examples` should be equal to total number test images based on your [data split](#Data%20Split). Finally, you need to provide an absolute path to the test TFRecord file located at [tfrecords](tfrecords/) to the `eval_input_config` section shown above.
 
 input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
 
-We also need add path to the same label map file used earlier located in [label_map](label_map/) folder.
+You also need to add the path to the same label map file used earlier located in the [label_map](label_map/) folder.
 
 label_map_path: "PATH_TO_BE_CONFIGURED/label_map.pbtxt"
 
-After making all the changes above save the file and now we are ready to start training.
+After making all the changes above save the file, and now you are ready to start training.
 
 ## Model training
 
 Before starting with the training please recheck the setup with the following check list:
 
-- [tfrecords](tfrecords/) includes tfrecords file for both train and test sets
+- [tfrecords](tfrecords/) folder includes TFRecords file for both train and test sets
 - [label_map](label_map/) includes the correct label_map.pbtxt file
-- [pretrained_baseline_google_models(pretrained_baseline_google_models/) includes correct base model 
+- [pretrained_baseline_google_models](pretrained_baseline_google_models/) includes correct base model 
 - [model_config](model_config/) includes correct configuration file saved with all the changes made in [Model configuration](#Model%20configuration)
-- Please make sure that [model_evalulation](model_evalulation/), [model_frozen_inference_graph](model_frozen_inference_graph/), [model_training_checkpoints](model_training_checkpoints/) folders are empty and do not contain any files from earlier trainings.
+- Please make sure that the [model_evalulation](model_evalulation/), [model_frozen_inference_graph](model_frozen_inference_graph/), [model_training_checkpoints](model_training_checkpoints/) folders are empty and do not contain any files from earlier trainings.
 
-If everything is in order, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository.  Initialize virtual conda environment by
+If everything is in order, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository.  Initialize the virtual conda environment by
 
 ```
 $ conda activate tf1_12_gpu
@@ -370,7 +373,7 @@ INFO:tensorflow:global step 2: loss = 18.9409 (1.634 sec/step)
 INFO:tensorflow:global step 3: loss = 18.8032 (1.925 sec/step)
 ```
 
-While the model is training, its possible to visualize various metrics such as  loss, accuracy, histograms of weights and biases and model graphs. Full documentation on tensorbaord can be found at [Tensorboard_guide](https://www.tensorflow.org/tensorboard/get_started). To initiate the tensorbaord, start additional instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Run the following commands to activate conda virtual environment and run tensorboard.
+While the model is training, it is possible to visualize various metrics such as loss, accuracy, histograms of weights and biases and model graphs. Full documentation on tensorbaord can be found at [Tensorboard_guide](https://www.tensorflow.org/tensorboard/get_started). To initiate the tensorboard, start an additional instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Run the following commands to activate the conda virtual environment and run tensorboard.
 
 ```
 $ conda activate tf1_12_gpu
@@ -378,16 +381,16 @@ $ tensorboard --logdir=model_training_checkpoints/
 ```
 where,
 
-`logdir` = This is the directory where model is saving new checkpoints during the training. User does not need to change is path.
+`logdir` = This is the directory where the model is saving new checkpoints during the training.The User does not need to change this path.
 
-<em>Note: Tesnorbaord can sometimes fail to load. Use of google chrome is highly recommend since other browser have known issues. If nothing else work, use the following command instead to initiate the tensorboard.
+<em>Note: Tesnorboard can sometimes fail to load.Please use the following command instead to initiate the tensorboard.
 ```
 $ conda activate tf1_12_gpu
 $ tensorboard --logdir=model_training_checkpoints/ -host localhost --port 8088
 ```
 </em>
 
-Since the training can be computationally intensive. To see the resource allocation, start a new instance of the terminal/ command prompt and run the following
+Since the training can be computationally intensive, to see the resource allocation, start a new instance of the terminal/ command prompt and run the following
 ```
 $ nvidia-smi -l 100
 ```
@@ -420,7 +423,7 @@ tensorflow_training
 The model is now successfully trained with the new data!
 
 ## Model evaluation
-Before we can evaluate the model, we have to make sure that the the weights in the model will not get updated any further during the evaluation process i.e. we have to freeze the model layers. Its also essential for further optimization using TensorRT for Jetson Xavier. In order to freeze the model, open a terminal/ command prompt and navigate to `tensorflow_training` folder in the repository and run the following 
+Before you can evaluate the model, you have to make sure that the the weights in the model will not get updated any further during the evaluation process i.e. you have to freeze the model layers. It is also essential for further optimization using TensorRT for Jetson Xavier. In order to freeze the model, open a terminal/ command prompt and navigate to the `tensorflow_training` folder in the repository and run the following command.
 
 ```
 $ conda activate tf1_12_gpu
@@ -429,15 +432,15 @@ $ python export_inference_graph.py --input_type image_tensor --pipeline_config_p
 ```
 where,
 
-`pipeline_config_path`= This is the path to configuration file saved in [model_config](model_config/).The above command includes path to an ssd_mobilenet_v2_coco.config file as an example. However, it should be changed when training with a different configuration.
+`pipeline_config_path`= This is the path to configuration file saved in [model_config](model_config/).The above command includes the path to a ssd_mobilenet_v2_coco.config file as an example. However, it should be changed when training with a different configuration.
 
 `trained_checkpoint_prefix`= This is the path to the model checkpoint which you want to freeze.As an example if you want to freeze the model with data at 50000 steps the input should look like model_training_checkpoints/model.ckpt-50000.
 
 `output_directory inference_graph`= This is the path where the frozen model will be exported.
 
-As an output, we get a frozen inference graph file with a .pb extension. This can be then used as a input for furhter optimizations using TensorRT in [tensorrt](../tensorrt/) section of this repository. The final frozen graph can be found in [model_frozen_inference_graph](model_frozen_inference_graph/) folder.
+As an output, you get a frozen inference graph file with a .pb extension. This can be then used as a input for further optimizations using TensorRT in [tensorrt](../tensorrt/) section of this repository. The final frozen graph can be found in the [model_frozen_inference_graph](model_frozen_inference_graph/) folder.
 
-Once we have the frozen graph ready, its possible to evaluate the model against the test data in order to determine its mAP(mean Average Precision) value. To initiate the evaluation, start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the following command
+Once you have the frozen graph ready, its possible to evaluate the model against the test data in order to determine its mAP(mean Average Precision) value. To initiate the evaluation, start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the following command
 
 ```
 $ conda activate tf1_12_gpu
@@ -450,9 +453,9 @@ where,
 
 `eval_dir`= This the directory where the mAP results will saved. Users do not need to change this input.
 
-`pipeline_config_path`= This is the path to configuration file saved in [model_config](model_config/).The above command includes path to an ssd_mobilenet_v2_coco.config file as an example. However, it should be changed when training with a different configuration.
+`pipeline_config_path`= This is the path to the configuration file saved in [model_config](model_config/).The above command includes path to a ssd_mobilenet_v2_coco.config file as an example. However, it should be changed when training with a different configuration.
   
-As an output you will see mAP score for entire dataset and each class in both tensorboard and command prompt. An example of how the end result will look like is shown as below
+As an output you will see mAP score for the entire dataset and each class in both tensorboard and command prompt. An example of how the end result will look like is shown below
 
 ```
 INFO:tensorflow:# success: 1366
@@ -480,13 +483,13 @@ INFO:tensorflow:Finished evaluation!
 ```
 
 ## Additional information
-The frozen graph can also be tested with jupyter notebook file object_detection_demo.ipynb file located in[supporting_scripts](supporting_scripts/). To run the script start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the the following commends 
+The frozen graph can also be tested with jupyter notebook object_detection_demo.ipynb file located in[supporting_scripts](supporting_scripts/). To run the script start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the the following commends 
 ```
 $ cd supporting_scripts
 
 $ conda activate tf1_12_gpu
 
-$ jupyter nootbook
+$ jupyter notebook
 ```
 
 This will open a new tab in your browser. Just double-click on object_detection_demo.ipynb and you will able to access the script in jupyter notebook environment. Before running the script, you need to specify relative path to frozen inference graph, label map and image set which you want to test on. The results will be shown in the browser in the form of images and predicted bounding boxes.  
