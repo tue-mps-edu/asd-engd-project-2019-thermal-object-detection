@@ -8,7 +8,7 @@ The first section contains the beta test plan and its post analysis documentatio
 
 The second sections contains all the sub folders of the documentation on different types of tests performed during the training of neural network architecture along with the discussion on their results. The topics that are listed as follows:
 
-- [Hyperparameters Analysis](tensorflow_training_doc/hyperparameter_tweaking_and _tuning/README.md)
+- [Hyperparameters Analysis](tensorflow_training_doc/hyperparameter_tweaking_and_tuning/README.md)
 
 - [Evaluation Metric](tensorflow_training_doc/evaluation_metric/README.md)
 
