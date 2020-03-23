@@ -1,4 +1,4 @@
-# **Results of Tweaking Hyperparameters**
+# **Tweaking and Tuning Hyperparameters**
 
 Training of neural network MobileNet V2 SSD was performed on Flir dataset which contains 8862 images as the training set and 1366 images as the test set. To check the influence of hyperparameters on the model’s accuracy we have varied 1 hyperparameter at a time and evaluated the mean average precision(mAP) scores. The following hyperparameters were varied: 
 
