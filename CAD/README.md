@@ -5,14 +5,14 @@ This document explains the CAD design and manufacturing part of mounting bracket
 #### 1. Jetson Xavier Mounting Bracket 
 #### 2. Thermal Camera Mounting Bracket 
 
-The top priority for part design is that part must function properly without failing. Beyond that, it's always important to make sure, while designing, it can be made quickly and cost effectively. Following paragraph explains the design and development of mounting brackets in detail :
+The top priority for part design is that part must function properly without failing. While designing, it has been ensure that part can be made quickly and cost effectively. Following paragraph explains the design and development of mounting brackets in detail :
 
 ## Jetson Xavier mounting bracket
 
-The function of this bracket is to rigidly mount Jetson Xavier on the vehicle. The mount must be capable of rigidly supporting Jetson Xavier without failure during its expected life span.
+The function of this bracket is to rigidly mount Jetson Xavier on the vehicle. The mount must be capable of supporting Jetson Xavier without failure during its expected life span.
 
 ### Mounting Location
-To mount the Xavier on the car, multiple locations were considered and corrosponding pros and cons of those locations. For instance, earlier we considered mounting it on roof near to camera which will require need of shorter cable connecting thermal camera to Jetson. But disadvantage of placing it over there was also to manufacture water-proof housing (shield) to cover it during bad weather such as heavy rain. This could have then further lead to longer manufacturing time as well as extra material. 
+To mount the Xavier on the car, multiple locations were considered their pros and cons were analysed. For instance, originally we considered, mounting Xavier on roof near to camera which will require shorter cable connecting thermal camera to Jetson. But disadvantage of placing it over there was the need of manufacturing water-proof housing (shield) to cover Xavier during bad weather such as heavy rain. This could have then further lead to longer manufacturing time as well as extra material. 
 After having discussion with the stakeholders, final decision was taken to mount it inside the car which was a more safer and elegant option hence saving it from bad weather consition as well as usage of less material. Post-discussion with Tijs and Anweshan, it was clarified that wire harness, which connects thermal camera and Jetson, can be between 4-5 meters and will not cause any communication loss. The pre-installed base plate located in the boot space of the car hence was finally selected to mount Jetson Xavier.
 
 ### Design and Attachment Method
