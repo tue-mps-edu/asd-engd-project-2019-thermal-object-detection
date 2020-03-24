@@ -56,7 +56,7 @@ Post defining integration of the assumed architecture and accuracy, there are a 
 
 In order to have a clear understanding of the additional value of the thermal camera detection system in terms of functional safety, a risk analysis is made for possible risks and their severity levels. This analysis is done for the autonomous vehicle for the following cases: a.) both the thermal camera and RGB camera connected, and b.) standalone RGB camera connected to the car (RGB only). The assumption is made that the thermal camera is connected to the PC via a USB cable and the detection system is embedded in the ROS node of the PC (see image of the architecture above). 
 
-The risk analysis which is made is based on the ASILs described in the functional safety standard ISO26262 ([link](https://www.iso.org/standard/68383.html)). The levels are based on severity (how much harm does the risk do to the driver or other traffic participants), exposure  (how often does the situation occur) and controllability (how capable is the driver to take over the control when a risk occurs). The figure below shows the ASILs in a table. 
+The risk analysis which is made is based on the ASILs described in the functional safety standard [ISO26262](https://www.iso.org/standard/68383.html). The levels are based on severity (how much harm does the risk do to the driver or other traffic participants), exposure  (how often does the situation occur) and controllability (how capable is the driver to take over the control when a risk occurs). Figure 2 shows the ASILs in a table. 
 
 ![ASIL](doc_images/ASIL.png)
 
@@ -66,10 +66,10 @@ The goal is to reduce the potential harm/ASIL to a more controllable risk in ord
 
 - A malfunction can happen because of a short circuit, power supply failure, overheating hardware.
 - A missed object detection is an object which should be detected but is not. This can happen because of weather conditions, nighttime driving or glare. The algorithm does not see enough features to detect and classify the object. 
-- Incorrect classification means that an object is detected, but it was classified incorrectly. If the object detection algorithm sends the inference to the control node, it could be that the car acts differently on an object. For example, a car is detected as a person. The speed of a car is way higher, so when detecting it as a person it could be that the control algorithm calculates that it can do certain controls without any risk, but in reality it is different.
+- Incorrect classification means that an object is detected, but it was classified incorrectly. If the object detection algorithm sends the inference to the control node, it could be that the car acts differently on an object. For example, a car is detected as a person. The speed of a car is way higher, so when detecting it as a person it could be that the control algorithm calculates that it can perform certain movements without any risk, but in reality it is different.
 - Change in orientation of the camera could happen when an object hits the camera, the driver accidently moves the camera or when driving on rough terrain. 
 
-The first table below is showing the risk analysis for the object detection system using a RGB camera only. One thing to keep in mind is that the risks that are listed below are the risks that have differences when comparing the two systems (object detection system containing only a RGB camera and object detection system containing RGB and thermal camera). If all risks would be listed, most of them will be exactly the same because these risks will not be mitigated with addition of the thermal image-based object detection system. 
+Table 1 shows the risk analysis for the object detection system using a RGB camera only. One thing to keep in mind is that the risks that are listed below are the risks that have differences when comparing the two systems (object detection system containing only a RGB camera and object detection system containing RGB and thermal camera). If all risks would be listed, most of them will be exactly the same because these risks will not be mitigated with addition of the thermal image-based object detection system. 
 
 | Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
@@ -89,7 +89,7 @@ The first table below is showing the risk analysis for the object detection syst
 
 *Table 1: Risk analysis using the ASIL table for the object detection system using a RGB camera only*
 
-The second table shows the analysis for the same risks, but then for the object detection system using both the RGB and thermal camera. 
+Table 2 shows the analysis for the same risks, but then for the object detection system using both the RGB and thermal camera. 
 
 | Risk # | Explanation                                                  | Severity | Exposure | Controllability | ASIL level |
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
@@ -109,9 +109,9 @@ The second table shows the analysis for the same risks, but then for the object 
 
 *Table 2: Risk analysis using the ASIL table for the object detection system using a RGB camera and a thermal camera*
 
-Based on the ASIL letters the risks with ASIL D (numbers 2, 3 and 5) are brought back to level A when including a object detection system with thermal camera. A lot of risks are hard to control, because missed detections are not noted by the algorithm so the car will not send a signal that the driver has to take over. Controllability of risks which contain orientation or malfunctioning problems are controllable because the car will send a notification to the driver that he or she has to take over. The exposure (probability) of a lot of risks is significantly lower in our system, because the thermal camera does not depend on weather conditions or light emission. Risk number 6 is the only risk that still has the same ASIL A. As with two detection sources the classification could be slightly better, occlusion is hard to mitigate. 
+Based on the ASIL letters the risks with ASIL D (numbers 2, 3 and 5) will be brought back to level A when including a object detection system with thermal camera. A lot of risks are hard to control, because missed detections are not noted by the algorithm so the car will not send a signal that the driver has to take over. Controllability of risks which contain orientation or malfunctioning problems are controllable because the car will send a notification to the driver that he or she has to take over. The exposure (probability) of a lot of risks is significantly lower in our system, because the thermal camera does not depend on weather conditions or light emission. Risk number 6 is the only risk that still has the same ASIL A. As with two detection sources the classification could be slightly better, occlusion is still hard to mitigate. 
 
 ## Conclusion 
 
-One can draw the conclusion that when adding the assumed object detection system based on thermal images will lower the chance of the risks that occur with an object detection system using a RGB camera only. The ASIL D drops till A and all other ASIL dropped to QM, except for the risk of incorrect classification because of occlusion. 
+One can draw the conclusion that when adding the assumed object detection system based on thermal images will lower the chance of the risks that occur with an object detection system using a RGB camera only. The ASIL D drops till A and all other ASILs drop to QM, except for the risk of incorrect classification because of occlusion. 
 
