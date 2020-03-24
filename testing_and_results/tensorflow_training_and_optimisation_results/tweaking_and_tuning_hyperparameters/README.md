@@ -80,7 +80,7 @@ Figure 4 depicts the mAP value evaluated for each hyperparameter changed individ
 
 Figure 5 shows the mAP value evaluated for each hyperparameter changed individually. This is particularly evaluated for one of our classes which is 'car' and compared with the baseline result indicated in green colour in the figure below.
 
-![car](doc_images/mAP_Car.jpeg)
+![car](doc_images/mAP_car.jpeg)
 
  *Figure 5: Average mAP value of car for the trained neural network per different hyperparameters*
 
