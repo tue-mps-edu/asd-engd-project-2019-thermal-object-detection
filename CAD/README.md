@@ -1,4 +1,4 @@
-# Design motivation and justification for the mounting brackets 
+# Design and Manufacturing of Moutning Brackets.
 
 ## Jetson Xavier mounting bracket
 
