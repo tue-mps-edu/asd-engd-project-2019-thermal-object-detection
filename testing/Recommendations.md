@@ -80,7 +80,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-- If a different architecture than *SSD MobileNet v2* would be preferred in the future, significant changes to the workflow presented in this repository would be necessary. According to [NVIDIA](https://forums.developer.nvidia.com/t/convert-faster-rcnn-tensorflow-model-to-tensorrt-plan/77578), higher complexity architectures, such as *Faster RCNN*, require several modifications (via [TensorRT plugins](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/parsers/Uff/Plugins.html)) before they can be parsed and optimized. Furthermore, a good knowledge of the underlying architecture is necessary to perform the right modifications (via [Graph Surgeon](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/graphsurgeon/graphsurgeon.html)). 
+- If a different architecture (other than *SSD MobileNet v2*) would be preferred in the future, significant changes to the workflow presented in this repository would be necessary. According to [NVIDIA](https://forums.developer.nvidia.com/t/convert-faster-rcnn-tensorflow-model-to-tensorrt-plan/77578), higher complexity architectures like *Faster RCNN* require several modifications (via [TensorRT plugins](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/parsers/Uff/Plugins.html)) before they can be parsed and optimized. Furthermore, a good knowledge of the underlying architecture is necessary to perform the right modifications (via [Graph Surgeon](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/graphsurgeon/graphsurgeon.html)). 
 
   
 
@@ -90,7 +90,7 @@ During the development of this project, we encountered several constraints and l
 
 ## Dataset Constraints 
 
-- While gathering additional data to improve the network's performance, we noticed the quality difference between the recorded data and FLIR's ADAS dataset. Because of this (and the lack of hardware), it was not possible to include our data to expand the dataset.
+- While gathering additional data to improve the network's performance, we noticed a significant quality difference between the recorded data and FLIR's ADAS dataset. Because of this (and the lack of hardware), it was not possible to include our data to expand the dataset.
 
   
 
@@ -102,7 +102,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-  **Recommendation:** More data needs to be acquired to improve the performance of the system. It is also important to mention that research is necessary to come up with the right number. Furthermore, this data should be taken on different weather conditions due to the inherent temperature differences between settings. Also, specific calibration of the camera should be looked into to ensure the best performance.
+  **Recommendation:** More data needs to be acquired to improve the performance of the system. It is also important to mention that research is necessary to come up with the right number. Furthermore, this data should be taken in different weather conditions due to the inherent temperature differences between settings. Also, specific calibration of the camera should be looked into to ensure the best performance.
 
   
 
