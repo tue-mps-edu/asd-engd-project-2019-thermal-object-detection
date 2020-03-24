@@ -1,5 +1,7 @@
 # Design and Manufacturing : Mounting Brackets
 
+
+
 ## Jetson Xavier mounting bracket
 
 To mount the Xavier on the car, initially we considered multiple candidate locations. For example, we considered mounting it on the car's roof and besides the camera so that we don't require long USB cable to connect the two. But after having a discussion with the stakeholders, we decided that mounting it inside the car was a more safer and elegant option since we will be eliminating any risk of the Xavier being exposed to external ambient conditions. The pre-installed base plate located in the boot space of the car was selected as the most appropriate location to mount Jetson Xavier after discussing with the stakeholders. This is so because there is no need to make any water-resistant design of the mounting bracket for this mounting location. This implies a simpler design with less manufacturing time and cost.
