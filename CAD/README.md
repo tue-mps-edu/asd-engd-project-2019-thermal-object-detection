@@ -1,6 +1,6 @@
 # Design and Manufacturing of Mounting Brackets
 
-This document explains the CAD design and manufacturing part of mounting brackets. There are 2 mounting brackets, which are need to be designed and manufactured, first for mounting the thermal camera and another one for mounting NVIDIA Jetson Xavier to the vehicle. The following 2 parts are name as :
+This document explains the CAD design and manufacturing part of mounting brackets. There are 2 mounting brackets, which are need to be designed and manufactured, first for mounting the thermal camera and another one for mounting NVIDIA Jetson Xavier to the vehicle. The following 2 parts are named as :
 
 #### 1. Jetson Xavier Mounting Bracket 
 #### 2. Thermal Camera Mounting Bracket 
