@@ -24,15 +24,23 @@ During the development of this project, we encountered several constraints and l
 
   
 
-  **Recommendation :** FLIR support recommends a couple of products that could be looked into to solve this problem, namely, [Workswell's USB3 module](https://www.drone-thermal-camera.com/usb3-gige-modules-for-flir-tau/) and the [Camera Link board](https://www.flir.com/products/421-0046-00_camera-link-expansion-board/). However, more analysis is required to acquire the right board in terms of functionality and price. 
+  **Recommendation:** FLIR support recommends a couple of products that could be looked into to solve this problem, namely, [Workswell's USB3 module](https://www.drone-thermal-camera.com/usb3-gige-modules-for-flir-tau/) and the [Camera Link board](https://www.flir.com/products/421-0046-00_camera-link-expansion-board/). However, more analysis is required to acquire the right board in terms of functionality and price. 
 
   
 
-- The system is designed to support visibility during the night, as well as harsh weather conditions. Nevertheless, due to timing constraints, the current camera mounting is not waterproof, which limits the testability of the system in rainy weather. 
+- The system is designed to support visibility during the night, as well as harsh weather conditions. Nevertheless, due to timing constraints, the current camera mounting is not waterproof, which limits the testability of the system in rainy weather.
 
   
 
   **Recommendation:** The current camera mounting design should be used as a baseline to develop a water-proof mounting. Moreover, the design should be dust-proof to ensure robustness.
+  
+  
+  
+- When the inference will be saved on the Jetson Xavier platform, we encountered problems when running and saving all inference data. As the memory size of the Jetson Xavier is limited to 32 GB, only a limited amount of images plus inference can be saved before the memory is full. Note that when embedding the system into the car the algorithm will overwrite the inference every frame because saving inference data is of no use when driving in real time. 
+
+  
+
+  **Recommendation:** If the goal is to save all the inference data, the recommendation is to attach a harddrive to the Jetson Xavier and save the data directly on this harddrive. 
 
 
 
@@ -72,7 +80,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-- If a different architecture would like to be used instead of *SSD-MobileNet*, significant changes to the workflow presented in this repository would be necessary. According to [NVIDIA](https://forums.developer.nvidia.com/t/convert-faster-rcnn-tensorflow-model-to-tensorrt-plan/77578), higher complexity architectures, such as *FasterRCNN*, require several modifications (via [TensorRT plugins](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/parsers/Uff/Plugins.html)) before they can be parsed and optimized. Furthermore, a good knowledge of the underlying architecture is necessary to perform the right modifications (via [Graph Surgeon](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/graphsurgeon/graphsurgeon.html)). 
+- If a different architecture than *SSD MobileNet v2* would be preferred in the future, significant changes to the workflow presented in this repository would be necessary. According to [NVIDIA](https://forums.developer.nvidia.com/t/convert-faster-rcnn-tensorflow-model-to-tensorrt-plan/77578), higher complexity architectures, such as *Faster RCNN*, require several modifications (via [TensorRT plugins](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/parsers/Uff/Plugins.html)) before they can be parsed and optimized. Furthermore, a good knowledge of the underlying architecture is necessary to perform the right modifications (via [Graph Surgeon](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/python_api/graphsurgeon/graphsurgeon.html)). 
 
   
 
@@ -86,7 +94,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-  **Recommendation:** New data should have the same quality as FLIR's ADAS dataset to guarantee the network performance does not degrade. This is important for online detection, as inference should be performed on images with the same quality as the training set data. As an additional recommendation, data recording should be at a low framerate (low frequency) to save captures which are somewhat different, thus contributing more to the training. Otherwise, capturing at high frequency leads to redundant data that has to be cleaned, making the cleaning and labeling process cumbersome.
+  **Recommendation:** New data should have the same quality as FLIR's ADAS dataset to guarantee the network performance does not degrade. This is important for online detection, as inference should be performed on images with the same quality as the training set data. As an additional recommendation, data recording should be at a low framerate (low frequency) to save captures which are somewhat different, thus contributing more to the training. Otherwise, capturing at high frequency leads to redundant data that has to be cleaned, making the cleaning and labelling process cumbersome.
 
 
 
@@ -98,7 +106,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-- FLIR's ADAS dataset mostly supports car, person and bicycle detection. Our recorded low-quality dataset includes buses and trucks as Cars due to the low amount of bus/trucks examples (~5). However, It is recommended to include buses and trucks in the classification as an additional class, since they have different driving behaviors (speed and acceleration) as well as a different size. 
+- FLIR's ADAS dataset mostly supports car, person and bicycle detection. Our recorded low-quality dataset includes buses and trucks as Cars due to the low amount of bus/trucks examples (~5). However, It is recommended to include buses and trucks in the classification as an additional class, since they have different driving behaviours (speed and acceleration) as well as a different size. 
 
   
 
@@ -106,7 +114,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-- With the current image quality (due to the Thermal Grabber), and the Dutch weather, it is hard to distinguish Bicycles from the background, as these do not emit heat. Because of this, cyclists are classified as persons. 
+- With the current image quality (due to the thermal grabber), and the Dutch weather, it is hard to distinguish bicycles from the background, as these do not emit heat. Because of this, cyclists are classified as persons. 
 
   
 
@@ -114,7 +122,7 @@ During the development of this project, we encountered several constraints and l
 
   
 
-- Due to the limited time-frame of the project, as well as the hardware and health situation, no data was gathered for Mopeds, motorbikes and animals. Therefore, these are not detected by the system.
+- Due to the limited time-frame of the project, as well as the hardware and health situation, no data was gathered for mopeds, motorbikes and animals. Therefore, these are not detected by the system.
 
   
 
