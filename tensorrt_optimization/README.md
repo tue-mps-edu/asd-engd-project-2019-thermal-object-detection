@@ -49,7 +49,7 @@ MODEL_SPECS = {
 }
 ```
 
-First,  *num_classes* must match the number of classes of the given model, plus an additional one (to account for the background). Furthermore, the *min_size* and *max_size* parameters should match the *min_scale* and *max_scale* parameters on the model configuration file used for training. Additionally, DIR_NAME is by default the directory in which the script is executed, therefore, the frozen graph file should be in the same directory. 
+First,  *num_classes* must match the number of classes of the given model, plus an additional one (to account for the background). Furthermore, the *min_size* and *max_size* parameters should match the *min_scale* and *max_scale* parameters on the model [configuration file](../tensorflow_training/README.md) used for training. Additionally, *DIR_NAME* is by default the directory in which the script is executed, therefore, the frozen graph file should be in the same directory. 
 
 Finally, the *input_order* parameter should be configured in a trial and error manner. The advice is to follow the [0, 2, 1] pattern. If this fails, you should verify the generated *.pbtxt* and look for the following lines. 
 
