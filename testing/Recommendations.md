@@ -36,11 +36,11 @@ During the development of this project, we encountered several constraints and l
   
   
   
-- When the inference will be saved on the Jetson Xavier platform, we encountered problems when running and saving all inference data. As the memory size of the Jetson Xavier is limited to 32 GB, only a limited amount of images plus inference can be saved before the memory is full. Note that when embedding the system into the car the algorithm will overwrite the inference every frame because saving inference data is of no use when driving in real time. 
+- Recording images (with and without predicted bounding boxes) during testing can be useful for future analysis. Moreover, clean images can be used to benchmark future networks. However, as the memory size of the Jetson Xavier is limited to 32 GB, only a limited amount of images plus inference can be saved before the memory is full. Also, note that during regular operation (running without test code), inference data is not recorded, and every prediction is overwritten, as saving inference data is of no use when driving in real-time.
 
   
 
-  **Recommendation:** If the goal is to save all the inference data, the recommendation is to attach a harddrive to the Jetson Xavier and save the data directly on this harddrive. 
+  **Recommendation:** If the goal is to save all the inference data, the recommendation is to use an external hard drive and store all data directly to it.
 
 
 
