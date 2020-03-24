@@ -9,7 +9,7 @@ This part of the repository is based on jkjung's [TensorRT](https://github.com/j
 
 ## Background
 
-TensorRT is a Software Development Kit (SDK) for high-performance Deep Learning inference. The TensorRT workflow is shown in Figure1. Models trained on AI development platforms such as TensorFlow, Pytorch, etc. are imported by the TensorRT Optimizer to perform ***target-specific*** [optimizations](http://on-demand.gputechconf.com/gtcdc/2017/presentation/dc7172-shashank-prasanna-deep-learning-deployment-with-nvidia-tensorrt.pdf). Afterward, a serialized engine (binary file) with optimal execution speed is generated, facilitating production deployment.
+TensorRT is a Software Development Kit (SDK) for high-performance Deep Learning inference. The TensorRT workflow is shown in Figure 1. Models trained on AI development platforms such as TensorFlow, Pytorch, etc. are imported by the TensorRT Optimizer to perform ***target-specific*** [optimizations](http://on-demand.gputechconf.com/gtcdc/2017/presentation/dc7172-shashank-prasanna-deep-learning-deployment-with-nvidia-tensorrt.pdf). Afterward, a serialized engine (binary file) with optimal execution speed is generated, facilitating production deployment.
 
 
 
