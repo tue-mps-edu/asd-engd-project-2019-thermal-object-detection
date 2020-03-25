@@ -15,4 +15,6 @@ In this paragraph stakeholders are discussed. Who are the stakeholders of the pr
 | Anweshan Das            | Acknowledgement of good help from us to his professor        |
 | Navinfo                 | Increase their share on the autonomous driving market        |
 | Tijs van der Smagt      | Facilitate projects and have additional systems working on the vehicle which increase its detection capabilities |
+| NVIDIA                  | Selling cutting edge computing platforms that enables embedded AI for deploying for example neural networks to use for computer vision purposes |
+| Government              | Safety of the road users                                     |
 
