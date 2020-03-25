@@ -18,10 +18,10 @@ After design discussion with stakeholders, the final decision was taken to mount
 ### Design and Attachment Method
 The Jetson Xavier is designed to reside on the mounting base plate which is rigidly connected to pre-existing backplate in the boot space of the car. Follwing is the specification for the design analysis :
 
-1. The design consists of a simple rectangular mounting plate of 8 mm thickness with the provision of holes at the appropriate locations which coincides with the holes of the base plate. 
-2. The base plate has holes of 5 mm diameter and spaced 50 mm apart in a grid format. Accordingly, the length and width of the mounting plate are 170 mm and 120 mm respectively. 
-3. Four holes of 5.4 mm diameter (considering a manufacturing tolerance of 0.4 mm) were provided on the mounting plate spaced 150 mm apart lengthwise and 100 mm apart breadthwise. 
-4. To mount the Jetson Xavier on the mounting plate, another 4 holes of 3.4 mm diameter were provided with correct spacing. Correspondingly, longer screws of (M5 X 40) were procured to account for the thickness of the mounting plate. 
+- The design consists of a simple rectangular mounting plate of 8 mm thickness with the provision of holes at the appropriate locations which coincides with the holes of the base plate. 
+- The base plate has holes of 5 mm diameter and spaced 50 mm apart in a grid format. Accordingly, the length and width of the mounting plate are 170 mm and 120 mm respectively. 
+- Four holes of 5.4 mm diameter (considering a manufacturing tolerance of 0.4 mm) were provided on the mounting plate spaced 150 mm apart lengthwise and 100 mm apart breadthwise. 
+- To mount the Jetson Xavier on the mounting plate, another 4 holes of 3.4 mm diameter were provided with correct spacing. Correspondingly, longer screws of (M5 X 40) were procured to account for the thickness of the mounting plate. 
 
 Additionally, some material from the central portion of the mounting plate was saved by providing a circular hole of 55 mm in diameter. This helped in lesser manufacturing time and cost without affecting the strength and functionality of the mounting plate. Following figures shows the CAD model for the Xavier mounting bracket. Figure 1 and figure 2 displays the top view and isometric view of Jetson Xavier mounting bracket respectively.
 
@@ -41,10 +41,10 @@ To mount the thermal camera on the vehicle, two options were available. 1.) The 
 ### Design and Attachment Method
 The design consists of a simple rectangular open box structure which holds the thermal camera and camera lense protruding out of the box via hole. Following are the specifications for the design analysis:
 
-1. The mounting plate of 8 mm thickness is designed with the provision of a central enclosure to assemble the camera as well as holes and cavities at the side locations.These holes are there for side mounting of a thermal camera to restrict its movement. 
-2. Four holes of 2.4 mm diameter on the sidewalls of the enclosure to mount the camera with the help of the procured M2 mounting screws; four holes of 6 mm diameter on the mounting plate spaced 113.45 mm lengthwise and 99 mm widthwise to mount the mounting plate on the false roof.
-3. A rectangular cavity on one sidewall of the enclosure to account for the USB cable connection with the camera.
-4. A circular hole of 30 mm diameter on the front wall of the enclosure to account for the camera lens and help in mounting the camera on the enclosure via the locking ring. 
+- The mounting plate of 8 mm thickness is designed with the provision of a central enclosure to assemble the camera as well as holes and cavities at the side locations.These holes are there for side mounting of a thermal camera to restrict its movement. 
+- Four holes of 2.4 mm diameter on the sidewalls of the enclosure to mount the camera with the help of the procured M2 mounting screws; four holes of 6 mm diameter on the mounting plate spaced 113.45 mm lengthwise and 99 mm widthwise to mount the mounting plate on the false roof.
+- A rectangular cavity on one sidewall of the enclosure to account for the USB cable connection with the camera.
+- A circular hole of 30 mm diameter on the front wall of the enclosure to account for the camera lens and help in mounting the camera on the enclosure via the locking ring. 
 
 Additionally, a rectangular cavity was provided on the top face of the mounting plate to accommodate the small 3 mm protrusion on the bottom face of the camera. Also, the entire enclosure was made inclined upward at 5.6 degrees with respect to the horizontal direction to account for the slope of flase roof at mounting location. Following figures shows the CAD model for the thermal camera mounting bracket. Figure 3 and figure 4 displays the top view and isometric view of Jetson Xavier mounting bracket respectively.
 
