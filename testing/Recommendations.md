@@ -88,7 +88,7 @@ During the development of this project, we encountered several constraints and l
 
 
 
-## Dataset Constraints 
+## Dataset and Training Constraints 
 
 - While gathering additional data to improve the network's performance, we noticed a significant quality difference between the recorded data and FLIR's ADAS dataset. Because of this (and the lack of hardware), it was not possible to include our data to expand the dataset.
 
@@ -96,7 +96,13 @@ During the development of this project, we encountered several constraints and l
 
   **Recommendation:** New data should have the same quality as FLIR's ADAS dataset to guarantee the network performance does not degrade. This is important for online detection, as inference should be performed on images with the same quality as the training set data. As an additional recommendation, data recording should be at a low framerate (low frequency) to save captures which are somewhat different, thus contributing more to the training. Otherwise, capturing at high frequency leads to redundant data that has to be cleaned, making the cleaning and labelling process cumbersome.
 
+  
 
+- The current SSD MobileNet v2 model used as the baseline for training provides only a few *non-frozen* layers for fine-tuning via transfer learning. This means that during training, only the weights of non-frozen layers will be randomly initialized. This implies that once a model has been fine-tuned, subsequent trainings on an "already fine-tuned" network will fail to improve the network further, as the weights obtained during the first fine-tuning will be lost due to random initialization. In other words, each training will make the network "forget" what it learned during the previous training. 
+
+  
+
+  **Recommendation:** The simplest solution in this case is to train the network with the complete dataset in a single go. However, if this is not possible for any reason, more research would be required on TensorFlow's API to identify and evaluate the available options. For example, it would also be possible to unfreeze layers concerning the baseline model and incrementally train the network. Another option would be to increase the number of layers concerning the baseline model to allow for further fine-tuning, however, this would increase the model complexity, and degrade performance. Because of these reasons, our intention in this recommendation is just to inform, and provide possible solution directions.
 
 - FLIR provides a dataset with approximately 14,000 images for training. Nevertheless, to achieve a high precision and recall (~98%) significantly more images would be required. 
 
