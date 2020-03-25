@@ -7,6 +7,8 @@ This document explains the CAD design and manufacturing part of mounting bracket
 
 The top priority for part design is that part must function properly without failing. While designing, it has been ensure that part can be made quickly and cost effectively. Following paragraph explains the design and development of mounting brackets in detail :
 
+# Design and Manufacturing : Mounting Brackets
+
 ## Jetson Xavier mounting bracket
 
 The function of this bracket is to rigidly mount Jetson Xavier on the vehicle. The mount must be capable of supporting Jetson Xavier without failure during its expected life span.
@@ -33,7 +35,7 @@ Additionally, some material from the central portion of the mounting plate was s
 
 ## Thermal camera mounting bracket
 
-The fucntion of this bracket is to mount the thermal camera on roof of the vehicle.The mount must be capable of rigidly supporting Jetson Xavier without failure during its expected life span.
+The function of this bracket is to mount the thermal camera on roof of the vehicle.The mount must be capable of rigidly supporting Jetson Xavier without failure during its expected life span.
 
 ### Mounting Location
 To mount the thermal camera on the vehicle, two options were available. 1.) The thermal camera can be mounted similar to the RGB camera mounting system inside the car just behind the windshield. 2.) The thermal camera can be also mounted on the roof (false roof) of the car like a LIDAR system. Attributing to the lack of enough space behind the windshield, the second option was chosen to mount the camera. The front left portion of the false roof of the car was selected as the most appropriate location to mount the thermal camera after discussion with the stakeholders. This is so because there was no other feasible location available as there were other sensor systems mounted across the roof.
