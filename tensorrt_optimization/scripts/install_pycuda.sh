@@ -13,7 +13,7 @@ echo "** Install requirements"
 sudo apt-get install -y build-essential python3-dev
 sudo apt-get install -y libboost-python-dev libboost-thread-dev
 
-sudo pip3 install pycuda --user
+pip3 install pycuda --user
 
 popd
 
