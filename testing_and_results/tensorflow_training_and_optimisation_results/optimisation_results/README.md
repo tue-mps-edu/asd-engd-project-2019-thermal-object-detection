@@ -35,7 +35,7 @@ To identify any precision degradation due to optimization, we use FLIR's ADAS te
 | IoU=0.75               \| area = all            \| maxDets = 100 |       10.81 %       |         10.43 %         |
 | IoU=0.50 : 0.95    \| area = small       \| maxDets = 100    |       4.31 %        |         3.82 %          |
 | IoU=0.50 : 0.95    \| area = medium \| maxDets = 100         |       21.52 %       |         19.91 %         |
-| IoU=0.50 : 0.95    \| area = large       \| maxDets = 100    |       41.64 %       |         39.88 %         |
+| IoU=0.50 : 0.95    \| area = large       \| maxDets = 100    |          38 %       |         36.88 %         |
 
 *Table 2: mAP comparison between the baseline non-optimized model and the TensorRT Engine.*
 
