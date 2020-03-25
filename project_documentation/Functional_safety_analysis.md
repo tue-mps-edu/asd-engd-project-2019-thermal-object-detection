@@ -41,7 +41,7 @@ Figure 1 will show the architecture of the assumed system. The trained neural ne
 
 ## Assumed Scenarios
 
-The weather scenarios that are assumed in this analysis are *good weather* and *bad weather*. Bad weather contains situations where the human eye would have difficulties to have a clear view of the environment, like rain, snow or fog. Other scenarios are nighttime driving and light glare from the sun. The assumption is made that the car is only driving on asphalted roads in the Netherlands, because in the Netherlands there are almost only these types of roads, plus when the car is driving autonomously it will choose a path determined by the GPS which will not contain any unpaved roads. It is assumed that the GPS alone is sufficient for the task of path planning.
+The weather scenarios that are assumed in this analysis are *good weather* and *bad weather*. Bad weather contains situations where the human eye would have difficulties to have a clear view of the environment, like rain, snow or fog. Other scenarios are night-time driving and light glare from the sun. The assumption is made that the car is only driving on asphalted roads in the Netherlands, because in the Netherlands there are almost only these types of roads, plus when the car is driving autonomously it will choose a path determined by the GPS which will not contain any unpaved roads. It is assumed that the GPS alone is sufficient for the task of path planning.
 
 ## Limitations
 
@@ -49,7 +49,7 @@ Post defining integration of the assumed architecture and accuracy, there are a 
 
 - Snow is taken into account in *bad weather* in the analysis, but the limitation is that the thermal camera has difficulties detecting cars that are standing still.
 - Occlusion will still be a limiting factor for the object detection system. As there are two detection systems present in the assumed architecture, the chance of detecting objects with occlusion is slightly increased. 
-- Objects with same temperature might not be detected using the thermal camera only. The RGB camera mitigates this problem during daytime, but in nighttime conditions this is still a limiting factor. Examples are standing still cars.
+- Objects with same temperature might not be detected using the thermal camera only. The RGB camera mitigates this problem during daytime, but in night-time conditions this is still a limiting factor. Examples are standing still cars.
 - There will still be risk of failure of the PC or cables/cameras which will not be mitigated with our system.
 
 ## Risk Analysis
@@ -65,7 +65,7 @@ The risk analysis which is made is based on the ASILs described in the functiona
 The goal is to reduce the potential harm/ASIL to a more controllable risk in order to prove the stakeholders that the risk is mitigated by adding an object detection system based on thermal imaging (proof of concept). The explanation of the risks needs some more elaboration. This is listed below:
 
 - A malfunction can happen because of a short circuit, power supply failure, overheating hardware.
-- A missed object detection is an object which should be detected but is not. This can happen because of weather conditions, nighttime driving or glare. The algorithm does not see enough features to detect and classify the object. 
+- A missed object detection is an object which should be detected but is not. This can happen because of weather conditions, night-time driving or glare. The algorithm does not see enough features to detect and classify the object. 
 - Incorrect classification means that an object is detected, but it was classified incorrectly. If the object detection algorithm sends the inference to the control node, it could be that the car acts differently on an object. For example, a car is detected as a person. The speed of a car is way higher, so when detecting it as a person it could be that the control algorithm calculates that it can perform certain movements without any risk, but in reality it is different.
 - Change in orientation of the camera could happen when an object hits the camera, the driver accidently moves the camera or when driving on rough terrain. 
 
@@ -75,14 +75,14 @@ Table 1 shows the risk analysis for the object detection system using a RGB came
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
 | 1      | RGB camera USB cable to PC malfunction                       | S3       | E1       | C1              | QM         |
 | 2      | Missed object detection because of bad weather conditions    | S3       | E4       | C3              | D          |
-| 3      | Missed object detection because of nighttime driving         | S3       | E4       | C3              | D          |
+| 3      | Missed object detection because of night-time driving        | S3       | E4       | C3              | D          |
 | 4      | RGB camera malfunction                                       | S3       | E1       | C1              | QM         |
 | 5      | Missed object detection because of light glare               | S3       | E4       | C3              | D          |
 | 6      | Incorrect classification because of occlusion                | S1       | E3       | C3              | A          |
 | 7      | Incorrect classification in good weather conditions          | S1       | E1       | C3              | QM         |
 | 8      | Incorrect classification in bad weather conditions           | S1       | E4       | C3              | B          |
 | 9      | Incorrect classification because of light glare              | S1       | E3       | C2              | QM         |
-| 10     | Incorrect classification because of nighttime driving        | S1       | E4       | C3              | B          |
+| 10     | Incorrect classification because of night-time driving       | S1       | E4       | C3              | B          |
 | 11     | Computer failure                                             | S3       | E1       | C1              | QM         |
 | 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C2              | QM         |
 | 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C2              | QM         |
@@ -95,14 +95,14 @@ Table 2 shows the analysis for the same risks, but then for the object detection
 | ------ | ------------------------------------------------------------ | -------- | -------- | --------------- | ---------- |
 | 1      | RGB camera USB cable to PC malfunction                       | S1       | E1       | C1              | QM         |
 | 2      | Missed object detection because of bad weather conditions    | S3       | E1       | C3              | A          |
-| 3      | Missed object detection because of nighttime driving         | S3       | E1       | C3              | A          |
+| 3      | Missed object detection because of night-time driving        | S3       | E1       | C3              | A          |
 | 4      | RGB camera malfunction                                       | S1       | E1       | C1              | QM         |
 | 5      | Missed object detection because of light glare               | S3       | E1       | C3              | A          |
 | 6      | Incorrect classification because of occlusion                | S1       | E2       | C3              | A          |
 | 7      | Incorrect classification in good weather conditions          | S1       | E1       | C3              | QM         |
 | 8      | Incorrect classification in bad weather conditions           | S1       | E1       | C3              | QM         |
 | 9      | incorrect classification because of light glare              | S1       | E1       | C3              | QM         |
-| 10     | Incorrect classification because of nighttime driving        | S1       | E1       | C3              | QM         |
+| 10     | Incorrect classification because of night-time driving       | S1       | E1       | C3              | QM         |
 | 11     | Computer failure                                             | S3       | E1       | C1              | QM         |
 | 12     | Wrong x-y data of object sent to control node because of change in orientation of RGB camera | S3       | E1       | C1              | QM         |
 | 13     | Missed object detection due to change in orientation of RGB camera | S3       | E1       | C1              | QM         |
