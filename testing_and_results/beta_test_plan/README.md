@@ -16,7 +16,7 @@ IoU = Intersection over Union
 
 # Post Process Analysis
 
-The below link directs you to the documentation done on the analysis after the test. 
+The link below directs you to the documentation done on the analysis after the test. 
 
 [Beta Test Post Analysis](beta_test_post_analysis.md)
 

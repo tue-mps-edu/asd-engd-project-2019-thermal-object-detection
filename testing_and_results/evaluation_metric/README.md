@@ -1,4 +1,4 @@
-# Evaluation Metric
+# Evaluation Metrics
 
 ## Introduction
 
@@ -8,7 +8,7 @@ These metrics are average precision, recall, mean average precision(mAP), precis
 
 Pascal VOC  and MS COCO are the standard formats for neural network architecture of object detection systems. They have their own metrics which are being used by the TensorFlow object detection API. The objective of these challenges is to provide a common framework for evaluating and comparing multiple class object detection architectures. Both use different types of input files to convert TFRecords files. For example, PASCAL VOC is using the annotation file in an XML file which contains the details of the classes and ground truth values of their bounding boxes per picture in the dataset. On the other hand, MS COCO is using JSON file which is a different XML format and includes all the details of entire dataset in single format.
 
-Further detailed information about these formats can be found in [TensorFlow Training](../../../tensorflow_training/).
+Further detailed information about these formats can be found in [TensorFlow Training](../../tensorflow_training/).
 
 The upcoming section of this document describes each metric and also gives intuition of choosing mAP over other metrics. 
 
