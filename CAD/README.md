@@ -26,11 +26,9 @@ The Jetson Xavier is designed to reside on the mounting base plate which is rigi
 Additionally, some material from the central portion of the mounting plate was saved by providing a circular hole of 55 mm in diameter. This helped in lesser manufacturing time and cost without affecting the strength and functionality of the mounting plate. Following figures shows the CAD model for the Xavier mounting bracket. Figure 1 and figure 2 displays the top view and isometric view of Jetson Xavier mounting bracket respectively.
 
 [![img](https://github.com/tue-mps-edu/thermal_object_detection/raw/master/CAD/doc_images/xavier_image1.JPG)](https://github.com/tue-mps-edu/thermal_object_detection/blob/master/CAD/doc_images/xavier_image1.JPG)
-
 *Figure 1: Top View of Jetson Xavier Mounting Bracket.*
 
 [![img](https://github.com/tue-mps-edu/thermal_object_detection/raw/master/CAD/doc_images/xavier_image2.JPG)](https://github.com/tue-mps-edu/thermal_object_detection/blob/master/CAD/doc_images/xavier_image2.JPG)
-
 *Figure 2: Isometric View of Xavier Mounting Bracket.*
 
 ## Thermal camera mounting bracket
@@ -51,9 +49,7 @@ The design consists of a simple rectangular open box structure which holds the t
 Additionally, a rectangular cavity was provided on the top face of the mounting plate to accommodate the small 3 mm protrusion on the bottom face of the camera. Also, the entire enclosure was made inclined upward at 5.6 degrees with respect to the horizontal direction to account for the slope of flase roof at mounting location. Following figures shows the CAD model for the thermal camera mounting bracket. Figure 3 and figure 4 displays the top view and isometric view of Jetson Xavier mounting bracket respectively.
 
 [![img](https://github.com/tue-mps-edu/thermal_object_detection/raw/master/CAD/doc_images/camera_image1.JPG)](https://github.com/tue-mps-edu/thermal_object_detection/blob/master/CAD/doc_images/camera_image1.JPG)
-
 *Figure 3:  Isometric View of Thermal Camera Mounting Bracket.*
 
 [![img](https://github.com/tue-mps-edu/thermal_object_detection/raw/master/CAD/doc_images/camera_image2.JPG)](https://github.com/tue-mps-edu/thermal_object_detection/blob/master/CAD/doc_images/camera_image2.JPG)
-
 *Figure 4:  Sketch View of C-Section of Thermal Camera Mounting Bracket.*
