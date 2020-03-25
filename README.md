@@ -125,7 +125,7 @@ In order to perform inference on the NVIDIA Xavier AGX , you must ensure the lat
 Once Jetpack is installed, run the install script located in this folder. This script will add extra paths, dependencies and patches required to run the optimization process.
 
 ```
-$ cd tensorrt
+$ cd tensorrt_optimization
 $ ./install.sh
 ```
 
