@@ -24,7 +24,7 @@ The second section contains all the sub sections of the documentation on differe
 
   This sub section contains all inclusive details of the results obtained after training the neural network on the recorded data in different ways than usual.
   
-- [Optimisation Results](tensorflow_training_and_optimisation_results/optimisation_results/README.md)
+- [Optimization Results](tensorflow_training_and_optimisation_results/optimisation_results/README.md)
 
   This sub section consists of document that intends to demonstrate the performance improvement enabled by TensorRT optimization in terms of inference speed on the SSD MobileNet v2 architecture. 
 
