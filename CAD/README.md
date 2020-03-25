@@ -5,9 +5,7 @@ This document explains the CAD design and manufacturing part of mounting bracket
 #### 1. Jetson Xavier Mounting Bracket 
 #### 2. Thermal Camera Mounting Bracket 
 
-The top priority for part design is that part must function properly without failing. While designing, it has been ensure that part can be made quickly and cost effectively. Following paragraph explains the design and development of mounting brackets in detail :
-
-# Design and Manufacturing : Mounting Brackets
+The top priority for part design is that part must function properly without failing. While designing, it has been ensure that part can be made quickly and cost effectively. Following paragraph explains the design and development of mounting brackets in detail.
 
 ## Jetson Xavier mounting bracket
 
