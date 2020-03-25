@@ -13,7 +13,7 @@ Table 1 indicates the choice of hyperparameters considered with their initial va
 | 1.    | Activation function |     SIGMOID     | SOFTMAX                                                      |
 | 2.    |      Optimizer      |       RMS       | 1. Adams with Manual Learning rate                                              2. Adams with exponential Learning rate |
 | 3.    |  Data Augmentation  | Horizontal Flip | Black Patches                                                |
-| 4.    |     Decay Steps     |    8,00,756     | 5000                                                         |
+| 4.    |     Decay Steps     |     800756      | 5000                                                         |
 | 5.    |       DROPOUT       |       OFF       | ON                                                           |
 
 *Table 1: Hyperparameters replaced with the default ones in the neural network architecture*
@@ -80,7 +80,7 @@ Figure 4 depicts the mAP value evaluated for each hyperparameter changed individ
 
 Figure 5 shows the mAP value evaluated for each hyperparameter changed individually. This is particularly evaluated for one of our classes which is 'car' and compared with the baseline result indicated in green colour in the figure below.
 
-![car](doc_images/mAP_Car.jpeg)
+![car](doc_images/mAP_car.jpeg)
 
  *Figure 5: Average mAP value of car for the trained neural network per different hyperparameters*
 
