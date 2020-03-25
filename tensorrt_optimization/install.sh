@@ -26,6 +26,8 @@ sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/
 # install pycuda if necessary
 source ~/.bashrc
 
+set -e
+
 if ! python3 -c "import pycuda" > /dev/null 2>&1; then
   echo "installing pycuda..."
   scripts/install_pycuda.sh
