@@ -8,7 +8,7 @@ This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-J
 * [TensorRT Optimization](tensorrt_optimization/)
 * [Thermal Camera Mounting](CAD/)
 * [System Integration](src/)
-
+* [Testing and Results](testing_and_results/)
 
 
 ## Setup
