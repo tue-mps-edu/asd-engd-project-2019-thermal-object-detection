@@ -1,6 +1,6 @@
 # **Tweaking and Tuning of Hyperparameters**
 
-Training of neural network on SSD MobileNet v2 was performed on Flir dataset which contains 8862 images as the training set and 1366 images as the test set. To check the influence of hyperparameters on the model’s accuracy we have varied 1 hyperparameter at a time with respect to the baseline hyperparameters set in the configuration file and then evaluated the mean average precision(mAP) scores [Evaluation Metric](../evaluation_metric/README.md). The following hyperparameters were varied: 
+Training of neural network on SSD MobileNet v2 was performed on Flir dataset which contains 8862 images as the training set and 1366 images as the test set. To check the influence of hyperparameters on the model’s accuracy we have varied 1 hyperparameter at a time with respect to the baseline hyperparameters set in the configuration file and then evaluated the mean average precision(mAP) scores [Evaluation Metric](evaluation_metric.md). The following hyperparameters were varied: 
 
 The baseline configuration file has a number of hyperparameters which can be varied they are namely: activation functions, IoU thresholds, optimizer functions, learning rate, epsilon and decay value etc. The list is very exhaustive and this can lead to 'n' number of parameters to choose for tuning our network and the process can go on forever.
 
@@ -40,7 +40,7 @@ Again optimization process depends upon the value at which the network is learni
 
 ###   Results
 
-A common way to evaluate a networks performance is based on the "total loss" value (difference in the predicted value and the actual value) and [mAP Value](../evaluation_metric/README.md). A similar approach is adopted here by evaluating the total loss and mAP values for each of our tuned hyperparameters.
+A common way to evaluate a networks performance is based on the "total loss" value (difference in the predicted value and the actual value) and [mAP Value](evaluation_metric.md). A similar approach is adopted here by evaluating the total loss and mAP values for each of our tuned hyperparameters.
 
 ### 1.)**Total Loss**
 
