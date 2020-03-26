@@ -483,7 +483,7 @@ INFO:tensorflow:Finished evaluation!
 ```
 
 ## Additional information
-The frozen graph can also be tested with jupyter notebook object_detection_demo.ipynb file located in[supporting_scripts](supporting_scripts/). To run the script start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the the following commends 
+The frozen graph can also be tested with jupyter notebook object_detection_demo.ipynb file located in [supporting_scripts](supporting_scripts/). To run the script start an instance of terminal /command prompt and navigate to the `tensorflow_training` folder in the repository and run the the following commends 
 ```
 $ cd supporting_scripts
 
