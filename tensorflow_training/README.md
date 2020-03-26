@@ -330,7 +330,7 @@ Before starting with the training please recheck the setup with the following ch
 - [tfrecords](tfrecords/) folder includes TFRecords file for both train and test sets
 - [label_map](label_map/) includes the correct label_map.pbtxt file
 - [pretrained_baseline_google_models](pretrained_baseline_google_models/) includes correct base model 
-- [model_config](model_config/) includes correct configuration file saved with all the changes made in [Model configuration](#Model%20configuration)
+- [model_config](model_config/) includes correct configuration file saved with all the changes made in [Model configuration](README.md#Model%20configuration)
 - Please make sure that the [model_evalulation](model_evalulation/), [model_frozen_inference_graph](model_frozen_inference_graph/), [model_training_checkpoints](model_training_checkpoints/) folders are empty and do not contain any files from earlier trainings.
 
 If everything is in order, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository.  Initialize the virtual conda environment by
