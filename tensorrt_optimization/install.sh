@@ -23,16 +23,19 @@ sudo pip3 install -U pip testresources setuptools
 sudo pip3 install -U numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 enum34 futures protobuf
 
 
-# install pycuda if necessary
+# Install Pycuda
 
 if ! python3 -c "import pycuda" > /dev/null 2>&1; then
   echo "installing pycuda..."
   scripts/install_pycuda.sh
 fi
 
-#Install Tensorflow
+# Install Tensorflow
 
 sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 tensorflow-gpu==1.15.0+nv19.12
+
+
+# Patch TensorRT
 
 echo "** Patch 'graphsurgeon.py' in TensorRT"
 
