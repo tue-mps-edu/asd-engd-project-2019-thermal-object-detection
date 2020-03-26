@@ -14,7 +14,7 @@ PS1='$ '
 source ~/.bashrc
 
 
-#Install dependencies for Tensorflow
+#Install dependencies 
 
 sudo apt-get update
 sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev
@@ -29,6 +29,8 @@ if ! python3 -c "import pycuda" > /dev/null 2>&1; then
   echo "installing pycuda..."
   scripts/install_pycuda.sh
 fi
+
+#Install Tensorflow
 
 sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 tensorflow-gpu==1.15.0+nv19.12
 
