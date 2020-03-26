@@ -14,7 +14,7 @@ A number of tests were performed on the SSD MobileNet v2 network in order to get
 
  
 
-**Case 1**: Optimization of network based on hyperparameters [Tweaking and Tuning of Hyperparameters(tweaking_and_tuning_hyperparameters.md)
+**Case 1**: Optimization of network based on hyperparameters [Tweaking and Tuning of Hyperparameters](tweaking_and_tuning_parameters.md)
 
 ![img](doc_images/hyperparameters.jpeg)
 
