@@ -4,7 +4,7 @@ Thermal Camera Detection
 This repository is based on NVIDIA's [tf_trt_models](https://github.com/NVIDIA-Jetson/tf_trt_models) and [jkjung's](https://github.com/jkjung-avt/tf_trt_models) fork of NVIDIA's repository, along with the [TensorRT](https://github.com/jkjung-avt/tensorrt_demos) repository. Below, you will find an index of the contents of this repository so you can use them based on your needs. However, to fully understand the pipeline, we advice you to follow them in order. Also, be sure to first follow the setup process for the scripts to work properly.
 
 * [Project Documentation](project_documentation/)
-* [Training](tensorflow_training/)
+* [Neural Network Training](tensorflow_training/)
 * [TensorRT Optimization](tensorrt_optimization/)
 * [Thermal Camera Mounting](CAD/)
 * [System Integration](src/)
