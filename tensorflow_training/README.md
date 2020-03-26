@@ -24,7 +24,7 @@ data
 <em>Note: For reference, [data](data/) folder also includes datasets recorded during the project as well as thermal data set provided by Flir. </em>
 
 ## Data labelling
-After the data is sorted as per [Data Split](#Datasplit), the data is now ready to be labelled. The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC), which are both suitable for this setup.COCO uses JSON format while Pascal VOC uses XML for the annotated data. The choice between the two is left to user discretion since these annotated files are ultimately converted to a cross-platform and cross-language binary format (TFRecord) as shown in Figure 1. 
+After the data is sorted as per [Data Split](#Data-split), the data is now ready to be labelled. The most popular labelling formats used for object detection are Common Objects in Context (COCO) and Pascal Visual Object Classes(VOC), which are both suitable for this setup.COCO uses JSON format while Pascal VOC uses XML for the annotated data. The choice between the two is left to user discretion since these annotated files are ultimately converted to a cross-platform and cross-language binary format (TFRecord) as shown in Figure 1. 
  An example of an annotation XML file for an image in a Pascal VOC format is shown below.
 ```
 <object>
@@ -128,7 +128,7 @@ data
 ## Conversion to TFRecords
 TFRecord is a binary cross-platform, cross-language format used for efficient serialization of structured data. On top of being cross-platform, TFRecords offers significant performance benefits  (e.g. faster read speeds, less storage) and has the ability to handle large datasets. As a result, TensorFlow uses TFRecords as its only supported input format. More information about the format can be found at [TFRecord and tf.Example](https://www.tensorflow.org/tutorials/load_data/tfrecord) and at [TensorFlow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564).
 
-To convert the [annotated data](#Data%20labelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize the virtual conda environment installed from the main [README.md](../).
+To convert the [annotated data](#Data%20labelling) from the earlier steps, open terminal /command prompt and navigate to the `tensorflow_training` folder in the repository. Write the following command to initialize the virtual conda environment installed from the main [README.md](../README.md).
 
 ```
 $ conda activate tf1_12_gpu
@@ -150,7 +150,7 @@ where,
 
 `output_path`= This is the output path for the generated TFRecords file. User doesn't need to change this path.
 
-The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Labelmap).
+The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Label-map).
 
 ### Only for the COCO 
 For the COCO format, issue the following command to generate TFRecord file for the annotated data. Please note that this command is an example which creates TFRecords for Flir dataset. The input path for your test and train directories needs to be configured before issuing this command. 
@@ -169,11 +169,11 @@ where,
 
 `output_dir`= This is the output path for the generated TFRecords file. User doesn't need to change this path.
 
-The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Labe%20lmap)
+The generated TFRecord files can be found inside [tfrecords](tfrecords/) folder. You can now proceed to the next section in order to create a [Label map](#Label-map)
 
 ## Label map
 
-After [generating TFRecords](#Conversion%20to%20TFRecords) for test and train data, the next step is to create a label map associated with the dataset. This label map defines a mapping from string class names to integer class ID's. It should include all the classes included in the annotated data. As an important note, TensorFlow can only read label maps starting from Id 1.
+After [generating TFRecords](#Conversion-to-TFRecords) for test and train data, the next step is to create a label map associated with the dataset. This label map defines a mapping from string class names to integer class ID's. It should include all the classes included in the annotated data. As an important note, TensorFlow can only read label maps starting from Id 1.
  A sample label map is shown as follows.
 ```
 item {
@@ -313,7 +313,7 @@ eval_input_reader: {
   num_readers: 1
 }
 ```
-In the `eval_config` section shown above, the parameter `num_examples` should be equal to total number test images based on your [data split](#Data%20Split). Finally, you need to provide an absolute path to the test TFRecord file located at [tfrecords](tfrecords/) to the `eval_input_config` section shown above.
+In the `eval_config` section shown above, the parameter `num_examples` should be equal to total number test images based on your [data split](#Data-Split). Finally, you need to provide an absolute path to the test TFRecord file located at [tfrecords](tfrecords/) to the `eval_input_config` section shown above.
 
 input_path: "PATH_TO_BE_CONFIGURED/tfrecords/train_tfr/train.record"
 
