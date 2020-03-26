@@ -1,6 +1,6 @@
 # Results of Recorded Data
 
-A number of tests were performed on the SSD MobileNet v2 network in order to get optimal performance in terms of speed and mAP score [Evaluation metrics](../evaluation_metric/README.md). The sequence of the performed tests were:
+A number of tests were performed on the SSD MobileNet v2 network in order to get optimal performance in terms of speed and mAP score [Evaluation metrics](../evaluation_metric.md). The sequence of the performed tests were:
 
 **1.** First the baseline network of SSD MobileNet v2, which is pre-trained on Google dataset containing RGB images, was downloaded. The benefit of using this is to use transfer learning at its full potential.
 
@@ -14,7 +14,7 @@ A number of tests were performed on the SSD MobileNet v2 network in order to get
 
  
 
-**Case 1**: Optimization of network based on hyperparameters [Tweaking and Tuning of Hyperparameters](../tweaking_and_tuning_hyperparameters/README.md)
+**Case 1**: Optimization of network based on hyperparameters [Tweaking and Tuning of Hyperparameters](../tweaking_and_tuning_hyperparameters.md)
 
 ![img](doc_images/hyperparameters.jpeg)
 
@@ -22,7 +22,7 @@ A number of tests were performed on the SSD MobileNet v2 network in order to get
 
 **Case 2**: Collection of additional data and combining dataset 
 
-In order to further improve the mAP score of the neural network model for thermal dataset it is decided to collect additional thermal images and build on top of the optimized SSD MobileNet v2 network which was with activation function SOFTMAX. Accordingly, 1548 good quality thermal images are obtained using FLIR TAU camera mounted on top of TOYOTA PRIUS vehicle during the Beta Test. Further information about the Beta Test can be found in [Beta Test Plan](../beta_test_plan/README.md).
+In order to further improve the mAP score of the neural network model for thermal dataset it is decided to collect additional thermal images and build on top of the optimized SSD MobileNet v2 network which was with activation function SOFTMAX. Accordingly, 1548 good quality thermal images are obtained using FLIR TAU camera mounted on top of TOYOTA PRIUS vehicle during the Beta Test. Further information about the Beta Test can be found in [Beta Test Plan](../beta_test.md).
 
 These collected images along with FLIR images are combined together and the baseline SSD MobileNet v2 network is trained only with the intuition that a larger dataset would eventually give better results.
 
