@@ -19,8 +19,6 @@ from utils.camera import add_camera_args, Camera
 from utils.display import open_window, set_display, show_fps
 from utils.visualization import BBoxVisualization
 
-from utils import label_map_util
-from utils import visualization_utils as vis_util
 
 
 class Range(object):
@@ -34,7 +32,6 @@ TESTING_PATH = './testing/'
 WINDOW_NAME = 'TrtSsdDemo'
 NETWORK_INPUT_SIZE = (300, 300)
 
-NUM_CLASSES = 3
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
 

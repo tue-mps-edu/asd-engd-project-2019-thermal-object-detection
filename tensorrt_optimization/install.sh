@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -i
 
-set -e
 
+echo $PATH 
 #Set the paths to .bashrc
 if ! grep 'cuda/bin' ${HOME}/.bashrc > /dev/null ; then
   echo "** Add CUDA stuffs into ~/.bashrc"
@@ -10,9 +10,11 @@ if ! grep 'cuda/bin' ${HOME}/.bashrc > /dev/null ; then
   echo "export LD_LIBRARY_PATH=/usr/local/cuda/lib64:\${LD_LIBRARY_PATH}" >> ${HOME}/.bashrc
 fi
 
+PS1='$ '
 source ~/.bashrc
 
-#Install Tensorflow
+
+#Install dependencies 
 
 sudo apt-get update
 sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev
@@ -20,16 +22,20 @@ sudo apt-get install python3-pip
 sudo pip3 install -U pip testresources setuptools
 sudo pip3 install -U numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 enum34 futures protobuf
 
-sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 tensorflow-gpu==1.15.0+nv19.12
 
-#sudo pip3 install cython
-# install pycuda if necessary
-source ~/.bashrc
+# Install Pycuda
 
 if ! python3 -c "import pycuda" > /dev/null 2>&1; then
   echo "installing pycuda..."
   scripts/install_pycuda.sh
 fi
+
+# Install Tensorflow
+
+sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 tensorflow-gpu==1.15.0+nv19.12
+
+
+# Patch TensorRT
 
 echo "** Patch 'graphsurgeon.py' in TensorRT"
 
